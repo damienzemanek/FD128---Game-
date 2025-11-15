@@ -23,7 +23,11 @@ public class ConstantLookAt : MonoBehaviour
     }
     private void Update()
     {
-        if (!looking) return;
+        if (!looking)
+        {
+            this.Get<Rigidbody>().freezeRotation = true;
+            return;
+        }
 
         if(lookAtFunc)
             transform.LookAt(lookAtTransform.position);

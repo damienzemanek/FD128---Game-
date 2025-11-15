@@ -30,6 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3659768430062177579}
+  - {fileID: 1068344812079414205}
   m_Father: {fileID: 1476328165844357630}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &671548629362730849
@@ -337,7 +338,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1.4
-  m_Speed: 3.5
+  m_Speed: 6
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -346,7 +347,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0.71
+  m_BaseOffset: 0.55
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &5499262346418873683
@@ -368,6 +369,7 @@ MonoBehaviour:
   bodyRef: {fileID: 7648141215821394279}
   gorePileRef: {fileID: 5451008750025704772}
   looker: {fileID: 9066761966737730028}
+  deadDetector: {fileID: 7984401195718395879}
   anims: {fileID: 6058239968309630879}
   deathAnimName: die
 --- !u!114 &6058239968309630879
@@ -421,6 +423,7 @@ MonoBehaviour:
   beliefs:
   - rid: 1805014706797412352
   - rid: 1805014706797412353
+  - rid: 1805014706797412356
   detectors:
   - {fileID: 8955355860784112411}
   references:
@@ -449,15 +452,32 @@ MonoBehaviour:
       data:
         agent: {fileID: 7840918863017091985}
         actionComplete: 0
+        repeatedAction: 0
         inUse: 0
     - rid: 1805014706797412355
       type: {class: RunAway, ns: , asm: Assembly-CSharp}
       data:
         agent: {fileID: 7840918863017091985}
         actionComplete: 0
+        repeatedAction: 1
         inUse: 0
         dist: 20
-        dir: {x: 0, y: 0, z: 1}
+    - rid: 1805014706797412356
+      type: {class: IsDead, ns: , asm: Assembly-CSharp}
+      data:
+        usable: 0
+        priority: 10
+        isDead: 0
+        <immediateAction>k__BackingField:
+          rid: 1805014706797412358
+    - rid: 1805014706797412358
+      type: {class: Die, ns: , asm: Assembly-CSharp}
+      data:
+        agent: {fileID: 7840918863017091985}
+        actionComplete: 0
+        repeatedAction: 0
+        inUse: 0
+        looker: {fileID: 9066761966737730028}
 --- !u!1 &2517723605690914223
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,7 +756,7 @@ Transform:
   m_GameObject: {fileID: 3858262154226532652}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.64, z: 0}
+  m_LocalPosition: {x: 0, y: -0.508, z: 0}
   m_LocalScale: {x: 1, y: 0.26542, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -792,6 +812,51 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4908325757280927877
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1068344812079414205}
+  - component: {fileID: 7984401195718395879}
+  m_Layer: 0
+  m_Name: Dead Detector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1068344812079414205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4908325757280927877}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1145389475712180556}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7984401195718395879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4908325757280927877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1184bc7d21ec9f8429ecb8ffbd4825f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentAI: {fileID: 6898151852086201160}
 --- !u!1 &5449193822466895014
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,7 +1134,7 @@ Transform:
   m_GameObject: {fileID: 7648141215821394279}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.21, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.71737385, y: 0.71737385, z: 0.71737385}
   m_ConstrainProportionsScale: 0
   m_Children:

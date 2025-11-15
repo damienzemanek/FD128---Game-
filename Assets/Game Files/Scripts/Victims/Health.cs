@@ -14,6 +14,8 @@ public class Health : MonoBehaviour
     [TitleGroup("Refs")][SerializeField] GameObject bodyRef;
     [TitleGroup("Refs")][SerializeField] GameObject gorePileRef;
     [TitleGroup("Refs")][SerializeField] ConstantLookAt looker;
+    [TitleGroup("Refs")][SerializeField] DeadDetector deadDetector;
+
 
 
     [TitleGroup("Anims")] [SerializeField] AnimationController anims;
@@ -53,6 +55,7 @@ public class Health : MonoBehaviour
 
     void Die()
     {
+        deadDetector.Die();
         anims.AnimateThen(deathAnimName, GorePileSelf);
         dieEffect.UseEffect();
         looker.looking = false;

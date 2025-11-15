@@ -54,3 +54,25 @@ public class IsInDanger : BeliefAI
         else return null;
     }
 }
+
+[Serializable]
+public class IsDead : BeliefAI
+{
+    [SerializeField] public bool isDead = false;
+    [field: SerializeReference] public override ActionAI immediateAction { get; set; }
+
+    public void Set(bool val)
+    {
+        isDead = val;
+        if (isDead) usable = true;
+        else usable = false;
+    }
+
+
+    public ActionAI GetAction()
+    {
+        if (isDead) return immediateAction;
+        else return null;
+    }
+}
+

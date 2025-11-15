@@ -56,3 +56,15 @@ public class RunAway : ActionAI
 
 }
 
+[Serializable]
+public class Die : ActionAI
+{
+    [SerializeField] ConstantLookAt looker;
+    public override void ExecuteImplement()
+    {
+        looker.looking = false;
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
+        agent.enabled = false;
+    }
+}
