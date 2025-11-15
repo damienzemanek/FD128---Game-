@@ -5,23 +5,30 @@ using DesignPatterns.CreationalPatterns;
 using Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using TMPro;
 
 [DefaultExecutionOrder(1)]
 public class Feed : Singleton<Feed>
 {
     [Inject] EntityControls controls;
+    PlayerDataHolder player;
     [SerializeField] bool _canFeed;
 
     [Title("Anims")][SerializeField] Animator animator;
 
     [Title("Refs")][SerializeField] public Attack attack;
-    [Title("Refs")][SerializeField] GameObject feedDisplay;
+    [SerializeField] GameObject feedDisplay;
+    [SerializeField] TextMeshProUGUI heartCountText;
+    [SerializeField] UIJitter heartImageJitter;
+    [SerializeField] GameObject heartsEatenlabel;
 
 
     [Title("Feeding")][SerializeField, ReadOnly] FeedTrigger goreImEating;
-    [Title("Feeding")][SerializeField, ReadOnly] float currentFeed = 0f;
-    [Title("Feeding")][SerializeField] float feedIncr = 0.1f;
-    [Title("Feeding")][SerializeField] float feedToBeFull;
+    [SerializeField, ReadOnly] float currentFeed = 0f;
+    [SerializeField] float feedIncr = 0.1f;
+    [SerializeField] float feedToBeFull;
+
+    [Title("Hearts")][SerializeField] int currentHeartCount = 0;
 
 
 
@@ -30,12 +37,19 @@ public class Feed : Singleton<Feed>
     protected override void Awake()
     {
         base.Awake();
+        player = PlayerDataHolder.Instance;
+
         attack.Ensure(this);
         feedDisplay.Ensure(this);
+        player.Ensure(this);
     }
 
     private void OnEnable()
     {
+        currentHeartCount = 0;
+        heartCountText.text = "" + currentHeartCount;
+        heartsEatenlabel.SetActive(false);
+
         goreImEating = null;
         currentFeed = 0f;
         controls.interactHold += FeedStart;
@@ -94,7 +108,16 @@ public class Feed : Singleton<Feed>
         Destroy(goreImEating.parent);
         StopDisplay();
         FeedStop();
+        AddToHeartCount();
         currentFeed = 0;
+    }
+
+    void AddToHeartCount()
+    {
+        currentHeartCount += player.data.addToHeartCountIncrease;
+        heartCountText.text = "" + currentHeartCount;
+        heartImageJitter.JitterThenReset();
+        heartsEatenlabel.SetActive(true);
     }
 
 

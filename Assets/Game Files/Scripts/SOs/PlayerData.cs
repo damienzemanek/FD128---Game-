@@ -8,4 +8,5 @@ public class PlayerData : ScriptableObject
 {
     public float dmg;
     public float maxVel = 10f;
+    public int addToHeartCountIncrease = 1;
 }

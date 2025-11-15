@@ -17,7 +17,7 @@ namespace Extensions
             mono.StartCoroutine(C_CallAfterDelay(method, delay));
         }
 
-        static IEnumerator C_CallAfterDelay(Action method, float delay)
+        public static IEnumerator C_CallAfterDelay(Action method, float delay)
         {
             yield return new WaitForSeconds(delay);
             method?.Invoke();

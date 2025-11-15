@@ -11,8 +11,6 @@ public abstract class Effect
     bool notPermament { get => !permament; }
 
     [ShowIf("notPermament")] public float currentDuration;
-
-
     public abstract void StartEffect(PlayerDataHolder _player);
 
     public abstract void StopEffect();
