@@ -8,7 +8,7 @@ namespace Extensions
 {
     public static class ComponentEX
     {
-        public static T TryGet<T>(this Object obj) where T : Component
+        public static T Get<T>(this Object obj) where T : Component
         {
             string thisType = typeof(T).Name;
 

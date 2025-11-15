@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Collections;
 using Extensions;
 
-[DefaultExecutionOrder(-500)]
+[DefaultExecutionOrder(order: -10000)]
 public class EntityControls : MonoBehaviour, IDependencyProvider
 {
     [Provide]
@@ -61,7 +61,6 @@ public class EntityControls : MonoBehaviour, IDependencyProvider
 
     private void OnEnable()
     {
-        print("on enable");
         ia_move = IA.Player.Move;
         ia_move.Enable();
         move = () => ia_move.ReadValue<Vector2>();
@@ -76,7 +75,7 @@ public class EntityControls : MonoBehaviour, IDependencyProvider
         ia_interact = IA.Player.Interact;
         ia_interact.Enable();
         ia_interact.performed += ctx => Interact();
-        interact = () => { };
+        interact = () => { }; //empty action defaults
 
         ia_interact.started += ctx => StartHold();
         ia_interact.canceled += ctx => StopHold();
@@ -84,7 +83,7 @@ public class EntityControls : MonoBehaviour, IDependencyProvider
         ia_mouse1 = IA.Player.Mouse1;
         ia_mouse1.Enable();
         ia_mouse1.performed += ctx => mouse1?.Invoke();
-
+        mouse1 = () => { }; //empty action defaults
 
         Assign();
         print(look);
