@@ -10,7 +10,6 @@ using Extensions;
 [DefaultExecutionOrder(-500)]
 public class EntityControls : MonoBehaviour, IDependencyProvider
 {
-    public const int INVENTORY_NUMS = 5;
     [Provide]
     public EntityControls Provide()
     {
