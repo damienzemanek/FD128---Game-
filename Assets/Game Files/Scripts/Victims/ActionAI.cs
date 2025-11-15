@@ -11,11 +11,15 @@ public abstract class ActionAI
 {
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] public bool actionComplete;
+    [SerializeField] public bool repeatedAction = false;
     [SerializeField] public bool inUse;
     public void Execute()
     {
-        if (inUse) return;
-        inUse = true;
+        if (!repeatedAction)
+        {
+            if (inUse) return;
+            inUse = true;
+        }
 
         this.Log($"Succesfully executing {this.GetType()}");
         ExecuteImplement();

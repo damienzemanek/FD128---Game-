@@ -397,6 +397,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VICTIM (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
+      propertyPath: managedReferences[1805014706797412355].repeatedAction
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
