@@ -83,6 +83,7 @@ public class Feed : Singleton<Feed>
         Destroy(goreImEating.parent);
         StopDisplay();
         FeedStop();
+        currentFeed = 0;
     }
 
 

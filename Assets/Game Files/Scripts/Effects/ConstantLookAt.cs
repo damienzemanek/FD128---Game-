@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class ConstantLookAt : MonoBehaviour
 {
+    [SerializeField, ReadOnly] Transform lookAtTransform;
+
     [SerializeField] public bool looking;
     [SerializeField] bool lookAtFunc;
     [SerializeField] bool explicitVectors;
@@ -13,13 +15,11 @@ public class ConstantLookAt : MonoBehaviour
     [SerializeField, ShowIf("explicitVectors")] bool useY;
     [SerializeField, ShowIf("explicitVectors")] bool useZ;
 
-    [SerializeField] Transform lookAtTransform;
-
 
     private void Awake()
     {
         looking = true;
-        lookAtTransform.Ensure(this);
+        lookAtTransform = PlayerDataHolder.Instance.transform;
     }
     private void Update()
     {
