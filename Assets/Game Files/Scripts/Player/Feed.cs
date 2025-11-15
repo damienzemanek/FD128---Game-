@@ -11,9 +11,12 @@ public class Feed : Singleton<Feed>
 {
     [Inject] EntityControls controls;
     [SerializeField] bool _canFeed;
-    [SerializeField] GameObject feedDisplay;
 
     [Title("Anims")][SerializeField] Animator animator;
+
+    [Title("Refs")][SerializeField] public Attack attack;
+    [Title("Refs")][SerializeField] GameObject feedDisplay;
+
 
     [Title("Feeding")][SerializeField, ReadOnly] FeedTrigger goreImEating;
     [Title("Feeding")][SerializeField, ReadOnly] float currentFeed = 0f;
@@ -23,6 +26,13 @@ public class Feed : Singleton<Feed>
 
 
     public bool canFeed { get => _canFeed; set => _canFeed = value; }
+
+    protected override void Awake()
+    {
+        base.Awake();
+        attack.Ensure(this);
+        feedDisplay.Ensure(this);
+    }
 
     private void OnEnable()
     {
@@ -80,6 +90,7 @@ public class Feed : Singleton<Feed>
     public void Consume()
     {
         if (goreImEating == null) { this.Log("EARLY RETURN: goreImeating null"); return; }
+        attack.DisableBloodyHands();
         Destroy(goreImEating.parent);
         StopDisplay();
         FeedStop();

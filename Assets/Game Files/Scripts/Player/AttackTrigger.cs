@@ -6,6 +6,7 @@ using UnityEngine;
 public class AttackTrigger : MonoBehaviour
 {
     PlayerDataHolder player;
+    [SerializeField] public Attack attack;
     [SerializeField] bool _attacking;
     [SerializeField] bool onHitCooldown;
     [SerializeField] float hitCooldown = 1f;
@@ -33,7 +34,8 @@ public class AttackTrigger : MonoBehaviour
         print(player);
         print(player.data);
 
-        hp.TakeDmg(player.data.dmg);
+        hp.TakeDmg(amount: player.data.dmg);
+        attack.EnableBloodyHands();
         onHitCooldown = true;
 
         this.StopAllCoroutines();

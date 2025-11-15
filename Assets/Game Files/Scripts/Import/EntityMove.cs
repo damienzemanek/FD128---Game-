@@ -1,14 +1,18 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 using DependencyInjection;
+using Extensions;
 
+[DefaultExecutionOrder(1)]
 [RequireComponent(typeof(EntityControls))]
 public class EntityMove : MonoBehaviour
 {
     [Inject] EntityControls Controls;
+    PlayerDataHolder player;
+
     Rigidbody rb;
     [SerializeField] float speedMultiplier; float origSpeed;
-    [SerializeField] float maxVel;
+    [ShowInInspector, ReadOnly] float maxVel { get => player == null ? 0 : player.data.maxVel; }
 
     [Button]
     void UpdateOrigSpeed()
@@ -18,21 +22,33 @@ public class EntityMove : MonoBehaviour
 
     private void Awake()
     {
+        player = PlayerDataHolder.Instance;
+
         if(rb == null) rb = GetComponent<Rigidbody>();
         if (Controls == null) Debug.LogError("No Controls found");
         UpdateOrigSpeed();
+    }
+
+
+
+
+
+    private void FixedUpdate()
+    {
+        UpdateSpeed();
+        MoveEntity();
+    }
+
+    void UpdateSpeed()
+    {
         rb.maxLinearVelocity = maxVel;
         rb.maxAngularVelocity = maxVel;
     }
 
-    private void FixedUpdate()
-    {
-        MoveEntity();
-    }
-
     void MoveEntity()
     {
-        Vector2 moveInput = (Controls != null) ? Controls.move.Invoke() : Vector2.zero ;
+
+        Vector2 moveInput = (Controls != null) ? Controls.move.Invoke() : Vector2.zero;
         if (moveInput == Vector2.zero) return;
 
         if (Mathf.Abs(moveInput.x) > 0.5f && Mathf.Abs(moveInput.y) > 0.5f)
@@ -40,27 +56,22 @@ public class EntityMove : MonoBehaviour
         else
             speedMultiplier = origSpeed;
 
-       // print(moveInput + " mlt " + speedMultiplier);
 
         if (moveInput.x != 0)
         {
             if (moveInput.x > 0.5)
-                rb.AddForce(Controls.bodyDirection.transform.right * speedMultiplier * 100);
+                rb.AddForce(Controls.bodyDirection.transform.right * speedMultiplier * 100, ForceMode.Impulse);
             if (moveInput.x < 0.5)
-                rb.AddForce(-Controls.bodyDirection.transform.right * speedMultiplier * 100);
+                rb.AddForce(-Controls.bodyDirection.transform.right * speedMultiplier * 100, ForceMode.Impulse);
         }
         if (moveInput.y != 0)
         {
             if (moveInput.y > 0.5)
-                rb.AddForce(Controls.bodyDirection.transform.forward * speedMultiplier * 100);
+                rb.AddForce(Controls.bodyDirection.transform.forward * speedMultiplier * 100, ForceMode.Impulse);
             if (moveInput.y < 0.5)
-                rb.AddForce(-Controls.bodyDirection.transform.forward * speedMultiplier * 100);
+                rb.AddForce(-Controls.bodyDirection.transform.forward * speedMultiplier * 100, ForceMode.Impulse);
         }
-
-        //print(rb.linearVelocity);
-
     }
-
 
 
 

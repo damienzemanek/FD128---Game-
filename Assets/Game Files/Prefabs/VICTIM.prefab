@@ -338,8 +338,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1.4
-  m_Speed: 6
-  m_Acceleration: 8
+  m_Speed: 5.5
+  m_Acceleration: 25
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -364,12 +364,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 2
   currentHp: 0
+  speedUpForXSecondsOnHit: 0.6
+  speedIncreaseOnHit: 30
   hitEffect: {fileID: 49065439457440677}
   dieEffect: {fileID: 5642023643289996103}
   bodyRef: {fileID: 7648141215821394279}
   gorePileRef: {fileID: 5451008750025704772}
   looker: {fileID: 9066761966737730028}
   deadDetector: {fileID: 7984401195718395879}
+  agent: {fileID: 7840918863017091985}
   anims: {fileID: 6058239968309630879}
   deathAnimName: die
 --- !u!114 &6058239968309630879

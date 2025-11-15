@@ -1,0 +1,56 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[Serializable]
+public abstract class Effect 
+{
+    public float currentDuration;
+
+    public abstract void StartEffect(PlayerDataHolder _player);
+
+    public abstract void StopEffect();
+}
+
+[Serializable]
+public class IncreaseSpeed : Effect
+{
+    PlayerDataHolder player;
+    [SerializeField] public float increaseAmount;
+
+
+    public override void StartEffect(PlayerDataHolder _player)
+    {
+        player = _player;
+        player.data.maxVel += increaseAmount;
+    }
+
+    public override void StopEffect()
+    {
+        player.data.maxVel -= increaseAmount;
+    }
+}
+
+[Serializable]
+public class IncreaseDmg : Effect
+{
+    PlayerDataHolder player;
+    [SerializeField] public float increaseAmount;
+
+
+    public override void StartEffect(PlayerDataHolder _player)
+    {
+        player = _player;
+        player.data.dmg += increaseAmount;
+    }
+
+    public override void StopEffect()
+    {
+        player.data.dmg -= increaseAmount;
+    }
+}
+
+
+
+
