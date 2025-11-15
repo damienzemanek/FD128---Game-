@@ -29,7 +29,9 @@ public class AttackTrigger : MonoBehaviour
         print("c");
         if (onHitCooldown) return;
         print("d");
-
+        print(hp);
+        print(player);
+        print(player.data);
 
         hp.TakeDmg(player.data.dmg);
         onHitCooldown = true;

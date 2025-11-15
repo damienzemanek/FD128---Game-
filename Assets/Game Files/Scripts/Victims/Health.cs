@@ -8,6 +8,23 @@ public class Health : MonoBehaviour
 {
     [SerializeField] float maxHp;
     [SerializeField, ReadOnly] float currentHp;
+    [TitleGroup("Refs")] [SerializeField] EffectUser hitEffect;
+    [TitleGroup("Refs")][SerializeField] EffectUser dieEffect;
+
+    [TitleGroup("Refs")][SerializeField] GameObject bodyRef;
+    [TitleGroup("Refs")][SerializeField] GameObject gorePileRef;
+    [TitleGroup("Refs")][SerializeField] ConstantLookAt looker;
+
+
+    [TitleGroup("Anims")] [SerializeField] AnimationController anims;
+    [TitleGroup("Anims")] [SerializeField] string deathAnimName;
+
+    private void Awake()
+    {
+        hitEffect.Ensure(this);
+        dieEffect.Ensure(this);
+        gorePileRef.SetActive(false);
+    }
 
     private void OnEnable()
     {
@@ -25,17 +42,27 @@ public class Health : MonoBehaviour
 
     void Hit()
     {
-
+        hitEffect.UseEffect();
     }
 
     bool IsDead()
     {
-        if (currentHp < 0) return true;
+        if (currentHp <= 0) return true;
         return false;
     }
 
     void Die()
     {
+        anims.AnimateThen(deathAnimName, GorePileSelf);
+        dieEffect.UseEffect();
+        looker.looking = false;
+    }
 
+    void GorePileSelf()
+    {
+        bodyRef.SetActive(false);
+        gorePileRef.SetActive(true);
+        gorePileRef.transform.SetParent(null);
+        gameObject.SetActive(false);
     }
 }
