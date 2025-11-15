@@ -10,10 +10,15 @@ public class Attack : MonoBehaviour
 {
     [Inject] EntityControls controls;
     [SerializeField, ReadOnly] AnimationController anims;
+    [SerializeField] AttackTrigger attackTrigger;
+
+    [TitleGroup("Anims")]
+    [SerializeField] string attackAnimName = "attack";
 
     private void Awake()
     {
         anims = this.Get<AnimationController>();
+        attackTrigger.Ensure(this);
     }
 
 
@@ -30,7 +35,15 @@ public class Attack : MonoBehaviour
 
     public void AttackDo()
     {
+        if (attackTrigger.attacking) return;
+
         this.Log("attack");
-        anims.AnimateAttack();
+        EnableAttacking();
+        anims.AnimateThen(attackAnimName, DisableAttacking);
     }
+
+    public void EnableAttacking() => attackTrigger.attacking = true;
+
+    public void DisableAttacking() => attackTrigger.attacking = false;
+
 }

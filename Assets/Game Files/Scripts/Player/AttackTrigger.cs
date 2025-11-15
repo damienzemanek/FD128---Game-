@@ -1,18 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
+using Extensions;
 using UnityEngine;
 
 public class AttackTrigger : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    PlayerDataHolder player;
+    [SerializeField] bool _attacking;
+    [SerializeField] bool onHitCooldown;
+    [SerializeField] float hitCooldown = 1f;
+
+    public bool attacking { get => _attacking; set => _attacking = value; }
+
+    private void Awake()
     {
-        
+        player = PlayerDataHolder.Instance;
+        attacking = false;
+        onHitCooldown = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerStay(Collider other)
     {
-        
+        if(other.tag != "Person") return;
+        print("a");
+        if (!other.Has(out Health hp)) return;
+        print("b");
+        if (!attacking) return;
+        print("c");
+        if (onHitCooldown) return;
+        print("d");
+
+
+        hp.TakeDmg(player.data.dmg);
+        onHitCooldown = true;
+
+        this.StopAllCoroutines();
+        this.DelayedCall(() => onHitCooldown = false, hitCooldown);
     }
+
 }

@@ -107,6 +107,11 @@ namespace Extensions
             return false;
         }
 
+        public static void Ensure(this Object obj, MonoBehaviour mono)
+        {
+            if (obj == null) mono.Error("Did not assign reference, or is null");
+        }
+
     }
 
 }

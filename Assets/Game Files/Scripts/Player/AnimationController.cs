@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Extensions;
@@ -7,13 +8,12 @@ using UnityEngine;
 public class AnimationController : MonoBehaviour
 {
     [SerializeField] Animator animator;
-    [SerializeField] public string attackAnimName;
 
     public void Animate(string name)
     {
         animator.Play(name);
     }
 
-    public void AnimateAttack() => Animate(attackAnimName);
+    public void AnimateThen(string name, Action postHook) => animator.PlayWithHook(name, this, postHook);
 
 }

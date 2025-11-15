@@ -24,8 +24,6 @@ public class Look : MonoBehaviour
     void MouseLook()
     {
         if (!updateMouseLook) return;
-        print(controls);
-        print(controls.look);
 
         Vector2 mouseInput = controls.look.Invoke();
 
