@@ -558,7 +558,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 597369d57cd69c94a94b9920c471cd34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 0
   effect:
   - rid: 1805014722526838784
   - rid: 1805014722526838787
@@ -568,11 +567,13 @@ MonoBehaviour:
     - rid: 1805014722526838784
       type: {class: IncreaseSpeed, ns: , asm: Assembly-CSharp}
       data:
+        permament: 0
         currentDuration: 5
         increaseAmount: 10
     - rid: 1805014722526838787
       type: {class: IncreaseDmg, ns: , asm: Assembly-CSharp}
       data:
+        permament: 0
         currentDuration: 10
         increaseAmount: 1
 --- !u!1 &759974460

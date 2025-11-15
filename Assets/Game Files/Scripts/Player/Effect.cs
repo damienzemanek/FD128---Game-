@@ -1,12 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 [Serializable]
 public abstract class Effect 
 {
-    public float currentDuration;
+    public bool permament = false;
+    bool notPermament { get => !permament; }
+
+    [ShowIf("notPermament")] public float currentDuration;
+
 
     public abstract void StartEffect(PlayerDataHolder _player);
 

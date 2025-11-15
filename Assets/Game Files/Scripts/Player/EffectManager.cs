@@ -49,6 +49,8 @@ public class EffectManager : Singleton<EffectManager>
         for(int i = effects.Count - 1; i >= 0; i--)
         {
             Effect effect = effects[i];
+            if (effect.permament) return;
+
             effect.currentDuration -= Time.deltaTime;
 
             if(effect.currentDuration <= 0)

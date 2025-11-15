@@ -8,7 +8,6 @@ using UnityEngine;
 public class Powerup : MonoBehaviour
 {
     EffectManager effects;
-    [SerializeField] public float duration;
     [SerializeReference] Effect[] effect;
 
     private void Awake()
