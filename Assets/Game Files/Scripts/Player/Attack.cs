@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using DependencyInjection;
 using Extensions;
 using Sirenix.OdinInspector;
-using Sirenix.Utilities;
 using UnityEngine;
 
 [DefaultExecutionOrder(1)]

@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Extensions;
-using Sirenix.Utilities;
 using UnityEngine;
+using System.Linq;
 
 public class Powerup : MonoBehaviour
 {
@@ -18,7 +18,7 @@ public class Powerup : MonoBehaviour
 
     public void ObtainPowerup()
     {
-        effect.ForEach(action: effect => effects.AddEffect(effect));
+        effect.ToList().ForEach(action: effect => effects.AddEffect(effect));
         gameObject.SetActive(false);
     }
 
