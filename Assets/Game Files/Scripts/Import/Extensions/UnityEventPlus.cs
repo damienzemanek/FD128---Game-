@@ -30,6 +30,8 @@ public class UnityEventPlus
     {
         if (!mono) return;
 
+        if (delay <= 0) { get?.Invoke(); return; }
+
         if(oneVal)
             mono.DelayedCall(() => get?.Invoke(), delay);
         else if(randomValBetween)

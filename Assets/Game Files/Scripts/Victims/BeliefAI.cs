@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using RetroArsenal;
+using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -73,6 +74,51 @@ public class IsDead : BeliefAI
     {
         if (isDead) return immediateAction;
         else return null;
+    }
+}
+
+[Serializable]
+public class IsObjectIWantNearby : BeliefAI
+{
+    [SerializeField] public bool isObjectIWantNearby = false;
+    [SerializeField, ReadOnly] Transform location;
+    [field: SerializeReference] public override ActionAI immediateAction { get; set; }
+
+    public void Set(bool val, Transform _location)
+    {
+        isObjectIWantNearby = val;
+        if (isObjectIWantNearby)
+        {
+            usable = true;
+            location = _location;
+
+            if(immediateAction is MoveToObject moveToObj) moveToObj.GiveData(_loc: location);
+        }
+        else
+        {
+            location = null;
+            usable = false;
+
+            if (immediateAction is MoveToObject moveToObj) moveToObj.GiveData(null);
+
+            Debug.Log("ate");
+
+        }
+    }
+
+
+    public ActionAI GetAction()
+    {
+        if (!isObjectIWantNearby) return null;
+
+
+        if (immediateAction is MoveToObject moveToObj)
+        {
+            moveToObj.GiveData(location);
+            return moveToObj;
+        }
+        else
+            return immediateAction;
     }
 }
 

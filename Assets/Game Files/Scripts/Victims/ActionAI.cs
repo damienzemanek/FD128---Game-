@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Extensions;
+using SingularityGroup.HotReload;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
@@ -53,6 +54,55 @@ public class RunAway : ActionAI
         agent.SetDestination(newLoc);
     }
 
+
+}
+
+[Serializable]
+public class MoveToObject : ActionAI
+{
+    [SerializeField, ReadOnly] Transform loc;
+    [SerializeField] float closeRange = 1f;
+    [ShowInInspector, ReadOnly] bool toClose;
+ 
+    [Button]
+    public override void ExecuteImplement()
+    {
+        if (!loc) return;
+
+        if (ToClose()) return;
+
+        agent.updateRotation = true;
+        toClose = false;
+        agent.isStopped = false;
+        agent.SetDestination(loc.transform.position);
+    }
+
+    public void GiveData(Transform _loc)
+    {
+        loc = _loc;
+    }
+
+
+    bool ToClose()
+    {
+        float dist = Vector3.Distance(agent.transform.position, loc.position);
+
+        if (dist < agent.stoppingDistance + closeRange)
+        {
+            toClose = true;
+            this.Log("to close");
+            agent.isStopped = true;
+            agent.updateRotation = false;
+
+            Vector3 lookDir = loc.position - agent.transform.position;
+            lookDir.y = 0;
+
+
+            if (lookDir.sqrMagnitude > 0.01f) agent.transform.rotation = Quaternion.LookRotation(lookDir);
+            return true;
+        }
+        return false;
+    }
 
 }
 
