@@ -7,6 +7,8 @@ using UnityEngine;
 public class PlayerData : ScriptableObject
 {
     public float dmg;
+    public int progressIncrease = 1;
+    public int completeProgressValue = 4;
     public float maxVel = 10f;
     public int addToHeartCountIncrease = 1;
 }

@@ -110,6 +110,7 @@ public class Feed : Singleton<Feed>
         FeedStop();
         AddToHeartCount();
         currentFeed = 0;
+        ProgressTracker.instance.AddProgress(player.data.progressIncrease);
     }
 
     void AddToHeartCount()
