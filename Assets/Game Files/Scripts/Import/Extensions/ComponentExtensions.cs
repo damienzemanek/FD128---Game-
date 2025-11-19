@@ -8,7 +8,7 @@ namespace Extensions
 {
     public static class ComponentEX
     {
-        public static T TryGet<T>(this Object obj) where T : Component
+        public static T Get<T>(this Object obj) where T : Component
         {
             string thisType = typeof(T).Name;
 
@@ -105,6 +105,11 @@ namespace Extensions
                 if (comp.GetComponent<TComponent>()) return true;
 
             return false;
+        }
+
+        public static void Ensure(this Object obj, MonoBehaviour mono)
+        {
+            if (obj == null) mono.Error("Did not assign reference, or is null");
         }
 
     }

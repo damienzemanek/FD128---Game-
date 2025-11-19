@@ -4,6 +4,15 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Game/Menu.unity
+    guid: 480801da027b529409358dfc85843da5
+  - enabled: 1
+    path: Assets/Scenes/Game/Bunny Screen.unity
+    guid: 7e0d07a42788d804797c67faccd594e2
+  - enabled: 1
+    path: Assets/Scenes/Game/Level 1.unity
+    guid: 8c4562773d793c1419bd695953a57e17
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: cd794e5664b3f53459c01ace78a9e85e, type: 3}
