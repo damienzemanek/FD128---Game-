@@ -60,16 +60,16 @@ public class EntityMove : MonoBehaviour
         if (moveInput.x != 0)
         {
             if (moveInput.x > 0.5)
-                rb.AddForce(Controls.bodyDirection.transform.right * speedMultiplier * 100, ForceMode.Impulse);
+                rb.AddForce(Controls.bodyDirection.transform.right * speedMultiplier * 100, ForceMode.Force);
             if (moveInput.x < 0.5)
-                rb.AddForce(-Controls.bodyDirection.transform.right * speedMultiplier * 100, ForceMode.Impulse);
+                rb.AddForce(-Controls.bodyDirection.transform.right * speedMultiplier * 100, ForceMode.Force);
         }
         if (moveInput.y != 0)
         {
             if (moveInput.y > 0.5)
-                rb.AddForce(Controls.bodyDirection.transform.forward * speedMultiplier * 100, ForceMode.Impulse);
+                rb.AddForce(Controls.bodyDirection.transform.forward * speedMultiplier * 100, ForceMode.Force);
             if (moveInput.y < 0.5)
-                rb.AddForce(-Controls.bodyDirection.transform.forward * speedMultiplier * 100, ForceMode.Impulse);
+                rb.AddForce(-Controls.bodyDirection.transform.forward * speedMultiplier * 100, ForceMode.Force);
         }
     }
 

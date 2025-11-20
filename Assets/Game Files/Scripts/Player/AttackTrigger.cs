@@ -23,16 +23,9 @@ public class AttackTrigger : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if(other.tag != "Person") return;
-        print("a");
         if (!other.Has(out Health hp)) return;
-        print("b");
         if (!attacking) return;
-        print("c");
         if (onHitCooldown) return;
-        print("d");
-        print(hp);
-        print(player);
-        print(player.data);
 
         hp.TakeDmg(amount: player.data.dmg);
         attack.EnableBloodyHands();

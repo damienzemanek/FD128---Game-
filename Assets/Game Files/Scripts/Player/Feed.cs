@@ -14,7 +14,7 @@ public class Feed : Singleton<Feed>
     PlayerDataHolder player;
     [SerializeField] bool _canFeed;
 
-    [Title("Anims")][SerializeField] Animator animator;
+    [Title("Anims")][SerializeField] Animatable anims;
 
     [Title("Refs")][SerializeField] public Attack attack;
     [SerializeField] GameObject feedDisplay;
@@ -25,7 +25,6 @@ public class Feed : Singleton<Feed>
 
     [Title("Feeding")][SerializeField, ReadOnly] FeedTrigger goreImEating;
     [SerializeField, ReadOnly] float currentFeed = 0f;
-    [SerializeField] float feedIncr = 0.1f;
     [SerializeField] float feedToBeFull;
 
     [Title("Hearts")][SerializeField] int currentHeartCount = 0;
@@ -89,7 +88,7 @@ public class Feed : Singleton<Feed>
 
         print("feeding");
         currentFeed += 0.1f;
-        animator.SetBool("eating", true);
+        anims.animator.SetBool("eating", true);
 
         if (currentFeed > feedToBeFull) Consume();
     }
@@ -98,7 +97,7 @@ public class Feed : Singleton<Feed>
     public void FeedStop()
     {
         print("feeding stop");
-        animator.SetBool("eating", false);
+        anims.animator.SetBool("eating", false);
     }
 
     public void Consume()

@@ -12,5 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3841f92cd4a67b445a8b41de6bd895d9, type: 3}
   m_Name: Player Data
   m_EditorClassIdentifier: 
+  initialDmg: 1
   dmg: 1
-  speed: 10
+  progressIncrease: 1
+  completeProgressValue: 4
+  maxVel: 40
+  addToHeartCountIncrease: 1
+  fallDrag: 10
+  groundedDrag: 10

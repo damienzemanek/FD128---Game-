@@ -86,8 +86,6 @@ public class EntityControls : MonoBehaviour, IDependencyProvider
         mouse1 = () => { }; //empty action defaults
 
         Assign();
-        print(look);
-
     }
 
     private void OnDisable()

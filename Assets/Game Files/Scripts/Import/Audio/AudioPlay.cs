@@ -16,7 +16,7 @@ public class AudioPlay : MonoBehaviour
 
     #endregion
     [SerializeField] AudioSource source;
-    [SerializeField, ShowIf("single")] AudioClip audio;
+    [SerializeField, ShowIf("single")] AudioClip aud;
     [SerializeField, ShowIf("multi")] AudioClip[] audios;
 
     private void Awake()
@@ -25,14 +25,14 @@ public class AudioPlay : MonoBehaviour
     }
     public void Play()
     {
-        this.Log("playing audio");
+        this.Log("playing aud");
         source.loop = loop;
 
         if(!loop)
-            source.PlayOneShot(audio);
+            source.PlayOneShot(aud);
         else
         {
-            source.clip = audio;
+            source.clip = aud;
             source.Play();
         }
         if (cutShort) StartCoroutine(C_Cutshort());
@@ -40,7 +40,7 @@ public class AudioPlay : MonoBehaviour
 
     public void PlayRand(AudioClip[] clips)
     {
-        this.Log("playing audio");
+        this.Log("playing aud");
         source.loop = loop;
 
         if (!loop)

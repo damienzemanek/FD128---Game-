@@ -22,7 +22,6 @@ public class AgentAI : MonoBehaviour
     {
         currentAction = GetHighestPriorityUsableBelief().immediateAction;
         currentAction?.Execute();
-        this.Log($"attempting execute : {currentAction?.GetType()}");
         if (prevAction != null && prevAction != currentAction) //New action
         {
             prevAction.inUse = false;

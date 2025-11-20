@@ -32,17 +32,25 @@ public abstract class ActionAI
 [Serializable]
 public class Idle : ActionAI
 {
+    public string animName;
+    public Animatable anims;
     public override void ExecuteImplement()
     {
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
+        if (!anims.Equals(default(Animatable)))
+            anims.Animate(animName);
+
     }
 }
 
 [Serializable]
 public class RunAway : ActionAI
 {
+    public string animName;
     [SerializeField] float dist;
+    public Animatable anims;
+
 
     [Button]
     public override void ExecuteImplement()
@@ -52,6 +60,7 @@ public class RunAway : ActionAI
 
         agent.isStopped = false;
         agent.SetDestination(newLoc);
+        anims.Animate(animName);
     }
 
 

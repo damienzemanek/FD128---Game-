@@ -21,7 +21,6 @@ public class FadeAwayOverTime : MonoBehaviour
 
     private void OnEnable()
     {
-        print("enable");
         ResetFade(false);
         StopAllCoroutines();
         if (fadeOnEnable) this.DelayedCall(() => FadeAway(() => ResetFade(true)), delayToStartFading);
@@ -40,7 +39,6 @@ public class FadeAwayOverTime : MonoBehaviour
             Color color = text.color;
             color.a = 1f;
             text.color = color;
-            print(" text " + text.color.a);
         }
 
         StopAllCoroutines();

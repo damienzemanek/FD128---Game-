@@ -14,6 +14,7 @@ namespace Extensions
         public static void DelayedCall(this MonoBehaviour mono, Action method, float delay)
         {
             if(!mono || method == null) return;
+            if (!mono.enabled) return;
             mono.StartCoroutine(C_CallAfterDelay(method, delay));
         }
 

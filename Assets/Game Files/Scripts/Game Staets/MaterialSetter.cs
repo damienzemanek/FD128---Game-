@@ -1,0 +1,22 @@
+using Extensions;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[Serializable]
+public struct MaterialSetter
+{
+    [SerializeField] Material[] mats;
+    [SerializeField] Renderer obj;
+
+    public void SetRandMat()
+    {
+        obj.material = mats.Rand();
+    }
+
+    public void SetMat(Material mat)
+    {
+        obj.material = mat;
+    }
+}

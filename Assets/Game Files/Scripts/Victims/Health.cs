@@ -7,30 +7,33 @@ using UnityEngine.AI;
 
 public class Health : MonoBehaviour
 {
-    [TitleGroup("Parameters")][SerializeField] float maxHp;
-    [TitleGroup("Parameters")][SerializeField, ReadOnly] float currentHp;
+    [TitleGroup("Parameters")]
+    [SerializeField] float maxHp;
+    [SerializeField, ReadOnly] float currentHp;
 
-    [TitleGroup("Parameters")][SerializeField] float speedUpForXSecondsOnHit = 0.8f;
-    [TitleGroup("Parameters")][SerializeField] float speedIncreaseOnHit = 2f;
+    [TitleGroup("Parameters")]
+    [SerializeField] float speedUpForXSecondsOnHit = 0.8f;
+    [SerializeField] float speedIncreaseOnHit = 2f;
 
 
-    [TitleGroup("Effects")] [SerializeField] EffectUser hitEffect;
-    [TitleGroup("Effects")][SerializeField] EffectUser dieEffect;
+    [TitleGroup("Effects")] 
+    [SerializeField] EffectUser hitEffect;
+    [SerializeField] EffectUser dieEffect;
 
-    [TitleGroup("Refs")][SerializeField] GameObject bodyRef;
-    [TitleGroup("Refs")][SerializeField] GameObject gorePileRef;
-    [TitleGroup("Refs")][SerializeField] ConstantLookAt looker;
-    [TitleGroup("Refs")][SerializeField] DeadDetector deadDetector;
-    [TitleGroup("Refs")][SerializeField] NavMeshAgent agent;
+    [TitleGroup("Refs")]
+    [SerializeField] GameObject bodyRef;
+    [SerializeField] GameObject gorePileRef;
+    [SerializeField] ConstantLookAt looker;
+    [SerializeField] DeadDetector deadDetector;
+    [SerializeField] NavMeshAgent agent;
 
-    [TitleGroup("Anims")] [SerializeField] AnimationController anims;
-    [TitleGroup("Anims")] [SerializeField] string deathAnimName;
+    [TitleGroup("Anims")] 
+    [SerializeField] Animatable anims;
+    [SerializeField] string deathAnimName;
 
     private void Awake()
     {
         agent.Ensure(this);
-        hitEffect.Ensure(this);
-        dieEffect.Ensure(this);
         gorePileRef.SetActive(false);
     }
 
@@ -50,7 +53,7 @@ public class Health : MonoBehaviour
 
     void Hit()
     {
-        hitEffect.UseEffect();
+        hitEffect.UseEffect(this);
         StartCoroutine(SpeedUpForATime());
     }
 
@@ -64,8 +67,8 @@ public class Health : MonoBehaviour
     {
         StopAllCoroutines();
         deadDetector.Die();
-        anims.AnimateThen(deathAnimName, GorePileSelf);
-        dieEffect.UseEffect();
+        anims.Animate(deathAnimName, this, GorePileSelf);
+        dieEffect.UseEffect(this);
         looker.looking = false;
     }
 

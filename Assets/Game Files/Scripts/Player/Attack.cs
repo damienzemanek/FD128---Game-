@@ -10,25 +10,27 @@ public class Attack : MonoBehaviour
 {
     [Inject] EntityControls controls;
 
-    [TitleGroup("Parameters")] [SerializeField] bool bloodiedLeftHand;
-    [TitleGroup("Parameters")][SerializeField] bool bloodiedRightHand;
-
-    [TitleGroup("Parameters")][SerializeField] bool onRightHand;
-
-
-    [TitleGroup("Refs")] [SerializeField, ReadOnly] AnimationController anims;
-    [TitleGroup("Refs")] [SerializeField] AttackTrigger attackTrigger;
-    [TitleGroup("Refs")] [SerializeField] GameObject bloodyHandLeft;
-    [TitleGroup("Refs")][SerializeField] GameObject bloodyHandRight;
+    [TitleGroup("Parameters")] 
+    [SerializeField] bool bloodiedLeftHand;
+    [SerializeField] bool bloodiedRightHand;
+    [SerializeField] bool onRightHand;
 
 
-    [TitleGroup("Anims")] [SerializeField] string leftAttackName = "attackLeft";
-    [TitleGroup("Anims")] [SerializeField] string rightAttackName = "attackRight";
+    [TitleGroup("Refs")] 
+    [SerializeField] AttackTrigger attackTrigger;
+    [SerializeField] GameObject bloodyHandLeft;
+    [SerializeField] GameObject bloodyHandRight;
+
+
+    [TitleGroup("Anims")]
+    [SerializeField] Animatable anims;
+    [SerializeField] string leftAttackName = "attackLeft";
+    [SerializeField] string rightAttackName = "attackRight";
+
 
 
     private void Awake()
     {
-        anims = this.Get<AnimationController>();
         attackTrigger.Ensure(this);
         attackTrigger.attack = this;
     }
@@ -54,8 +56,8 @@ public class Attack : MonoBehaviour
         this.Log("attack");
         EnableAttacking();
 
-        if(onRightHand) anims.AnimateThen(rightAttackName, DisableAttacking);
-        else            anims.AnimateThen(leftAttackName, DisableAttacking);
+        if(onRightHand) anims.Animate(rightAttackName, this, DisableAttacking);
+        else            anims.Animate(leftAttackName, this, DisableAttacking);
 
         onRightHand = !onRightHand;
     }

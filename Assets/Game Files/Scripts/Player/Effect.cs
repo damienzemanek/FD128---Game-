@@ -39,6 +39,7 @@ public class IncreaseSpeed : Effect
 public class IncreaseDmg : Effect
 {
     PlayerDataHolder player;
+    float dmg;
     [SerializeField] public float increaseAmount;
 
 

@@ -1,25 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class EffectUser : MonoBehaviour
+[Serializable]
+public struct EffectUser
 {
     [SerializeField] ParticleSystem effect;
-    [SerializeField] float effectLength = 4f;
-
-    private void Awake()
-    {
-        effect.gameObject.SetActive(false);
-    }
+    [SerializeField] float effectLength;
 
     [Button]
-    public void UseEffect()
+    public void UseEffect(MonoBehaviour host)
     {
+        ParticleSystem e = effect;
+        float length = effectLength;
+
         effect.gameObject.SetActive(true);
         effect.Play();
         if (effect.gameObject.Has(out AudioSource source)) source.Play();
-        this.DelayedCall(() => effect.Stop(), effectLength);
+        host.DelayedCall(() => e.Stop(), length);
     }
 }
