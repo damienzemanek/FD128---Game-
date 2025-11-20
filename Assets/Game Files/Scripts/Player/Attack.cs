@@ -4,6 +4,7 @@ using DependencyInjection;
 using Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using static Extensions.AnimEX;
 
 [DefaultExecutionOrder(1)]
 public class Attack : MonoBehaviour

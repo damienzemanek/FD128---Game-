@@ -6,6 +6,7 @@ using Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using TMPro;
+using static Extensions.AnimEX;
 
 [DefaultExecutionOrder(1)]
 public class Feed : Singleton<Feed>

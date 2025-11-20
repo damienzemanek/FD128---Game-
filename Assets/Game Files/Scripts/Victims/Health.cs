@@ -4,6 +4,7 @@ using Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
+using static Extensions.AnimEX;
 
 public class Health : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class Health : MonoBehaviour
 
     [TitleGroup("Anims")] 
     [SerializeField] Animatable anims;
+    [SerializeField] string hitAnimName;
     [SerializeField] string deathAnimName;
 
     private void Awake()
@@ -54,6 +56,7 @@ public class Health : MonoBehaviour
     void Hit()
     {
         hitEffect.UseEffect(this);
+        anims.Animate(hitAnimName, layer: 1);
         StartCoroutine(SpeedUpForATime());
     }
 

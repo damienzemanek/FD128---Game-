@@ -6,6 +6,7 @@ using SingularityGroup.HotReload;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
+using static Extensions.AnimEX;
 
 [Serializable]
 public abstract class ActionAI
@@ -71,6 +72,7 @@ public class MoveToObject : ActionAI
 {
     [SerializeField, ReadOnly] Transform loc;
     [SerializeField] float closeRange = 1f;
+    [SerializeField] float rotSpeed = 10f;
     [ShowInInspector, ReadOnly] bool toClose;
  
     [Button]
@@ -107,7 +109,14 @@ public class MoveToObject : ActionAI
             lookDir.y = 0;
 
 
-            if (lookDir.sqrMagnitude > 0.01f) agent.transform.rotation = Quaternion.LookRotation(lookDir);
+            if (lookDir.sqrMagnitude > 0.01f)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(lookDir);
+                agent.transform.rotation = Quaternion.Slerp(agent.transform.rotation,
+                                                            targetRot, 
+                                                            rotSpeed * Time.deltaTime);
+            }
+
             return true;
         }
         return false;
