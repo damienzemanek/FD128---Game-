@@ -28,4 +28,9 @@ public class SlotManager : MonoBehaviour
         SlotUI slot = slots.FirstOrDefault(slot => slot.unlock == unlock);
         slot.Unlock();
     }
+
+    public void UnEquipAll()
+    {
+        slots.ForEach(slot => slot.wearableObj.SetActive(false));
+    }
 }
