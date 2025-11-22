@@ -1788,6 +1788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1764df1073af84a40bf25eddb3256cad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameXP: {fileID: 1271976916}
   slotManager: {fileID: 1933116342}
   unlock: 2
 --- !u!1001 &498905131
@@ -2590,6 +2591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1764df1073af84a40bf25eddb3256cad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameXP: {fileID: 1271976916}
   slotManager: {fileID: 1933116342}
   unlock: 1
 --- !u!1 &628116935
@@ -5277,6 +5279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2adff713b642143aafbb5fd21aedb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saver: {fileID: 0}
   levels:
   - rid: 1805014722526838791
   - rid: 1805014722526838792
@@ -6689,6 +6692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1764df1073af84a40bf25eddb3256cad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameXP: {fileID: 1271976916}
   slotManager: {fileID: 1933116342}
   unlock: 0
 --- !u!43 &1710249874

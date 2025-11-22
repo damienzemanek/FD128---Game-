@@ -20,12 +20,14 @@ public class DataSaver : DesignPatterns.CreationalPatterns.Singleton<DataSaver>
         public int currentLevel;
         public int currentXP;
         public int pendingXP;
+        public int unlocks;
 
         public GameExpData()
         {
             currentLevel = 0;
             currentXP = 0;
             pendingXP = 0;
+            unlocks = 0;
         }
     }
 

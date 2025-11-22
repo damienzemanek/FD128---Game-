@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Extensions;
 using Sirenix.OdinInspector;
 using TMPro;
 using Unity.VisualScripting;
@@ -9,7 +10,7 @@ using UnityEngine.Events;
 
 public class GameExperience : MonoBehaviour
 {
-    [ShowInInspector, ReadOnly] DataSaver saver;
+    [ShowInInspector, ReadOnly] public DataSaver saver;
     public int currentLevel { get => saver ? saver.gameExpData.currentLevel : 0; set => saver.gameExpData.currentLevel = value; }
     public float currentXP { get => saver ? saver.gameExpData.currentXP : 0; set => saver.gameExpData.currentXP = (int)value; }
 
@@ -121,7 +122,7 @@ public class Level
         if (game.currentLevel < game.levels.Count - 1)
             game.currentLevel++;
 
-
         levelUpHook?.Invoke();
+        this.Log("Leveled up");
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Extensions;
 using UnityEngine;
 
 public class SlotUI : MonoBehaviour
@@ -20,6 +21,7 @@ public class SlotUI : MonoBehaviour
     {
         unlocked = true;
         lockObj.SetActive(false);
+        this.Log($"unlocked: {unlock.ToString()}");
     }
 
 }
