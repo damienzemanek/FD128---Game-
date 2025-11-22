@@ -7,6 +7,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using TMPro;
 using static Extensions.AnimEX;
+using static Extensions.FadeEX;
 
 [DefaultExecutionOrder(1)]
 public class Feed : Singleton<Feed>
@@ -21,7 +22,7 @@ public class Feed : Singleton<Feed>
     [SerializeField] GameObject feedDisplay;
     [SerializeField] TextMeshProUGUI heartCountText;
     [SerializeField] UIJitter heartImageJitter;
-    [SerializeField] GameObject heartsEatenlabel;
+    [SerializeField] FadeSettings heartLabelFade;
 
 
     [Title("Feeding")][SerializeField, ReadOnly] FeedTrigger goreImEating;
@@ -48,7 +49,7 @@ public class Feed : Singleton<Feed>
     {
         currentHeartCount = 0;
         heartCountText.text = "" + currentHeartCount;
-        heartsEatenlabel.SetActive(false);
+        heartLabelFade.graphic.gameObject.SetActive(false);
 
         goreImEating = null;
         currentFeed = 0f;
@@ -115,10 +116,10 @@ public class Feed : Singleton<Feed>
 
     void AddToHeartCount()
     {
-        currentHeartCount += player.data.addToHeartCountIncrease;
+        currentHeartCount += player.data.progressIncrease;
         heartCountText.text = "" + currentHeartCount;
         heartImageJitter.JitterThenReset();
-        heartsEatenlabel.SetActive(true);
+        this.EnableFadeOut(heartLabelFade);
     }
 
 

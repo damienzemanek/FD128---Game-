@@ -13,10 +13,19 @@ MonoBehaviour:
   m_Name: Player Data
   m_EditorClassIdentifier: 
   initialDmg: 1
-  dmg: 1
-  progressIncrease: 1
-  completeProgressValue: 4
-  maxVel: 40
-  addToHeartCountIncrease: 1
+  dmg: 2
   fallDrag: 10
   groundedDrag: 10
+  jump:
+    addRbForward: 1
+    fwdMult: 15
+    direction: {x: 0, y: 1, z: 0}
+    mult: {x: 0, y: 15, z: 0}
+    forceMode: 2
+  move:
+    origLienarSpeedMult: 8
+    linearSpeedMult: 14
+    decreaseMultOfSpeed: 0.7
+    maxVel: 40
+  progressIncrease: 1
+  completeProgressValue: 3

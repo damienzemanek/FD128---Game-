@@ -10,9 +10,9 @@ public class Bunnyhop : MonoBehaviour
     Rigidbody rb;
     [ShowInInspector, ReadOnly] bool isGrounded;
 
-    public PhysEX.GroundedSettings ground;
-    public PhysEX.FallSettings fall;
-    public PhysEX.JumpSettings jump;
+    [SerializeField] PhysEX.GroundedSettings ground;
+    [SerializeField] PhysEX.FallSettings fall;
+    [ShowInInspector, ReadOnly] PhysEX.JumpSettings jump { get => player == null ? (default) : player.data.jump; }
 
     private void Awake()
     {

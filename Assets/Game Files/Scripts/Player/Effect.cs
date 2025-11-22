@@ -7,6 +7,7 @@ using UnityEngine;
 [Serializable]
 public abstract class Effect 
 {
+    public string effectName;
     public bool permament = false;
     bool notPermament { get => !permament; }
 
@@ -26,12 +27,12 @@ public class IncreaseSpeed : Effect
     public override void StartEffect(PlayerDataHolder _player)
     {
         player = _player;
-        player.data.maxVel += increaseAmount;
+        player.data.move.linearSpeedMult += increaseAmount;
     }
 
     public override void StopEffect()
     {
-        player.data.maxVel -= increaseAmount;
+        player.data.move.linearSpeedMult -= increaseAmount;
     }
 }
 
@@ -39,7 +40,7 @@ public class IncreaseSpeed : Effect
 public class IncreaseDmg : Effect
 {
     PlayerDataHolder player;
-    float dmg;
+     float dmg;
     [SerializeField] public float increaseAmount;
 
 

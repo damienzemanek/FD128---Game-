@@ -8,6 +8,24 @@ namespace Extensions
 {
     public static class EnumerateEX
     {
+        [Serializable]
+        public struct PairStringObj
+        {
+            public string name;
+            public GameObject obj;
+        }
+
+        public static GameObject SetActive(this PairStringObj[] vals, string _name, bool _active)
+        {
+            for(int i = 0; i < vals.Length; i++)
+                if (vals[i].name == _name) return vals[i].obj.SetActiveThen(_active);
+
+            return null;
+        }
+        public static void SetAllActive(this PairStringObj[] vals, bool _active)
+        {
+            for (int i = 0; i < vals.Length; i++) vals[i].obj.SetActive(_active);
+        }
 
         public static float Rand(this Vector2 v)
         {
@@ -73,6 +91,7 @@ namespace Extensions
             for (int i = 0; i < list.Length; i++) list[i].SetActive(val);
             return list;
         }
+
 
 
         #region Methods
