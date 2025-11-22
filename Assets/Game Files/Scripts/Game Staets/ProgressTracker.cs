@@ -9,6 +9,7 @@ using static Extensions.FadeEX;
 public class ProgressTracker : Singleton<ProgressTracker>
 {
     PlayerDataHolder player;
+    DataSaver saver;
     [SerializeField] GameObject completeGameDisplay;
     [SerializeField] EntityMove move;
     [SerializeField] Look look;
@@ -20,6 +21,7 @@ public class ProgressTracker : Singleton<ProgressTracker>
     private void Start()
     {
         player = PlayerDataHolder.instance;
+        saver = DataSaver.instance;
     }
 
     public void AddProgress(int amount)
@@ -38,6 +40,7 @@ public class ProgressTracker : Singleton<ProgressTracker>
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
         completeGameDisplay.SetActive(true);
+        saver.gameExpData.pendingXP += player.data.experienceGainOnComplete;
     }
 
 }

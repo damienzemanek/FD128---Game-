@@ -6,11 +6,12 @@ using UnityEngine;
 public class UsableItem : MonoBehaviour
 {
     [SerializeField] float timeLeftUsing;
-
-    public void Use()
+ 
+    public bool Use()
     {
         timeLeftUsing -= Time.deltaTime;
-        if (timeLeftUsing < 0) Destroy(gameObject);
+        if (timeLeftUsing < 0) { Destroy(gameObject); return true; }
+        return false;
     }
 
 

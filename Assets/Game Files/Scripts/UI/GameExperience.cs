@@ -9,15 +9,33 @@ using UnityEngine.Events;
 
 public class GameExperience : MonoBehaviour
 {
-    public int currentLevel;
+    [ShowInInspector, ReadOnly] DataSaver saver;
+    public int currentLevel { get => saver ? saver.gameExpData.currentLevel : 0; set => saver.gameExpData.currentLevel = value; }
+    public float currentXP { get => saver ? saver.gameExpData.currentXP : 0; set => saver.gameExpData.currentXP = (int)value; }
+
     [SerializeReference] public List<Level> levels;
     [SerializeField] SliderRuntime xpSlider;
     [SerializeField] public TextMeshProUGUI levelNumberText;
 
+    private void Awake()
+    {
+        saver = DataSaver.Instance;
+    }
+
     private void OnEnable()
     {
         levels.ForEach(l => l.game = this);
+    }
+    private void Start()
+    {
+        levels[currentLevel].currentXP = saver.gameExpData.currentXP;
         DisplayCurrentExperience();
+
+        if (saver.gameExpData.pendingXP > 0)
+        {
+            GainExperience(saver.gameExpData.pendingXP);
+            saver.gameExpData.pendingXP = 0;
+        }
     }
 
     public void DisplayCurrentExperience()
@@ -55,6 +73,14 @@ public class GameExperience : MonoBehaviour
     public void DisplayLevelText()
     {
         levelNumberText.text = $"Lvl: {currentLevel}";
+    }
+
+    private void OnDisable()
+    {
+        saver.gameExpData.currentLevel = currentLevel;
+        saver.gameExpData.currentXP = (int)levels[currentLevel].currentXP;
+
+        saver.SaveExp();
     }
 }
 
