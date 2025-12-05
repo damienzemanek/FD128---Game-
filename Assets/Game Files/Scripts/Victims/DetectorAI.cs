@@ -11,5 +11,27 @@ public abstract class DetectorAI : MonoBehaviour
     {
         agentAI.Ensure(this);
     }
+    protected bool IsCollidedWithPlayer(Collider other) => (other.tag == "Player");
+
+    protected IsSafe GetIsSafe()
+    {
+        IsSafe safe = null;
+        if (agentAI.HasBelief(new IsSafe(), out BeliefAI _safe)) safe = (IsSafe)_safe;
+        return safe;
+    }
+
+    protected IsInDanger GetIsInDanger()
+    {
+        IsInDanger danger = null;
+        if (agentAI.HasBelief(_belief: new IsInDanger(), out BeliefAI _danger)) danger = (IsInDanger)_danger;
+        return danger;
+    }
+
+    protected CanSeeHideout GetCanSeeHideout()
+    {
+        CanSeeHideout hide = null;
+        if (agentAI.HasBelief(_belief: new CanSeeHideout(), out BeliefAI _hide)) hide = (CanSeeHideout)_hide;
+        return hide;
+    }
 }
 

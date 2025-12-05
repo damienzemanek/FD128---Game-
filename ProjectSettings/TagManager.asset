@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Person
   - Carrot
+  - Hideout
   layers:
   - Default
   - TransparentFX

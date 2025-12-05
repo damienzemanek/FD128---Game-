@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Extensions;
 using RetroArsenal;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 [Serializable]
@@ -46,6 +48,8 @@ public class IsInDanger : BeliefAI
         isInDanger = val;
         if (isInDanger) usable = true;
         else usable = false;
+
+        this.Log($"Set danger {isInDanger}");
     }
 
 
@@ -55,6 +59,32 @@ public class IsInDanger : BeliefAI
         else return null;
     }
 }
+
+[Serializable]
+public class CanSeeHideout : BeliefAI
+{
+    [SerializeField] public bool canSeeHideout = false;
+    [field: SerializeReference] public override ActionAI immediateAction { get; set; }
+
+    public void Set(bool val, Transform _hideoutLoc)
+    {
+        canSeeHideout = val;
+        if (immediateAction is RunToHideout runToHideout)
+            runToHideout.hideoutLoc = _hideoutLoc;
+        if (canSeeHideout) usable = true;
+        else usable = false;
+
+        this.Log($"set hideout {canSeeHideout}");
+    }
+
+
+    public ActionAI GetAction()
+    {
+        if (canSeeHideout) return immediateAction;
+        else return null;
+    }
+}
+
 
 [Serializable]
 public class IsDead : BeliefAI

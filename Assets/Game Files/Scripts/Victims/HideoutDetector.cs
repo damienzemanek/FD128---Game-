@@ -1,22 +1,21 @@
+using System.Collections;
+using System.Collections.Generic;
 using Extensions;
 using UnityEngine;
 
-public class DangerDetection : DetectorAI
+public class HideoutDetector : DetectorAI
 {
     private void OnTriggerStay(Collider other)
     {
         if (!IsCollidedWithPlayer(other)) return;
 
-        GetIsSafe()?.Set(false);
-        GetIsInDanger()?.Set(true);
+        GetCanSeeHideout()?.Set(val: true, other.transform);
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (!IsCollidedWithPlayer(other)) return;
 
-        GetIsSafe()?.Set(true);
-        GetIsInDanger()?.Set(false);
         GetCanSeeHideout()?.Set(false, null);
     }
 }

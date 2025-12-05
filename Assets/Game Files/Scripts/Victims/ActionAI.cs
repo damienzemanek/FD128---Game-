@@ -68,6 +68,25 @@ public class RunAway : ActionAI
 }
 
 [Serializable]
+public class RunToHideout : ActionAI
+{
+    public string animName;
+    [ReadOnly] public Transform hideoutLoc;
+    public Animatable anims;
+
+
+    [Button]
+    public override void ExecuteImplement()
+    {
+        agent.isStopped = false;
+        agent.SetDestination(hideoutLoc.position);
+        anims.Animate(animName);
+    }
+
+
+}
+
+[Serializable]
 public class MoveToObject : ActionAI
 {
     [SerializeField, ReadOnly] Transform loc;
