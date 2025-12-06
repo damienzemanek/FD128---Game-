@@ -8,13 +8,67 @@ using TMPro;
 
 namespace Extensions
 {
+
     [Serializable]
     public struct FadeSettings
     {
-        public Graphic graphic;
+        public UnityEngine.Object targ;
         public float step;
         public float delay;
         public float delayToStartFading;
+
+        public GameObject GetGO()
+        {
+            switch (targ)
+            {
+                case GameObject go: return go;
+                case UnityEngine.Component c: return c.gameObject; 
+                default: return null;
+            }
+        }
+
+        public void SetColor(Color c)
+        {
+            switch (targ)
+            {
+                case Graphic g: g.color = c; break;
+                case Material m: m.color = c; break;
+                case Renderer r: r.material.color = c; break;
+            }
+        }
+
+        public Color GetColor()
+        {
+            switch (targ)
+            {
+                case Graphic g:  return g.color;
+                case Material m: return m.color;
+                case Renderer r: return r.material.color;
+            }
+            return Color.red;
+        }
+
+        public void SetAlpha(float val)
+        {
+            switch(targ)
+            {
+                case Graphic g:
+                    Color gc = g.color;
+                    gc.a = val;
+                    g.color = gc;
+                    break;
+                case Material m:
+                    Color mc = m.color;
+                    mc.a = val;
+                    m.color = mc;
+                    break;
+                case Renderer r:
+                    Color rc = r.material.color;
+                    rc.a = val;
+                    r.material.color = rc;
+                    break;
+            }
+        }
     }
 
     public static class FadeEX
@@ -27,11 +81,11 @@ namespace Extensions
 
         public static void ResetFade(FadeSettings fade, bool _active)
         {
-            Color color = fade.graphic.color;
+            Color color = fade.GetColor();
             color.a = 1f;
-            fade.graphic.color = color;
+            fade.GetColor();
 
-            fade.graphic.gameObject.SetActive(_active);
+            fade.GetGO()?.gameObject.SetActive(_active);
         }
 
         public static IEnumerator C_FadeToTransparent(FadeSettings fade, Action postHook = null)
@@ -39,23 +93,23 @@ namespace Extensions
             if (fade.delayToStartFading > 0)
                 yield return new WaitForSeconds(fade.delayToStartFading);
 
-            fade.graphic.gameObject.SetActive(true);
+            fade.GetGO()?.gameObject.SetActive(true);
 
             float fadeVal = 1f;
-            Color currentColor = fade.graphic.color;
+            Color currentColor = fade.GetColor();
 
             while (fadeVal > 0)
             {
                 fadeVal -= fade.step;
                 currentColor.a = fadeVal;
 
-                fade.graphic.color = currentColor;
+                fade.SetColor(currentColor);
                 yield return new WaitForSeconds(fade.delay);
             }
 
             currentColor.a = 0;
 
-            fade.graphic.color = currentColor;
+            fade.SetColor(currentColor);
 
             postHook?.Invoke();
         }
@@ -66,22 +120,22 @@ namespace Extensions
                 yield return new WaitForSeconds(fade.delayToStartFading);
 
 
-            fade.graphic.gameObject.SetActive(true);
+            fade.GetGO()?.gameObject.SetActive(true);
 
             float fadeVal = 0;
-            Color currentColor = fade.graphic.color;
+            Color currentColor = fade.GetColor();
 
             while (fadeVal < 1)
             {
                 fadeVal += fade.step;
                 currentColor.a = fadeVal;
 
-                fade.graphic.color = currentColor;
+                fade.SetColor(currentColor);
                 yield return new WaitForSeconds(fade.delay);
             }
 
             currentColor.a = 1;
-            fade.graphic.color = currentColor;
+            fade.SetColor(currentColor);
 
             postHook?.Invoke();
         }

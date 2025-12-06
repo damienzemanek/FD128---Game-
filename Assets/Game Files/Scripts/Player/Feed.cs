@@ -49,7 +49,7 @@ public class Feed : Singleton<Feed>
     {
         currentHeartCount = 0;
         heartCountText.text = "" + currentHeartCount;
-        heartLabelFade.graphic.gameObject.SetActive(false);
+        heartLabelFade.GetGO()?.gameObject.SetActive(false);
 
         goreImEating = null;
         currentFeed = 0f;
