@@ -16,9 +16,9 @@ public class Health : MonoBehaviour, IHittable
     [TitleGroup("Parameters")]
     [SerializeField] int maxHp;
     [field: SerializeField] [field: ReadOnly] public int hp { get; set; }
+    [SerializeField] Vector2 baseSpeedVariation;
     [SerializeField] float speedUpForXSecondsOnHit = 0.8f;
     [SerializeField] float speedIncreaseOnHit = 2f;
-    float baseSpeed;
     [field:SerializeField] public Hittable hittable { get; set; }
     public float lastHitTime { get; set; }
     public bool cannotHit { get; set; }
@@ -46,12 +46,11 @@ public class Health : MonoBehaviour, IHittable
     {
         agent.Ensure(this);
         gorePileRef.SetActive(false);
-        baseSpeed = agent.speed;
     }
 
     private void OnEnable()
     {
-        agent.speed = baseSpeed;
+        agent.speed = baseSpeedVariation.Rand();
         hp = maxHp;
     }
 

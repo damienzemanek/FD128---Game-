@@ -402,6 +402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 2
   <hp>k__BackingField: 0
+  baseSpeedVariation: {x: 6, y: 7.6}
   speedUpForXSecondsOnHit: 0.6
   speedIncreaseOnHit: 40
   <hittable>k__BackingField:
@@ -448,6 +449,8 @@ MonoBehaviour:
   agent: {fileID: 7840918863017091985}
   anims:
     animator: {fileID: 444364023379787951}
+    deviateSpeed: 1
+    deviation: {x: 0.6, y: 1.4}
   hitAnimName: hit
   deathAnimName: die
 --- !u!114 &9066761966737730028
@@ -523,6 +526,8 @@ MonoBehaviour:
         animName: idle
         anims:
           animator: {fileID: 444364023379787951}
+          deviateSpeed: 0
+          deviation: {x: 0, y: 0}
     - rid: 1805014706797412355
       type: {class: RunAway, ns: , asm: Assembly-CSharp}
       data:
@@ -534,6 +539,8 @@ MonoBehaviour:
         dist: 20
         anims:
           animator: {fileID: 444364023379787951}
+          deviateSpeed: 1
+          deviation: {x: 0.7, y: 1.4}
     - rid: 1805014706797412356
       type: {class: IsDead, ns: , asm: Assembly-CSharp}
       data:
@@ -569,6 +576,8 @@ MonoBehaviour:
         hideoutLoc: {fileID: 0}
         anims:
           animator: {fileID: 444364023379787951}
+          deviateSpeed: 1
+          deviation: {x: 0.7, y: 1.4}
 --- !u!114 &1539004459943510042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2540,6 +2549,10 @@ PrefabInstance:
     - target: {fileID: 3419570859391484882, guid: 680613283731ca448a993864a36d2d88, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089122921249259258, guid: 680613283731ca448a993864a36d2d88, type: 3}
+      propertyPath: m_VersionIndex
+      value: 4255
       objectReference: {fileID: 0}
     - target: {fileID: 7958428471526091872, guid: 680613283731ca448a993864a36d2d88, type: 3}
       propertyPath: m_Name

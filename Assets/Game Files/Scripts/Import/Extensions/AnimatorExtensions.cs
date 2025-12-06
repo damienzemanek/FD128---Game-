@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ namespace Extensions
         public struct Animatable
         {
             [SerializeField] public Animator animator;
+            [SerializeField] public bool deviateSpeed;
+            [ShowIf("deviateSpeed")] public Vector2 deviation;
 
             public void Animate(string _animName, MonoBehaviour host = null, Action postHook = null, int layer = 0)
             {
@@ -22,6 +25,11 @@ namespace Extensions
                     animator.PlayWithHook(_animName, host, postHook, layer);
                 else
                     animator.Play(_animName, layer);
+
+                if (deviateSpeed)
+                {
+                    animator.speed = deviation.Rand();
+                }
             }
         }
 
