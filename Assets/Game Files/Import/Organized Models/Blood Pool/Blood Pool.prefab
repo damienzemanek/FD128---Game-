@@ -943,6 +943,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3419570859391484882}
+  - component: {fileID: 2205818271584177324}
   m_Layer: 0
   m_Name: Blood Pool
   m_TagString: Untagged
@@ -966,3 +967,26 @@ Transform:
   - {fileID: 7635526360586557498}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2205818271584177324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7958428471526091872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9cc1c1453abf8a4997ff82a9fc52311, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConstantRotateModule:
+    active: 0
+    rotation: {x: 0, y: 0, z: 0}
+    transform: {fileID: 0}
+  RandomRotationModule:
+    active: 1
+    x: 0
+    y: 1
+    z: 0
+    transform: {fileID: 3419570859391484882}
+    rotateOnSpawn: 1
