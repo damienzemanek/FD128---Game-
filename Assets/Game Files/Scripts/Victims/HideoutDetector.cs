@@ -7,15 +7,27 @@ public class HideoutDetector : DetectorAI
 {
     private void OnTriggerStay(Collider other)
     {
-        if (!IsCollidedWithPlayer(other)) return;
+        if (!other.TagIs("Hideout")) return;
 
-        GetCanSeeHideout()?.Set(val: true, other.transform);
+        if(GetIsInDanger().isInDanger)
+        {
+            HideLocation hideout = GetHideLocation(other);
+
+            if(!hideout.inUse && !hideout.destroyed)
+                GetCanSeeHideout()?.Set(val: true, other.transform);
+            else
+                OnTriggerExit(other);
+        }
+        else
+            OnTriggerExit(other);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!IsCollidedWithPlayer(other)) return;
+        if (!other.TagIs("Hideout")) return;
 
         GetCanSeeHideout()?.Set(false, null);
     }
+
+    HideLocation GetHideLocation(Collider other) => other.OptionalGet<HideLocation>();
 }

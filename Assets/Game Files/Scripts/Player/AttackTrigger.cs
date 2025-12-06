@@ -8,10 +8,11 @@ public class AttackTrigger : MonoBehaviour
     PlayerDataHolder player;
     [SerializeField] public Attack attack;
     [SerializeField] bool _attacking;
-    [SerializeField] bool onHitCooldown;
+    [SerializeField] bool _onHitCooldown;
     [SerializeField] float hitCooldown = 1f;
 
     public bool attacking { get => _attacking; set => _attacking = value; }
+    public bool onHitCooldown { get => _onHitCooldown; set => _onHitCooldown = value; }
 
     private void Awake()
     {
@@ -34,5 +35,7 @@ public class AttackTrigger : MonoBehaviour
         this.StopAllCoroutines();
         this.DelayedCall(() => onHitCooldown = false, hitCooldown);
     }
+
+    public bool IsAttacking() => (attacking) && (!onHitCooldown);
 
 }

@@ -1,19 +1,21 @@
 using Extensions;
 using UnityEngine;
+using Extensions;
+using static Extensions.ColliderExtensions;
 
 public class DangerDetection : DetectorAI
 {
     private void OnTriggerStay(Collider other)
     {
-        if (!IsCollidedWithPlayer(other)) return;
-
+        if (!other.TagIs("Player")) return;
+        print("a");
         GetIsSafe()?.Set(false);
         GetIsInDanger()?.Set(true);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (!IsCollidedWithPlayer(other)) return;
+        if (!other.TagIs("Player")) return;
 
         GetIsSafe()?.Set(true);
         GetIsInDanger()?.Set(false);

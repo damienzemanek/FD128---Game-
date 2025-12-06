@@ -11,7 +11,7 @@ public abstract class DetectorAI : MonoBehaviour
     {
         agentAI.Ensure(this);
     }
-    protected bool IsCollidedWithPlayer(Collider other) => (other.tag == "Player");
+    protected virtual bool CheckTag(Collider other, string tag) => (other.tag == tag);
 
     protected IsSafe GetIsSafe()
     {
