@@ -9,8 +9,13 @@ public static class Entity
 {
     public static void Hit(this IHittable h, int _amount)
     {
+        if (h.cannotHit) return;
         if (h.hittable.Hit(h)) h.hp -= _amount;
-        if (h.hp <= 0) h.OnDie();
+        if (h.hp <= 0)
+        {
+            h.OnDie();
+            h.cannotHit = true;
+        }
     }
 
     [Serializable]
@@ -29,7 +34,6 @@ public static class Entity
         }
 
 
-
         bool IsInvunrable(IHittable h)
         {
             return Time.time < h.lastHitTime + invunrabilityTime;
@@ -39,6 +43,7 @@ public static class Entity
 public interface IHittable
 {
     public int hp { get; set; }
+    public bool cannotHit { get; set; } 
     public float lastHitTime { get; set; }
     public Hittable hittable { get; set; }
 

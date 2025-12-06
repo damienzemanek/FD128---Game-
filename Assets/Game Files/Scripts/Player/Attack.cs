@@ -58,15 +58,15 @@ public class Attack : MonoBehaviour
         this.Log("attack");
         EnableAttacking();
 
-        if(onRightHand) anims.Animate(rightAttackName, this, DisableAttacking);
-        else            anims.Animate(leftAttackName, this, DisableAttacking);
+        if(onRightHand) anims.Animate(rightAttackName, this, DisableAtacking);
+        else            anims.Animate(leftAttackName, this, DisableAtacking);
 
         onRightHand = !onRightHand;
     }
 
     public void EnableAttacking() => attackTrigger.attacking = true;
+    public void DisableAtacking() => attackTrigger.attacking = false;
 
-    public void DisableAttacking() => attackTrigger.attacking = false;
 
     public void EnableBloodyHands()
     {

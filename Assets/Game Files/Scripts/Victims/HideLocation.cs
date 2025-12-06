@@ -18,18 +18,19 @@ public class HideLocation : MonoBehaviour, IHittable
         inUse = false;
     }
 
-    [ReadOnly] public bool destroyed;
-    [ReadOnly] public bool inUse;
-    [ShowInInspector, ReadOnly] GameObject hiddenPerson;
-    [field: ReadOnly] public float lastHitTime { get; set; }
-    public Animatable anims;
-    public string hitAnimName = "hit";
-    public EffectUser destroyEffect;
+    [TabGroup("Readonly")] [ReadOnly] public bool destroyed;
+    [TabGroup("Readonly")][ReadOnly] public bool inUse;
+    [field: TabGroup("Readonly")][field: ShowInInspector][field: ReadOnly] public bool cannotHit { get; set; }
+    [TabGroup("Readonly"), ShowInInspector, ReadOnly] GameObject hiddenPerson;
+    
+    [field: TabGroup("Readonly")][field: ReadOnly] public float lastHitTime { get; set; }
+    [TabGroup("Animation")] public Animatable anims;
+    [TabGroup("Animation")] public string hitAnimName = "hit";
+    [TabGroup("Effects")] public EffectUser destroyEffect;
 
     [SerializeField] GameObject hideoutObj;
     [field:SerializeField] public int hp { get; set; }
     [field: SerializeField] public Hittable hittable { get; set; }
-
 
     private void OnTriggerEnter(Collider other)
     {

@@ -11,10 +11,11 @@ namespace Extensions
 
         #endregion
 
-        public static void DelayedCall(this MonoBehaviour mono, Action method, float delay)
+        public static void DelayedCall(this MonoBehaviour mono, Action method, float delay, bool preStopAllCoroutines = false)
         {
             if(!mono || method == null) return;
             if (!mono.enabled) return;
+            if (preStopAllCoroutines) mono.StopAllCoroutines();
             mono.StartCoroutine(C_CallAfterDelay(method, delay));
         }
 

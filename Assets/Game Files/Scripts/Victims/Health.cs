@@ -8,6 +8,7 @@ using static Extensions.AnimEX;
 using static Extensions.PhysEX;
 using static Effectability;
 using static DelayUtility;
+using static Entity;
 
 
 public class Health : MonoBehaviour, IHittable
@@ -18,9 +19,9 @@ public class Health : MonoBehaviour, IHittable
     [SerializeField] float speedUpForXSecondsOnHit = 0.8f;
     [SerializeField] float speedIncreaseOnHit = 2f;
     float baseSpeed;
-    [field:SerializeField] public Entity.Hittable hittable { get; set; }
+    [field:SerializeField] public Hittable hittable { get; set; }
     public float lastHitTime { get; set; }
-
+    public bool cannotHit { get; set; }
 
     [TitleGroup("Effects")] 
     [SerializeField] EffectUser hitEffect;

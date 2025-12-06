@@ -11,6 +11,8 @@ public class PlayerData : ScriptableObject
 {
     public int initialDmg;
     [ReadOnly] public int dmg;
+    public float hitCooldown = 0.3f;
+
 
     [TitleGroup("Physics")]
     public float fallDrag;
