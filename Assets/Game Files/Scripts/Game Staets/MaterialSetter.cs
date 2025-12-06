@@ -19,4 +19,9 @@ public struct MaterialSetter
     {
         obj.material = mat;
     }
+
+    public void SetMatToIndex(int indx)
+    {
+        obj.material = mats[indx];
+    }
 }

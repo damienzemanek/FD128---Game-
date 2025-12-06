@@ -19,8 +19,9 @@ public class Attack : MonoBehaviour
 
     [TitleGroup("Refs")] 
     [SerializeField] AttackTrigger attackTrigger;
-    [SerializeField] GameObject bloodyHandLeft;
-    [SerializeField] GameObject bloodyHandRight;
+    [SerializeField] MaterialSetter leftHandMats;
+    [SerializeField] MaterialSetter rightHandMats;
+
 
 
     [TitleGroup("Anims")]
@@ -73,21 +74,21 @@ public class Attack : MonoBehaviour
         {
             if (bloodiedRightHand) return;
             bloodiedRightHand = true;
-            bloodyHandRight.SetActive(true);
+            rightHandMats.SetMatToIndex(1);
         }
         else
         {
             if (bloodiedLeftHand) return;
             bloodiedLeftHand = true;
-            bloodyHandLeft.SetActive(true);
+            leftHandMats.SetMatToIndex(1);
         }
     }
     public void DisableBloodyHands()
     {
         bloodiedLeftHand = false;
         bloodiedRightHand = false;
-        bloodyHandRight.SetActive(false);
-        bloodyHandLeft.SetActive(false);
+        rightHandMats.SetMatToIndex(0);
+        leftHandMats.SetMatToIndex(0);
     }
 
 }
