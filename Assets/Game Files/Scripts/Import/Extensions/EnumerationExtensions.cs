@@ -92,6 +92,18 @@ namespace Extensions
             return list;
         }
 
+        public static List<GameObject> UnparentAll(this List<GameObject> list)
+        {
+            for (int i = 0; i < list.Count; i++) list[i].transform.parent = null;
+            return list;
+        }
+
+        public static GameObject[] UnparentAll(this GameObject[] list)
+        {
+            for (int i = 0; i < list.Length; i++) list[i].transform.parent = null;
+            return list;
+        }
+
 
 
         #region Methods

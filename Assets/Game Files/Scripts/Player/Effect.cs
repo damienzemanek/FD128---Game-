@@ -41,7 +41,7 @@ public class IncreaseDmg : Effect
 {
     PlayerDataHolder player;
      float dmg;
-    [SerializeField] public float increaseAmount;
+    [SerializeField] public int increaseAmount;
 
 
     public override void StartEffect(PlayerDataHolder _player)

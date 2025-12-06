@@ -16,6 +16,7 @@ public static class Entity
     [Serializable]
     public struct Hittable
     {
+        public bool isFleshy;
         public float invunrabilityTime;
 
         public bool Hit(IHittable h)

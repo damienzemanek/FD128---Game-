@@ -9,8 +9,8 @@ using static Extensions.PhysEX;
 [CreateAssetMenu(fileName = "New Player Data", menuName = "ScriptableObjects/Player Data")]
 public class PlayerData : ScriptableObject
 {
-    public float initialDmg;
-    [ReadOnly] public float dmg;
+    public int initialDmg;
+    [ReadOnly] public int dmg;
 
     [TitleGroup("Physics")]
     public float fallDrag;

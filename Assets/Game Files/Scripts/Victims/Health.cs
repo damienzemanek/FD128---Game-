@@ -5,21 +5,29 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
 using static Extensions.AnimEX;
+using static Extensions.PhysEX;
+using static Effectability;
+using static DelayUtility;
 
-public class Health : MonoBehaviour
+
+public class Health : MonoBehaviour, IHittable
 {
     [TitleGroup("Parameters")]
-    [SerializeField] float maxHp;
-    [SerializeField, ReadOnly] float currentHp;
-
-    [TitleGroup("Parameters")]
+    [SerializeField] int maxHp;
+    [field: SerializeField] [field: ReadOnly] public int hp { get; set; }
     [SerializeField] float speedUpForXSecondsOnHit = 0.8f;
     [SerializeField] float speedIncreaseOnHit = 2f;
+    float baseSpeed;
+    [field:SerializeField] public Entity.Hittable hittable { get; set; }
+    public float lastHitTime { get; set; }
 
 
     [TitleGroup("Effects")] 
     [SerializeField] EffectUser hitEffect;
     [SerializeField] EffectUser dieEffect;
+    [SerializeField] EffectObjectRagdoll deathObjectsEffect;
+    [SerializeField] Explode explosion;
+
 
     [TitleGroup("Refs")]
     [SerializeField] GameObject bodyRef;
@@ -37,42 +45,13 @@ public class Health : MonoBehaviour
     {
         agent.Ensure(this);
         gorePileRef.SetActive(false);
+        baseSpeed = agent.speed;
     }
 
     private void OnEnable()
     {
-        currentHp = maxHp;
-    }
-
-    public void TakeDmg(float amount)
-    {
-        this.Log("Ive been hit");
-        currentHp -= amount;
-
-        if (IsDead()) Die();
-        else Hit();
-    }
-
-    void Hit()
-    {
-        hitEffect.UseEffect(this);
-        anims.Animate(hitAnimName, layer: 1);
-        StartCoroutine(SpeedUpForATime());
-    }
-
-    bool IsDead()
-    {
-        if (currentHp <= 0) return true;
-        return false;
-    }
-
-    void Die()
-    {
-        StopAllCoroutines();
-        deadDetector.Die();
-        anims.Animate(deathAnimName, this, GorePileSelf);
-        dieEffect.UseEffect(this);
-        looker.looking = false;
+        agent.speed = baseSpeed;
+        hp = maxHp;
     }
 
     void GorePileSelf()
@@ -81,6 +60,11 @@ public class Health : MonoBehaviour
         gorePileRef.SetActive(true);
         gorePileRef.transform.SetParent(null);
         gameObject.SetActive(false);
+
+        dieEffect.UseEffect();
+        deathObjectsEffect.UseEffect();
+
+        explosion.Blast();
     }
 
 
@@ -89,5 +73,21 @@ public class Health : MonoBehaviour
         agent.speed += speedIncreaseOnHit;
         yield return new WaitForSeconds(speedUpForXSecondsOnHit);
         agent.speed -= speedIncreaseOnHit;
+    }
+
+    public void OnHit()
+    {
+        hitEffect.UseEffect();
+        anims.Animate(hitAnimName, layer: 1);
+        StartCoroutine(SpeedUpForATime());
+    }
+
+    [Button]
+    public void OnDie()
+    {
+        StopAllCoroutines();
+        deadDetector.Die();
+        anims.Animate(deathAnimName, this, GorePileSelf);
+        looker.looking = false;
     }
 }

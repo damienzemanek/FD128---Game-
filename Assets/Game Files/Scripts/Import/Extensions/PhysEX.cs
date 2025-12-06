@@ -42,7 +42,35 @@ namespace Extensions
             public ForceMode forceMode;
         }
 
+        [Serializable]
+        public struct Explode
+        {
+            public Rigidbody[] rbs;
+            public float strength;
+            public float radius;
+            public bool individualOrigin;
+            bool notIndividualOrigin { get => !individualOrigin; }
+            [ShowIf("individualOrigin")] public Transform origin;
+            [ShowIf("notIndividualOrigin")] public Transform[] origins;
 
+            public ForceMode forceMode;
+        }
+
+        public static void Blast(this Explode explode)
+        {
+            Transform origin = null;
+
+            for (int i = 0; i < explode.rbs.Length; i++)
+            {
+                Rigidbody rb = explode.rbs[i];
+                if (explode.individualOrigin) origin = explode.origin;
+                else origin = explode.origins.Rand();
+
+                rb.AddExplosionForce(explode.strength, origin.position, explode.radius);
+            }
+            origin.Log("Exploding");
+            
+        }
 
 
         public static bool IsGrounded(this Transform transform, GroundedSettings ground)

@@ -4,6 +4,9 @@ using UnityEngine;
 using Extensions;
 using static Extensions.ColliderExtensions;
 using static Entity;
+using static Extensions.AnimEX;
+using static Extensions.NavEX;
+using static Effectability;
 using Sirenix.OdinInspector;
 
 public class HideLocation : MonoBehaviour, IHittable
@@ -19,22 +22,18 @@ public class HideLocation : MonoBehaviour, IHittable
     [ReadOnly] public bool inUse;
     [ShowInInspector, ReadOnly] GameObject hiddenPerson;
     [field: ReadOnly] public float lastHitTime { get; set; }
-
-
+    public Animatable anims;
+    public string hitAnimName = "hit";
+    public EffectUser destroyEffect;
 
     [SerializeField] GameObject hideoutObj;
     [field:SerializeField] public int hp { get; set; }
     [field: SerializeField] public Hittable hittable { get; set; }
 
-    
+
     private void OnTriggerEnter(Collider other)
     {
         CheckForPerson(other);
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        CheckForAttacked(other);
     }
 
     void CheckForPerson(Collider other)
@@ -43,13 +42,6 @@ public class HideLocation : MonoBehaviour, IHittable
         if (inUse) return;
         if (destroyed) return;
         Hide(other.gameObject);
-    }
-
-    void CheckForAttacked(Collider other)
-    {
-        if (!other.TagIs("AttackTrigger")) return;
-        if (other.Get<AttackTrigger>().IsAttacking())
-            this.Hit(1);
     }
 
     void Hide(GameObject person)
@@ -61,6 +53,7 @@ public class HideLocation : MonoBehaviour, IHittable
 
     public void OnHit()
     {
+        anims.Animate(hitAnimName);
         this.Log("Hideout hit");
     }
 
@@ -70,5 +63,13 @@ public class HideLocation : MonoBehaviour, IHittable
         destroyed = true;
         hiddenPerson.SetActive(true);
         hideoutObj.SetActive(false);
+        destroyEffect.UseEffect();
+
+        float myX = GetComponentInParent<Transform>().position.x;
+        float myY = GetComponentInParent<Transform>().position.y;
+        float personZ = hiddenPerson.transform.position.z;
+        Vector3 pos = new Vector3(myX, myY, personZ);
+
+        Teleport(pos, hiddenPerson, out bool TPing);
     }
 }

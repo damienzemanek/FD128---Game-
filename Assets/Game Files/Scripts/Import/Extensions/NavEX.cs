@@ -28,5 +28,26 @@ namespace Extensions
             teleporting = false;
         }
 
+        public static void Teleport(Vector3 tpLoc, GameObject objToTeleport, out bool teleporting)
+        {
+            teleporting = true; if (!objToTeleport) return;
+
+            bool foundTpLocOnNavMesh = NavMeshUtility.NearestLocOnNavMesh(tpLoc, 5f, out Vector3 tpLocOnNavMesh);
+            if (objToTeleport.gameObject.TryGetComponent<NavMeshAgent>(out NavMeshAgent agent))
+            {
+                if (foundTpLocOnNavMesh) agent.Warp(tpLocOnNavMesh);
+                else
+                {
+                    agent.enabled = false;
+                    objToTeleport.transform.position = tpLoc;
+                    agent.enabled = true;
+                }
+            }
+            else
+                objToTeleport.transform.position = foundTpLocOnNavMesh ? tpLocOnNavMesh : tpLoc;
+
+            teleporting = false;
+        }
+
     }
 }

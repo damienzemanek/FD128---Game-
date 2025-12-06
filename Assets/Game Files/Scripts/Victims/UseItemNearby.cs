@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using static Effectability;
 
 public class UseItemNearby : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class UseItemNearby : MonoBehaviour
         inCollision = true;
         cached = other;
         animator.SetBool(boolName, true);
-        if (item.Use()) loveEffect.UseEffect(this);
+        if (item.Use()) loveEffect.UseEffect();
     }
 
     private void OnTriggerExit(Collider other)

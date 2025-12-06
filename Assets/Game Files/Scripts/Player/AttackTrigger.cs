@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Extensions;
 using UnityEngine;
+using Extensions;
+using static Entity;
 
 public class AttackTrigger : MonoBehaviour
 {
@@ -23,13 +25,11 @@ public class AttackTrigger : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.tag != "Person") return;
-        if (!other.Has(out Health hp)) return;
-        if (!attacking) return;
-        if (onHitCooldown) return;
+        if (!other.TryGetComponent(out IHittable h)) return;
+        if (!IsAttacking()) return;
 
-        hp.TakeDmg(amount: player.data.dmg);
-        attack.EnableBloodyHands();
+        h.Hit(player.data.dmg);
+        if(h.hittable.isFleshy) attack.EnableBloodyHands();
         onHitCooldown = true;
 
         this.StopAllCoroutines();
