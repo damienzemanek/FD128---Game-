@@ -8,7 +8,6 @@ public class DangerDetection : DetectorAI
     private void OnTriggerStay(Collider other)
     {
         if (!other.TagIs("Player")) return;
-        print("a");
         GetIsSafe()?.Set(false);
         GetIsInDanger()?.Set(true);
     }

@@ -13,12 +13,10 @@ namespace Extensions
         public struct Animatable
         {
             [SerializeField] public Animator animator;
-            [SerializeField] public bool deviateSpeed;
-            [ShowIf("deviateSpeed")] public Vector2 deviation;
+            public Deviatable animSpeed;
 
             public void Animate(string _animName, MonoBehaviour host = null, Action postHook = null, int layer = 0)
             {
-                this.Log($"anim name: {_animName}");
                 if (animator == null) { Debug.LogWarning("Early Return: NO Animator found"); return; }
 
                 if (postHook != null)
@@ -26,10 +24,9 @@ namespace Extensions
                 else
                     animator.Play(_animName, layer);
 
-                if (deviateSpeed)
-                {
-                    animator.speed = deviation.Rand();
-                }
+                if (animSpeed.deviate)
+                    animator.speed = animSpeed.value;
+
             }
         }
 

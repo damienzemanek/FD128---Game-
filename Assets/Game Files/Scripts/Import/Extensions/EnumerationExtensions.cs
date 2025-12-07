@@ -106,6 +106,15 @@ namespace Extensions
         }
 
 
+        public static List<T> AddOnce<T>(this List<T> list, T item)
+        {
+            if (item == null) throw new InvalidOperationException("Trying to add null item to list");
+            if(list.Contains(item)) return list;
+            else list.Add(item);
+            return list;
+        }
+
+
 
         #region Methods
 

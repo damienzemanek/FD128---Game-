@@ -72,5 +72,6 @@ public class HideLocation : MonoBehaviour, IHittable
         Vector3 pos = new Vector3(myX, myY, personZ);
 
         Teleport(pos, hiddenPerson, out bool TPing);
+        hiddenPerson.Get<AgentAI>().ReExecuteCurrent(true);
     }
 }

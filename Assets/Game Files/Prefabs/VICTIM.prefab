@@ -379,8 +379,8 @@ NavMeshAgent:
   m_Speed: 6.55
   m_Acceleration: 25
   avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_AngularSpeed: 325
+  m_StoppingDistance: 0.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -449,8 +449,10 @@ MonoBehaviour:
   agent: {fileID: 7840918863017091985}
   anims:
     animator: {fileID: 444364023379787951}
-    deviateSpeed: 1
-    deviation: {x: 0.6, y: 1.4}
+    animSpeed:
+      deviate: 0
+      _value: 0
+      _valueBetween: {x: 0, y: 0}
   hitAnimName: hit
   deathAnimName: die
 --- !u!114 &9066761966737730028
@@ -500,47 +502,68 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 1805014706797412352
-      type: {class: IsSafe, ns: , asm: Assembly-CSharp}
-      data:
-        usable: 1
-        priority: 1
-        isSafe: 1
-        <immediateAction>k__BackingField:
-          rid: 1805014706797412354
-    - rid: 1805014706797412353
-      type: {class: IsInDanger, ns: , asm: Assembly-CSharp}
-      data:
-        usable: 0
-        priority: 2
-        isInDanger: 0
-        <immediateAction>k__BackingField:
-          rid: 1805014706797412355
-    - rid: 1805014706797412354
-      type: {class: Idle, ns: , asm: Assembly-CSharp}
+    - rid: 1211844496636772352
+      type: {class: Patrol, ns: , asm: Assembly-CSharp}
       data:
         agent: {fileID: 7840918863017091985}
         actionComplete: 0
         repeatedAction: 0
-        inUse: 0
-        animName: idle
+        inUse:
+          _value: 0
+        ai: {fileID: 6898151852086201160}
+        speed:
+          deviate: 1
+          _value: 0
+          _valueBetween: {x: 2, y: 3}
         anims:
           animator: {fileID: 444364023379787951}
-          deviateSpeed: 0
-          deviation: {x: 0, y: 0}
+          animSpeed:
+            deviate: 1
+            _value: 0
+            _valueBetween: {x: 0.8, y: 1.2}
+        patrolMoveAnim: walk
+        currentPoint: 0
+        points:
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+    - rid: 1805014706797412352
+      type: {class: IsSafe, ns: , asm: Assembly-CSharp}
+      data:
+        usable: 1
+        priority: 2
+        isSafe: 1
+        <immediateAction>k__BackingField:
+          rid: 1211844496636772352
+    - rid: 1805014706797412353
+      type: {class: IsInDanger, ns: , asm: Assembly-CSharp}
+      data:
+        usable: 0
+        priority: 3
+        isInDanger: 0
+        <immediateAction>k__BackingField:
+          rid: 1805014706797412355
     - rid: 1805014706797412355
       type: {class: RunAway, ns: , asm: Assembly-CSharp}
       data:
         agent: {fileID: 7840918863017091985}
         actionComplete: 0
         repeatedAction: 1
-        inUse: 0
+        inUse:
+          _value: 0
         animName: run
+        speed:
+          deviate: 1
+          _value: 0
+          _valueBetween: {x: 5, y: 7}
         dist: 20
         anims:
           animator: {fileID: 444364023379787951}
-          deviateSpeed: 1
-          deviation: {x: 0.7, y: 1.4}
+          animSpeed:
+            deviate: 1
+            _value: 0
+            _valueBetween: {x: 0.8, y: 1.9}
+        body: {fileID: 6973648399776891458}
     - rid: 1805014706797412356
       type: {class: IsDead, ns: , asm: Assembly-CSharp}
       data:
@@ -555,13 +578,14 @@ MonoBehaviour:
         agent: {fileID: 7840918863017091985}
         actionComplete: 0
         repeatedAction: 0
-        inUse: 0
+        inUse:
+          _value: 0
         looker: {fileID: 9066761966737730028}
     - rid: 1805014856969748499
       type: {class: CanSeeHideout, ns: , asm: Assembly-CSharp}
       data:
         usable: 0
-        priority: 3
+        priority: 4
         canSeeHideout: 0
         <immediateAction>k__BackingField:
           rid: 1805014856969748500
@@ -570,14 +594,21 @@ MonoBehaviour:
       data:
         agent: {fileID: 7840918863017091985}
         actionComplete: 0
-        repeatedAction: 0
-        inUse: 0
+        repeatedAction: 1
+        inUse:
+          _value: 0
         animName: run
-        hideoutLoc: {fileID: 0}
+        hideoutLocs: []
+        speed:
+          deviate: 1
+          _value: 0
+          _valueBetween: {x: 7, y: 8}
         anims:
           animator: {fileID: 444364023379787951}
-          deviateSpeed: 1
-          deviation: {x: 0.7, y: 1.4}
+          animSpeed:
+            deviate: 1
+            _value: 0
+            _valueBetween: {x: 0.8, y: 1.2}
 --- !u!114 &1539004459943510042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1402,7 +1433,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7648141215821394279}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.061048605, z: 0, w: 0.99813485}
   m_LocalPosition: {x: 0, y: 0.7, z: 0}
   m_LocalScale: {x: 0.71737385, y: 0.71737385, z: 0.71737385}
   m_ConstrainProportionsScale: 0
@@ -1411,7 +1442,7 @@ Transform:
   - {fileID: 56498301846265378}
   - {fileID: 1952798851913503225}
   m_Father: {fileID: 1476328165844357630}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -7, z: 0}
 --- !u!1 &7929827764416659262
 GameObject:
   m_ObjectHideFlags: 0
@@ -2141,7 +2172,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2310485374737335296, guid: 06a4fee94637d504faac4b7801c9a2ed, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2310485374737335296, guid: 06a4fee94637d504faac4b7801c9a2ed, type: 3}
       propertyPath: m_LocalRotation.x
@@ -2149,7 +2180,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2310485374737335296, guid: 06a4fee94637d504faac4b7801c9a2ed, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2310485374737335296, guid: 06a4fee94637d504faac4b7801c9a2ed, type: 3}
       propertyPath: m_LocalRotation.z
@@ -2161,7 +2192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2310485374737335296, guid: 06a4fee94637d504faac4b7801c9a2ed, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2310485374737335296, guid: 06a4fee94637d504faac4b7801c9a2ed, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -2552,7 +2583,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6089122921249259258, guid: 680613283731ca448a993864a36d2d88, type: 3}
       propertyPath: m_VersionIndex
-      value: 4255
+      value: 4291
       objectReference: {fileID: 0}
     - target: {fileID: 7958428471526091872, guid: 680613283731ca448a993864a36d2d88, type: 3}
       propertyPath: m_Name

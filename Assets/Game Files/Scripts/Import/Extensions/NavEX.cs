@@ -2,6 +2,7 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace Extensions
 {
@@ -20,22 +21,40 @@ namespace Extensions
 
         }
 
-        public static Func<bool> Reached(this NavMeshAgent agent, float timeout, float bufer = 0.05f)
+        public static Vector3 RandomNavMeshPoint(this Transform origin, float range, int areaMask = NavMesh.AllAreas)
         {
+            Vector3 randomPos = origin.position + Random.insideUnitSphere * range;
+            NavMeshHit hit;
+
+            if (NavMesh.SamplePosition(randomPos, out hit, range, areaMask))
+                return ToNearestNavmeshPoint(hit.position, 5);
+
+            return origin.position;
+        }
+
+        public static Func<bool> Reached(this NavMeshAgent agent, float timeout, float bufer = 0.1f)
+        {
+            
             //Initial time is taken ONLY during the initial closure
             float startTime = Time.time;
             
             //This is the only thing being called over and over
             return () =>
             {
+                Debug.Log("Attempting to reach");
                 if (Time.time - startTime >= timeout) return true;
                 if (agent.pathPending) return false;
                 if (!agent.hasPath) return false;
 
+
                 bool isCloseEnough = agent.remainingDistance < agent.stoppingDistance;
                 bool isStopped = agent.velocity.sqrMagnitude < 0.02f;
 
-                return (isCloseEnough && isStopped);
+                Debug.Log("close enough : " + isCloseEnough);
+                Debug.Log("is stopped : " + isStopped);
+
+
+                return (isCloseEnough || isStopped);
             };
         }
 

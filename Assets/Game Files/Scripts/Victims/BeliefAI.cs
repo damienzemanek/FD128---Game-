@@ -69,12 +69,33 @@ public class CanSeeHideout : BeliefAI
     public void Set(bool val, Transform _hideoutLoc)
     {
         canSeeHideout = val;
-        if (immediateAction is RunToHideout runToHideout)
-            runToHideout.hideoutLoc = _hideoutLoc;
-        if (canSeeHideout) usable = true;
-        else usable = false;
+        if (canSeeHideout)
+        {
+            usable = true;
+            if (immediateAction is RunToHideout runToHideout)
+                runToHideout.hideoutLocs.AddOnce(_hideoutLoc);
+        }
+        else
+        {
+            usable = false;
+            if (immediateAction is RunToHideout runToHideout)
+                runToHideout.hideoutLocs.Remove(_hideoutLoc);
+        }
+        this.Log(""+canSeeHideout);
+    }
 
-        this.Log($"set hideout {canSeeHideout}");
+    public void RemoveHideout(Transform _hideoutLoc)
+    {
+        if (immediateAction is RunToHideout runToHideout)
+            runToHideout.hideoutLocs.Remove(_hideoutLoc);
+    }
+
+    public bool AllHideoutsUnusable()
+    {
+        if (immediateAction is RunToHideout runToHideout)
+            return runToHideout.hideoutLocs.Count <= 0;
+
+        return true;
     }
 
 

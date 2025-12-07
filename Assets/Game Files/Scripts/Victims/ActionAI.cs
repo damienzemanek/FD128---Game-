@@ -8,34 +8,45 @@ using UnityEngine;
 using UnityEngine.AI;
 using static Extensions.AnimEX;
 using static Extensions.NavEX;
+using static SignalUtility;
+using static Extensions.DelegateEX;
+using static UnityEditor.PlayerSettings;
 
 [Serializable]
 public abstract class ActionAI
 {
-    [SerializeField] public NavMeshAgent agent;
-    [SerializeField] public bool actionComplete;
-    [SerializeField] public bool repeatedAction = false;
-    [SerializeField] public bool inUse;
-    public void Execute()
+    [TabGroup("Action Parameters")][SerializeField] public NavMeshAgent agent;
+    [TabGroup("Action Parameters")][SerializeField] public bool actionComplete;
+    [TabGroup("Action Parameters")][SerializeField] public bool repeatedAction = false;
+    [TabGroup("Action Parameters")][SerializeField] public Reactable<bool> inUse;
+    public void Execute(bool overrideInUse = false)
     {
+        inUse.Sub(NotInUseAnymore);
+
         if (!repeatedAction)
         {
-            if (inUse) return;
-            inUse = true;
+            if (inUse.value && !overrideInUse) return;
+            inUse.value = true;
         }
 
-        this.Log($"Succesfully executing {this.GetType()}");
         ExecuteImplement();
     }
 
     public abstract void ExecuteImplement();
+    public void NotInUseAnymore(bool val)
+    {
+        if (val == true) return;
+        NotInUseAnymoreImplement();
+    }
+
+    public virtual void NotInUseAnymoreImplement() { }
 }
 
 [Serializable]
 public class Idle : ActionAI
 {
-    public string animName;
-    public Animatable anims;
+    [TabGroup("Idle")] public string animName;
+    [TabGroup("Idle")] public Animatable anims;
     public override void ExecuteImplement()
     {
         agent.isStopped = true;
@@ -49,30 +60,29 @@ public class Idle : ActionAI
 [Serializable]
 public class Patrol : ActionAI
 {
-    public AgentAI ai;
-    public Transform body;
-    public Deviatable speed;
-    [ReadOnly] public ConstantLookAt constantLookAt;
-    public bool flipY = false;
-    public Animatable anims;
-    public string patrolMoveAnim;
+    [TabGroup("Patrol")] public AgentAI ai;
+    [TabGroup("Patrol")] public Deviatable speed;
+    [TabGroup("Patrol")] public Animatable anims;
+    [TabGroup("Patrol")] public string patrolMoveAnim;
 
-    public int currentPoint;
-    public Transform[] points;
+    [TabGroup("Patrol")] public int currentPoint;
+    [TabGroup("Patrol")] public bool randomPoints;
+    [TabGroup("Patrol"), ShowIf("randomPoints")] public float randomPointRange;
+    [TabGroup("Patrol"), ShowIf("@!randomPoints")] public Transform[] points;
     public override void ExecuteImplement()
     {
         if (HasError()) { this.Error("Patrol has invalid setup"); return; }
 
-        if(agent.Has(out constantLookAt)) constantLookAt.looking = false;
-        if (flipY) body.rotation = body.rotation.WithEuler(y: 0);
+        if(agent.Has(out ConstantLookAt c)) c.looking = false;
+        anims.animator.transform.SetLocalEuler(y: 0);
         agent.isStopped = false;
         anims.Animate(patrolMoveAnim);
-        ai.StartCoroutine(MoveToPoint(currentPoint));
+        ai.StartCoroutine(routine: MoveToPoint(currentPoint));
     }
 
     IEnumerator MoveToPoint(int indx)
     {
-        Vector3 pos = points[indx].position.ToNearestNavmeshPoint(5);
+        Vector3 pos = GetPoint(indx);
 
         agent.speed = speed.value;
         agent.SetDestination(pos);
@@ -83,7 +93,15 @@ public class Patrol : ActionAI
             currentPoint = 0;
 
         if (ai.currentAction.GetType() == this.GetType())
-            ExecuteImplement();
+            ai.StartCoroutine(routine: MoveToPoint(currentPoint));
+    }
+
+    Vector3 GetPoint(int indx)
+    {
+        if (!randomPoints)
+            return points[indx].position.ToNearestNavmeshPoint(5);
+        else
+            return agent.transform.RandomNavMeshPoint(randomPointRange);
     }
 
     bool HasError()
@@ -99,20 +117,22 @@ public class Patrol : ActionAI
 [Serializable]
 public class RunAway : ActionAI
 {
-    public string animName;
-    [SerializeField] Vector2 speed;
-    [SerializeField] float dist;
-    public Animatable anims;
+    [TabGroup("Run Away")] public string animName;
+    [TabGroup("Run Away")][SerializeField] Deviatable speed;
+    [TabGroup("Run Away")][SerializeField] float dist;
+    [TabGroup("Run Away")] public Animatable anims;
 
 
-    [Button]
     public override void ExecuteImplement()
     {
 
         Vector3 newLoc = agent.transform.position + (-agent.transform.forward * dist);
 
+        if (agent.Has(out ConstantLookAt c)) c.looking = true;
+
+        anims.animator.transform.SetLocalEuler(y: 180);
         agent.isStopped = false;
-        agent.speed = speed.Rand();
+        agent.speed = speed.value;
         agent.SetDestination(newLoc);
         anims.Animate(animName);
     }
@@ -123,18 +143,20 @@ public class RunAway : ActionAI
 [Serializable]
 public class RunToHideout : ActionAI
 {
-    public string animName;
-    [ReadOnly] public Transform hideoutLoc;
-    [SerializeField] Vector2 speed;
-    public Animatable anims;
-
+    [TabGroup("Run To Hideout")] public string animName;
+    [TabGroup("Run To Hideout")][ReadOnly] public List<Transform> hideoutLocs;
+    [TabGroup("Run To Hideout")][SerializeField] Deviatable speed;
+    [TabGroup("Run To Hideout")] public Animatable anims;
 
     [Button]
     public override void ExecuteImplement()
     {
         agent.isStopped = false;
-        agent.speed = speed.Rand();
-        agent.SetDestination(hideoutLoc.position);
+        agent.speed = speed.value;
+        if (agent.Has(out ConstantLookAt c)) c.looking = false;
+        anims.animator.transform.SetLocalEuler(y: 0);
+        if (hideoutLocs.Count > 0)
+            agent.SetDestination(agent.transform.GetClosest(hideoutLocs).position);
         anims.Animate(animName);
     }
 
@@ -144,12 +166,11 @@ public class RunToHideout : ActionAI
 [Serializable]
 public class MoveToObject : ActionAI
 {
-    [SerializeField, ReadOnly] Transform loc;
-    [SerializeField] float closeRange = 1f;
-    [SerializeField] float rotSpeed = 10f;
-    [ShowInInspector, ReadOnly] bool toClose;
+    [TabGroup("Move to Object")][SerializeField, ReadOnly] Transform loc;
+    [TabGroup("Move to Object")][SerializeField] float closeRange = 1f;
+    [TabGroup("Move to Object")][SerializeField] float rotSpeed = 10f;
+    [TabGroup("Move to Object")][ShowInInspector, ReadOnly] bool toClose;
  
-    [Button]
     public override void ExecuteImplement()
     {
         if (!loc) return;
@@ -201,7 +222,7 @@ public class MoveToObject : ActionAI
 [Serializable]
 public class Die : ActionAI
 {
-    [SerializeField] ConstantLookAt looker;
+    [TabGroup("Die")][SerializeField] ConstantLookAt looker;
     public override void ExecuteImplement()
     {
         looker.looking = false;

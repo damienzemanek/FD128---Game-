@@ -8,11 +8,8 @@ using UnityEngine;
 [Serializable]
 public struct Deviatable
 {
-    [FoldoutGroup("$property.NiceName")]
     public bool deviate;
-    [FoldoutGroup("$property.NiceName")]
     [SerializeField, ShowIf("@!deviate")] float _value;
-    [FoldoutGroup("$property.NiceName")]
     [SerializeField, ShowIf("deviate")] Vector2 _valueBetween;
 
     public float value

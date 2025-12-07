@@ -1026,8 +1026,10 @@ MonoBehaviour:
   inUse: 0
   anims:
     animator: {fileID: 1618787600}
-    deviateSpeed: 0
-    deviation: {x: 0, y: 0}
+    animSpeed:
+      deviate: 0
+      _value: 0
+      _valueBetween: {x: 0, y: 0}
   hitAnimName: hit
   destroyEffect:
     effect: {fileID: 1168306489}
@@ -1108,16 +1110,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 816337509}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &896495294 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6973648399776891458, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-  m_PrefabInstance: {fileID: 1089225362}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &896495295 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 444364023379787951, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-  m_PrefabInstance: {fileID: 1089225362}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &901317912
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,22 +1143,6 @@ Transform:
   - {fileID: 8590380814854977763}
   m_Father: {fileID: 1618787601}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &925455469 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-  m_PrefabInstance: {fileID: 1089225362}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11e1ef92f1d71894cb435b2529a8bc60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!195 &925455472 stripped
-NavMeshAgent:
-  m_CorrespondingSourceObject: {fileID: 7840918863017091985, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-  m_PrefabInstance: {fileID: 1089225362}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1085296371
 GameObject:
   m_ObjectHideFlags: 0
@@ -1213,7 +1189,7 @@ PrefabInstance:
       objectReference: {fileID: 1774879281}
     - target: {fileID: 1043455545857154034, guid: c0c296374089e2543a763ec0ee471990, type: 3}
       propertyPath: m_VersionIndex
-      value: 4264
+      value: 4300
       objectReference: {fileID: 0}
     - target: {fileID: 1476328165844357630, guid: c0c296374089e2543a763ec0ee471990, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1260,80 +1236,12 @@ PrefabInstance:
       value: VICTIM
       objectReference: {fileID: 0}
     - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1211844496636772352]
-      value: Assembly-CSharp Patrol
-      objectReference: {fileID: 0}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1211844496636772352].ai
-      value: 
-      objectReference: {fileID: 925455469}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1211844496636772352].body
-      value: 
-      objectReference: {fileID: 896495294}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1211844496636772352].agent
-      value: 
-      objectReference: {fileID: 925455472}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1211844496636772352].flipY
+      propertyPath: managedReferences[1211844496636772352].randomPoints
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1211844496636772352].inUse
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1805014706797412352].priority
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1805014706797412353].priority
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1805014856969748499].priority
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1211844496636772352].currentPoint
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1211844496636772352].actionComplete
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1211844496636772352].anims.animator
-      value: 
-      objectReference: {fileID: 896495295}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1211844496636772352].constantLookAt
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1211844496636772352].patrolMoveAnim
-      value: walk
-      objectReference: {fileID: 0}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1211844496636772352].repeatedAction
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1211844496636772352].anims.deviation.x
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1211844496636772352].anims.deviation.y
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1211844496636772352].points.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1211844496636772352].anims.deviateSpeed
-      value: 1
+      propertyPath: managedReferences[1211844496636772352].randomPointRange
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
       propertyPath: managedReferences[1211844496636772352].points.Array.data[0]
@@ -1347,14 +1255,6 @@ PrefabInstance:
       propertyPath: managedReferences[1211844496636772352].points.Array.data[2]
       value: 
       objectReference: {fileID: 63384766}
-    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: managedReferences[1805014706797412352].<immediateAction>k__BackingField
-      value: 1211844496636772352
-      objectReference: {fileID: 0}
-    - target: {fileID: 7840918863017091985, guid: c0c296374089e2543a763ec0ee471990, type: 3}
-      propertyPath: m_AngularSpeed
-      value: 325
-      objectReference: {fileID: 0}
     - target: {fileID: 8202099758301468638, guid: c0c296374089e2543a763ec0ee471990, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -2045,8 +1945,10 @@ MonoBehaviour:
   inUse: 0
   anims:
     animator: {fileID: 638314328}
-    deviateSpeed: 0
-    deviation: {x: 0, y: 0}
+    animSpeed:
+      deviate: 0
+      _value: 0
+      _valueBetween: {x: 0, y: 0}
   hitAnimName: hit
   destroyEffect:
     effect: {fileID: 1895075187}
