@@ -7,6 +7,8 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using Extensions;
+using static Extensions.AudioEX;
 
 public class GameExperience : MonoBehaviour
 {
@@ -17,6 +19,8 @@ public class GameExperience : MonoBehaviour
     [SerializeReference] public List<Level> levels;
     [SerializeField] SliderRuntime xpSlider;
     [SerializeField] public TextMeshProUGUI levelNumberText;
+    [SerializeField] AudioSource source;
+    [SerializeField] AudioClip levelupSound;
 
     private void Awake()
     {
@@ -82,6 +86,11 @@ public class GameExperience : MonoBehaviour
         saver.gameExpData.currentXP = (int)levels[currentLevel].currentXP;
 
         saver.SaveExp();
+    }
+
+    public void LevelUpPlayer()
+    {
+        source.Play(levelupSound);
     }
 }
 

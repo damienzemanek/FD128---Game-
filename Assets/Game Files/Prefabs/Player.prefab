@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1701992765030608288
 RectTransform:
   m_ObjectHideFlags: 0
@@ -145,7 +145,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 16, y: -2.468}
+  m_AnchoredPosition: {x: 16, y: -127}
   m_SizeDelta: {x: 117.549, y: 104.936}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4773393575395681276
@@ -1204,7 +1204,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 226, y: -2.468}
+  m_AnchoredPosition: {x: 226, y: -111.00002}
   m_SizeDelta: {x: 174.246, y: 126.846}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1482087535673773754
@@ -1472,7 +1472,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -711, y: -491}
+  m_AnchoredPosition: {x: 816, y: 141}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &43441937805395941
@@ -1536,7 +1536,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 2
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -2037,7 +2037,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 592, y: 406}
+  m_AnchoredPosition: {x: 592, y: 492}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5832466778178645942
@@ -2360,7 +2360,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 24.852, y: -159.684}
+  m_AnchoredPosition: {x: 52, y: -235}
   m_SizeDelta: {x: 729.929, y: 139.977}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7834953518734705460
@@ -2980,6 +2980,7 @@ MonoBehaviour:
     checkpointTime: 90
   - hit: 0
     checkpointTime: 120
+  TMP: {fileID: 8610787844132163011}
   currentHearts: 0
 --- !u!1 &8523665275347999424
 GameObject:

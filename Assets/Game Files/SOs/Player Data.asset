@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialDmg: 1
   dmg: 1
+  hitCooldown: 0.2
   fallDrag: 10
   groundedDrag: 10
   jump:
@@ -28,5 +29,5 @@ MonoBehaviour:
     decreaseMultOfSpeed: 0.7
     maxVel: 40
   progressIncrease: 1
-  completeProgressValue: 3
+  completeProgressValue: 5
   experienceGainOnComplete: 3
