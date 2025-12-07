@@ -8,5 +8,6 @@ public class PlayerDataHolder : Singleton<PlayerDataHolder>
 {
     [SerializeField, InlineEditor] PlayerData _data;
 
+    [SerializeField] public int currentLevel;
     public PlayerData data { get => _data; set => _data = value; }
 }

@@ -62,15 +62,16 @@ public class HideLocation : MonoBehaviour, IHittable
     {
         inUse = false;
         destroyed = true;
-        hiddenPerson.SetActive(true);
         hideoutObj.SetActive(false);
         destroyEffect.UseEffect();
 
+        if (hiddenPerson == null) return;
+
+        hiddenPerson.SetActive(true);
         float myX = GetComponentInParent<Transform>().position.x;
         float myY = GetComponentInParent<Transform>().position.y;
         float personZ = hiddenPerson.transform.position.z;
         Vector3 pos = new Vector3(myX, myY, personZ);
-
         Teleport(pos, hiddenPerson, out bool TPing);
         hiddenPerson.Get<AgentAI>().ReExecuteCurrent(true);
     }

@@ -21,6 +21,9 @@ public class DataSaver : DesignPatterns.CreationalPatterns.Singleton<DataSaver>
         public int currentXP;
         public int pendingXP;
         public int unlocks;
+        public int levelsUnlocked;
+        public int[] levelHearts;
+
 
         public GameExpData()
         {
@@ -28,14 +31,22 @@ public class DataSaver : DesignPatterns.CreationalPatterns.Singleton<DataSaver>
             currentXP = 0;
             pendingXP = 0;
             unlocks = 0;
+            levelHearts = new int[4];
         }
     }
+
 
     protected override void Awake()
     {
         base.Awake();
         DontDestroyOnLoad(gameObject);
         LoadExp();
+    }
+
+    public void ResetProgress()
+    {
+        gameExpData = null;
+        SaveExp();
     }
 
     public void SaveExp()

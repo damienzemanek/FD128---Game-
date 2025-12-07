@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using Extensions;
 using static Extensions.FadeEX;
+using UnityEngine.UI;
 
 public class ProgressTracker : Singleton<ProgressTracker>
 {
@@ -13,9 +14,11 @@ public class ProgressTracker : Singleton<ProgressTracker>
     [SerializeField] GameObject completeGameDisplay;
     [SerializeField] EntityMove move;
     [SerializeField] Look look;
+    [SerializeField] HeartsTimer timer;
     [SerializeField] int _currProgress;
     [ShowInInspector, ReadOnly] int completeAmount { get => player ? player.data.completeProgressValue : 0; }
-
+    [SerializeField] public Image[] heartImages;
+    [SerializeField] public Sprite fullHeart;
 
 
     private void Start()
@@ -41,6 +44,20 @@ public class ProgressTracker : Singleton<ProgressTracker>
         Cursor.visible = true;
         completeGameDisplay.SetActive(true);
         saver.gameExpData.pendingXP += player.data.experienceGainOnComplete;
+        if(saver.gameExpData.levelHearts[player.currentLevel] < timer.currentHearts)
+            saver.gameExpData.levelHearts[player.currentLevel] = timer.currentHearts;
+        saver.SaveExp();
+        StartCoroutine(DisplayHearts());
+    }
+
+    IEnumerator DisplayHearts()
+    {
+        for(int i = 0; i < saver.gameExpData.levelHearts[player.currentLevel]; i++)
+        {
+            yield return new WaitForSeconds(0.4f);
+            heartImages[i].sprite = fullHeart;
+            yield return new WaitForSeconds(0.5f);
+        }
     }
 
 }
