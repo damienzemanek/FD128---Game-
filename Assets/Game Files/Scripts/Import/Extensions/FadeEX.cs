@@ -132,6 +132,7 @@ namespace Extensions
             postHook?.Invoke();
         }
 
+
         public static IEnumerator C_FadeToOpaque(FadeSettings fade, Action postHook = null)
         {
             if(fade.delayToStartFading > 0)
