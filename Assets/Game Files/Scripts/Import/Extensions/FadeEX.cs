@@ -31,9 +31,21 @@ namespace Extensions
         {
             switch (targ)
             {
-                case Graphic g: g.color = c; break;
-                case Material m: m.color = c; break;
-                case Renderer r: r.material.color = c; break;
+                case Graphic g:
+                    g.color = c;
+                    break;
+                case Material m:
+                    m.color = c;
+                    break;
+                case Renderer r:
+                    r.material.color = c;
+                    break;
+                case GameObject go:
+                    if (go.TryGetComponent<Graphic>(out var gg))
+                        gg.color = c;
+                    else if (go.TryGetComponent<Renderer>(out var rr))
+                        rr.material.color = c;
+                    break;
             }
         }
 
@@ -41,9 +53,15 @@ namespace Extensions
         {
             switch (targ)
             {
-                case Graphic g:  return g.color;
+                case Graphic g: return g.color;
                 case Material m: return m.color;
                 case Renderer r: return r.material.color;
+                case GameObject go:
+                    if (go.TryGetComponent<Graphic>(out var gg))
+                        return gg.color;
+                    if (go.TryGetComponent<Renderer>(out var rr))
+                        return rr.material.color;
+                    break;
             }
             return Color.red;
         }
