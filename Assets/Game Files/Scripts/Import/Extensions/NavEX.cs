@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -6,6 +7,38 @@ namespace Extensions
 {
     public static class NavEX
     {
+
+        public static Vector3 ToNearestNavmeshPoint(this Vector3 pos, float range, int areaMask = NavMesh.AllAreas)
+        {
+            NavMeshHit hit;
+
+            if (NavMesh.SamplePosition(pos, out hit, range, areaMask)) return hit.position;
+
+            Debug.LogWarning("Did not find nav mesh point to teleport to, TPing to original point given");
+
+            return pos;
+
+        }
+
+        public static Func<bool> Reached(this NavMeshAgent agent, float timeout, float bufer = 0.05f)
+        {
+            //Initial time is taken ONLY during the initial closure
+            float startTime = Time.time;
+            
+            //This is the only thing being called over and over
+            return () =>
+            {
+                if (Time.time - startTime >= timeout) return true;
+                if (agent.pathPending) return false;
+                if (!agent.hasPath) return false;
+
+                bool isCloseEnough = agent.remainingDistance < agent.stoppingDistance;
+                bool isStopped = agent.velocity.sqrMagnitude < 0.02f;
+
+                return (isCloseEnough && isStopped);
+            };
+        }
+
 
         public static void Teleport(Transform tpLoc, GameObject objToTeleport, out bool teleporting)
         {

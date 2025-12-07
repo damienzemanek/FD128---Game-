@@ -7,6 +7,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
 using static Extensions.AnimEX;
+using static Extensions.NavEX;
 
 [Serializable]
 public abstract class ActionAI
@@ -46,9 +47,60 @@ public class Idle : ActionAI
 }
 
 [Serializable]
+public class Patrol : ActionAI
+{
+    public AgentAI ai;
+    public Transform body;
+    public Deviatable speed;
+    [ReadOnly] public ConstantLookAt constantLookAt;
+    public bool flipY = false;
+    public Animatable anims;
+    public string patrolMoveAnim;
+
+    public int currentPoint;
+    public Transform[] points;
+    public override void ExecuteImplement()
+    {
+        if (HasError()) { this.Error("Patrol has invalid setup"); return; }
+
+        if(agent.Has(out constantLookAt)) constantLookAt.looking = false;
+        if (flipY) body.rotation = body.rotation.WithEuler(y: 0);
+        agent.isStopped = false;
+        anims.Animate(patrolMoveAnim);
+        ai.StartCoroutine(MoveToPoint(currentPoint));
+    }
+
+    IEnumerator MoveToPoint(int indx)
+    {
+        Vector3 pos = points[indx].position.ToNearestNavmeshPoint(5);
+
+        agent.speed = speed.value;
+        agent.SetDestination(pos);
+        yield return new WaitUntil(agent.Reached(30));
+        
+        currentPoint++;
+        if (currentPoint >= points.Length)
+            currentPoint = 0;
+
+        if (ai.currentAction.GetType() == this.GetType())
+            ExecuteImplement();
+    }
+
+    bool HasError()
+    {
+        if (agent == null) return true;
+        if (ai == null) return true;
+        if (points == null || points.Length == 0) return true;
+
+        return false;
+    }
+}
+
+[Serializable]
 public class RunAway : ActionAI
 {
     public string animName;
+    [SerializeField] Vector2 speed;
     [SerializeField] float dist;
     public Animatable anims;
 
@@ -60,6 +112,7 @@ public class RunAway : ActionAI
         Vector3 newLoc = agent.transform.position + (-agent.transform.forward * dist);
 
         agent.isStopped = false;
+        agent.speed = speed.Rand();
         agent.SetDestination(newLoc);
         anims.Animate(animName);
     }
@@ -72,6 +125,7 @@ public class RunToHideout : ActionAI
 {
     public string animName;
     [ReadOnly] public Transform hideoutLoc;
+    [SerializeField] Vector2 speed;
     public Animatable anims;
 
 
@@ -79,6 +133,7 @@ public class RunToHideout : ActionAI
     public override void ExecuteImplement()
     {
         agent.isStopped = false;
+        agent.speed = speed.Rand();
         agent.SetDestination(hideoutLoc.position);
         anims.Animate(animName);
     }
