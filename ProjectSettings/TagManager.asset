@@ -6,11 +6,13 @@ TagManager:
   tags:
   - Person
   - Carrot
+  - Hideout
+  - AttackTrigger
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - 

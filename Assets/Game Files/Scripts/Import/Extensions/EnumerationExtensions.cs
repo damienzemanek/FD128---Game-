@@ -8,11 +8,30 @@ namespace Extensions
 {
     public static class EnumerateEX
     {
+        [Serializable]
+        public struct PairStringObj
+        {
+            public string name;
+            public GameObject obj;
+        }
+
+        public static GameObject SetActive(this PairStringObj[] vals, string _name, bool _active)
+        {
+            for(int i = 0; i < vals.Length; i++)
+                if (vals[i].name == _name) return vals[i].obj.SetActiveThen(_active);
+
+            return null;
+        }
+        public static void SetAllActive(this PairStringObj[] vals, bool _active)
+        {
+            for (int i = 0; i < vals.Length; i++) vals[i].obj.SetActive(_active);
+        }
 
         public static float Rand(this Vector2 v)
         {
             return UnityEngine.Random.Range(v.x, v.y);
         }
+
 
         #region Privates
 
@@ -73,6 +92,28 @@ namespace Extensions
             for (int i = 0; i < list.Length; i++) list[i].SetActive(val);
             return list;
         }
+
+        public static List<GameObject> UnparentAll(this List<GameObject> list)
+        {
+            for (int i = 0; i < list.Count; i++) list[i].transform.parent = null;
+            return list;
+        }
+
+        public static GameObject[] UnparentAll(this GameObject[] list)
+        {
+            for (int i = 0; i < list.Length; i++) list[i].transform.parent = null;
+            return list;
+        }
+
+
+        public static List<T> AddOnce<T>(this List<T> list, T item)
+        {
+            if (item == null) throw new InvalidOperationException("Trying to add null item to list");
+            if(list.Contains(item)) return list;
+            else list.Add(item);
+            return list;
+        }
+
 
 
         #region Methods

@@ -22,13 +22,17 @@ public class AgentAI : MonoBehaviour
     {
         currentAction = GetHighestPriorityUsableBelief().immediateAction;
         currentAction?.Execute();
-        this.Log($"attempting execute : {currentAction?.GetType()}");
         if (prevAction != null && prevAction != currentAction) //New action
         {
-            prevAction.inUse = false;
+            prevAction.inUse.value = false;
         }
         prevAction = currentAction;
     }
+
+
+    public void ReExecuteCurrent(bool overrideInUse = false) => 
+        currentAction?.Execute(overrideInUse);
+
 
     BeliefAI GetHighestPriorityUsableBelief()
     {

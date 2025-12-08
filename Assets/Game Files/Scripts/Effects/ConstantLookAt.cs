@@ -6,9 +6,10 @@ using UnityEngine;
 
 public class ConstantLookAt : MonoBehaviour
 {
-    [SerializeField, ReadOnly] Transform lookAtTransform;
+    [FoldoutGroup("Readonly")] [SerializeField, ReadOnly] Transform lookAtTransform;
+    [FoldoutGroup("Readonly")] [SerializeField, ReadOnly] public bool looking;
 
-    [SerializeField] public bool looking;
+    [TitleGroup("Parameters")]
     [SerializeField] bool lookAtFunc;
     [SerializeField] bool explicitVectors;
     [SerializeField, ShowIf("explicitVectors")] bool useX;

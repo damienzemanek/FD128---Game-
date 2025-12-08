@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Extensions;
 using UnityEngine;
 
 public class ConstantBob : MonoBehaviour
 {
     [SerializeField] float upAmount;
-    [SerializeField] float moveTime = 0.5f;
+    [SerializeField] Vector2 moveTime;
 
     Vector3 origPos;
     Vector3 newPos;
@@ -24,12 +25,12 @@ public class ConstantBob : MonoBehaviour
     void Up()
     {
         StopAllCoroutines();
-        transform.Lerp(newPos, moveTime, this, Down);
+        transform.Lerp(newPos, moveTime.Rand(), this, Down);
     }
 
     void Down()
     {
         StopAllCoroutines();
-        transform.Lerp(origPos, moveTime, this, Up);
+        transform.Lerp(origPos, moveTime.Rand(), this, Up);
     }
 }

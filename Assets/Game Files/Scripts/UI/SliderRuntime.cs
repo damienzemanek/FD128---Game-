@@ -22,7 +22,9 @@ public class SliderRuntime : MonoBehaviour
             steps -= 1;
             if(slider.value < 1)
                 slider.value += increment;
+
             yield return new WaitForSeconds(delay);
+
         }
 
         postHook?.Invoke();

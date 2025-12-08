@@ -2,44 +2,51 @@ using System.Collections;
 using System.Collections.Generic;
 using Extensions;
 using UnityEngine;
+using Extensions;
+using static Entity;
+using Sirenix.OdinInspector;
 
 public class AttackTrigger : MonoBehaviour
 {
     PlayerDataHolder player;
-    [SerializeField] public Attack attack;
+    [SerializeField, ReadOnly] public Attack attack;
     [SerializeField] bool _attacking;
-    [SerializeField] bool onHitCooldown;
-    [SerializeField] float hitCooldown = 1f;
+    [SerializeField] bool _onHitCooldown;
 
     public bool attacking { get => _attacking; set => _attacking = value; }
+    public bool onHitCooldown { get => _onHitCooldown; set => _onHitCooldown = value; }
 
     private void Awake()
     {
         player = PlayerDataHolder.Instance;
-        attacking = false;
-        onHitCooldown = false;
+    }
+
+    private void Start()
+    {
+        StopAttacking();
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.tag != "Person") return;
-        print("a");
-        if (!other.Has(out Health hp)) return;
-        print("b");
-        if (!attacking) return;
-        print("c");
-        if (onHitCooldown) return;
-        print("d");
-        print(hp);
-        print(player);
-        print(player.data);
+        if (!other.TryGetComponent(out IHittable h)) return;
+        if (!IsAttacking()) return;
 
-        hp.TakeDmg(amount: player.data.dmg);
-        attack.EnableBloodyHands();
-        onHitCooldown = true;
-
-        this.StopAllCoroutines();
-        this.DelayedCall(() => onHitCooldown = false, hitCooldown);
+        StartAttacking(h);
+        this.DelayedCall(StopAttacking, player.data.hitCooldown, true);
     }
+
+    public void StartAttacking(IHittable h)
+    {
+        h.Hit(player.data.dmg);
+        if (h.hittable.isFleshy) attack.EnableBloodyHands();
+        onHitCooldown = true;
+    }
+
+    public void StopAttacking()
+    {
+        onHitCooldown = false;
+        attacking = false;
+    }
+    public bool IsAttacking() => (attacking) && (!onHitCooldown);
 
 }

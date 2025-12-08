@@ -32,24 +32,32 @@ public static class TransformUtility
         endHook?.Invoke();
     }
 
-    public static void Lerp(this Transform myTransform, Vector3 to, float duration, MonoBehaviour mono, Action endHook = null)
+    public static void Lerp(this Transform myTransform, Vector3 to, float duration, MonoBehaviour mono, Action endHook = null, bool local = false)
     {
         if(mono.isActiveAndEnabled)
-            mono?.StartCoroutine(C_Lerp(myTransform, to, duration, endHook));
+            mono?.StartCoroutine(C_Lerp(myTransform, to, duration, endHook, local));
     }
-    public static IEnumerator C_Lerp(this Transform myTransform, Vector3 to, float duration, Action endHook = null)
+    public static IEnumerator C_Lerp(this Transform myTransform, Vector3 to, float duration, Action endHook = null, bool local = false)
     {
-        Vector3 start = myTransform.position;
+        Vector3 start = new Vector3();
+        if (!local) start = myTransform.position;
+        else start = myTransform.localPosition;
+
         float t = 0f;
 
         while (t < 1f)
         {
             t += Time.deltaTime / duration;
-            myTransform.position = Vector3.Lerp(start, to, t);
+            if(!local) myTransform.position = Vector3.Lerp(start, to, t);
+            else myTransform.localPosition = Vector3.Lerp(start, to, t);
             yield return null;
         }
 
-        myTransform.position = to;
+        if (local)
+            myTransform.localPosition = to;
+        else
+            myTransform.position = to;
+
         endHook?.Invoke();
     }
 
@@ -75,24 +83,34 @@ public static class TransformUtility
         endHook?.Invoke();
     }
 
-    public static void LerpRot(this Transform myTransform, Quaternion to, float duration, MonoBehaviour mono, Action endHook = null)
+    public static void LerpRot(this Transform myTransform, Quaternion to, float duration, MonoBehaviour mono, Action endHook = null, bool local = false)
     {
-        if(mono.isActiveAndEnabled)
-            mono.StartCoroutine(C_LerpRot(myTransform, to, duration, endHook));
+        if (mono != null && mono.isActiveAndEnabled)
+            mono.StartCoroutine(C_LerpRot(myTransform, to, duration, endHook, local));
     }
-    public static IEnumerator C_LerpRot(this Transform myTransform, Quaternion to, float duration, Action endHook = null)
-    {
-        Quaternion start = myTransform.rotation;
-        float t = 0f;
 
+    public static IEnumerator C_LerpRot(this Transform myTransform, Quaternion to, float duration, Action endHook = null, bool local = false)
+    {
+        Quaternion start = local ? myTransform.localRotation : myTransform.rotation;
+
+        float t = 0f;
         while (t < 1f)
         {
             t += Time.deltaTime / duration;
-            myTransform.rotation = Quaternion.Lerp(start, to, t);
+
+            if (local)
+                myTransform.localRotation = Quaternion.Lerp(start, to, t);
+            else
+                myTransform.rotation = Quaternion.Lerp(start, to, t);
+
             yield return null;
         }
 
-        myTransform.rotation = to;
+        if (local)
+            myTransform.localRotation = to;
+        else
+            myTransform.rotation = to;
+
         endHook?.Invoke();
     }
 }

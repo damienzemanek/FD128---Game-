@@ -8,6 +8,7 @@ using UnityEngine;
 [DefaultExecutionOrder(1)]
 public class EffectManager : Singleton<EffectManager>
 {
+    [SerializeField] GameObjectSetter setter;
     [SerializeField] PlayerDataHolder playerDataHolder;
     [SerializeReference, ReadOnly] public List<Effect> effects = new List<Effect>();
 
@@ -15,6 +16,11 @@ public class EffectManager : Singleton<EffectManager>
     {
         base.Awake();
         playerDataHolder = PlayerDataHolder.Instance;
+    }
+
+    private void Start()
+    {
+        if (setter) setter.DisableAll();
     }
 
     private void FixedUpdate()
@@ -39,8 +45,16 @@ public class EffectManager : Singleton<EffectManager>
     {
        effects.Add(effect);
        effect.StartEffect(playerDataHolder);
+        if (setter) setter.Enable(effect.effectName);
     }
+    
+    void RemoveAndEndEffect(Effect effect, int i)
+    {
+        effect.StopEffect();
+        effects.RemoveAt(i);
+        if (setter) setter.Disable(effect.effectName);
 
+    }
 
     void EffectInUse()
     {
@@ -53,11 +67,8 @@ public class EffectManager : Singleton<EffectManager>
 
             effect.currentDuration -= Time.deltaTime;
 
-            if(effect.currentDuration <= 0)
-            {
-                effect.StopEffect();
-                effects.RemoveAt(i);
-            }
+            if (effect.currentDuration <= 0)
+                RemoveAndEndEffect(effect, i);
         }
     }
 }

@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Extensions;
 using RetroArsenal;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 [Serializable]
@@ -46,6 +48,8 @@ public class IsInDanger : BeliefAI
         isInDanger = val;
         if (isInDanger) usable = true;
         else usable = false;
+
+        this.Log($"Set danger {isInDanger}");
     }
 
 
@@ -55,6 +59,53 @@ public class IsInDanger : BeliefAI
         else return null;
     }
 }
+
+[Serializable]
+public class CanSeeHideout : BeliefAI
+{
+    [SerializeField] public bool canSeeHideout = false;
+    [field: SerializeReference] public override ActionAI immediateAction { get; set; }
+
+    public void Set(bool val, Transform _hideoutLoc)
+    {
+        canSeeHideout = val;
+        if (canSeeHideout)
+        {
+            usable = true;
+            if (immediateAction is RunToHideout runToHideout)
+                runToHideout.hideoutLocs.AddOnce(_hideoutLoc);
+        }
+        else
+        {
+            usable = false;
+            if (immediateAction is RunToHideout runToHideout)
+                runToHideout.hideoutLocs.Remove(_hideoutLoc);
+        }
+        this.Log(""+canSeeHideout);
+    }
+
+    public void RemoveHideout(Transform _hideoutLoc)
+    {
+        if (immediateAction is RunToHideout runToHideout)
+            runToHideout.hideoutLocs.Remove(_hideoutLoc);
+    }
+
+    public bool AllHideoutsUnusable()
+    {
+        if (immediateAction is RunToHideout runToHideout)
+            return runToHideout.hideoutLocs.Count <= 0;
+
+        return true;
+    }
+
+
+    public ActionAI GetAction()
+    {
+        if (canSeeHideout) return immediateAction;
+        else return null;
+    }
+}
+
 
 [Serializable]
 public class IsDead : BeliefAI

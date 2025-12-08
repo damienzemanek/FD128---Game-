@@ -4,31 +4,35 @@ using DependencyInjection;
 using Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using static Extensions.AnimEX;
 
 [DefaultExecutionOrder(1)]
 public class Attack : MonoBehaviour
 {
     [Inject] EntityControls controls;
 
-    [TitleGroup("Parameters")] [SerializeField] bool bloodiedLeftHand;
-    [TitleGroup("Parameters")][SerializeField] bool bloodiedRightHand;
-
-    [TitleGroup("Parameters")][SerializeField] bool onRightHand;
-
-
-    [TitleGroup("Refs")] [SerializeField, ReadOnly] AnimationController anims;
-    [TitleGroup("Refs")] [SerializeField] AttackTrigger attackTrigger;
-    [TitleGroup("Refs")] [SerializeField] GameObject bloodyHandLeft;
-    [TitleGroup("Refs")][SerializeField] GameObject bloodyHandRight;
+    [TitleGroup("Parameters")] 
+    [SerializeField] bool bloodiedLeftHand;
+    [SerializeField] bool bloodiedRightHand;
+    [SerializeField] bool onRightHand;
 
 
-    [TitleGroup("Anims")] [SerializeField] string leftAttackName = "attackLeft";
-    [TitleGroup("Anims")] [SerializeField] string rightAttackName = "attackRight";
+    [TitleGroup("Refs")] 
+    [SerializeField] AttackTrigger attackTrigger;
+    [SerializeField] MaterialSetter leftHandMats;
+    [SerializeField] MaterialSetter rightHandMats;
+
+
+
+    [TitleGroup("Anims")]
+    [SerializeField] Animatable anims;
+    [SerializeField] string leftAttackName = "attackLeft";
+    [SerializeField] string rightAttackName = "attackRight";
+
 
 
     private void Awake()
     {
-        anims = this.Get<AnimationController>();
         attackTrigger.Ensure(this);
         attackTrigger.attack = this;
     }
@@ -54,15 +58,15 @@ public class Attack : MonoBehaviour
         this.Log("attack");
         EnableAttacking();
 
-        if(onRightHand) anims.AnimateThen(rightAttackName, DisableAttacking);
-        else            anims.AnimateThen(leftAttackName, DisableAttacking);
+        if(onRightHand) anims.Animate(rightAttackName, this, DisableAtacking);
+        else            anims.Animate(leftAttackName, this, DisableAtacking);
 
         onRightHand = !onRightHand;
     }
 
     public void EnableAttacking() => attackTrigger.attacking = true;
+    public void DisableAtacking() => attackTrigger.attacking = false;
 
-    public void DisableAttacking() => attackTrigger.attacking = false;
 
     public void EnableBloodyHands()
     {
@@ -70,21 +74,21 @@ public class Attack : MonoBehaviour
         {
             if (bloodiedRightHand) return;
             bloodiedRightHand = true;
-            bloodyHandRight.SetActive(true);
+            rightHandMats.SetMatToIndex(1);
         }
         else
         {
             if (bloodiedLeftHand) return;
             bloodiedLeftHand = true;
-            bloodyHandLeft.SetActive(true);
+            leftHandMats.SetMatToIndex(1);
         }
     }
     public void DisableBloodyHands()
     {
         bloodiedLeftHand = false;
         bloodiedRightHand = false;
-        bloodyHandRight.SetActive(false);
-        bloodyHandLeft.SetActive(false);
+        rightHandMats.SetMatToIndex(0);
+        leftHandMats.SetMatToIndex(0);
     }
 
 }

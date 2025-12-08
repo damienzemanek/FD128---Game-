@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using static Effectability;
 
 public class UseItemNearby : MonoBehaviour
 {
     [SerializeField] Animator animator;
     [SerializeField] string boolName;
+    [SerializeField] EffectUser loveEffect;
 
     bool inCollision;
     [SerializeField, ReadOnly] Collider cached;
@@ -19,7 +21,7 @@ public class UseItemNearby : MonoBehaviour
         inCollision = true;
         cached = other;
         animator.SetBool(boolName, true);
-        item.Use();
+        if (item.Use()) loveEffect.UseEffect();
     }
 
     private void OnTriggerExit(Collider other)

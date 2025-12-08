@@ -6,6 +6,8 @@ using Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using TMPro;
+using static Extensions.AnimEX;
+using static Extensions.FadeEX;
 
 [DefaultExecutionOrder(1)]
 public class Feed : Singleton<Feed>
@@ -14,18 +16,17 @@ public class Feed : Singleton<Feed>
     PlayerDataHolder player;
     [SerializeField] bool _canFeed;
 
-    [Title("Anims")][SerializeField] Animator animator;
+    [Title("Anims")][SerializeField] Animatable anims;
 
     [Title("Refs")][SerializeField] public Attack attack;
     [SerializeField] GameObject feedDisplay;
     [SerializeField] TextMeshProUGUI heartCountText;
     [SerializeField] UIJitter heartImageJitter;
-    [SerializeField] GameObject heartsEatenlabel;
+    [SerializeField] FadeSettings heartLabelFade;
 
 
     [Title("Feeding")][SerializeField, ReadOnly] FeedTrigger goreImEating;
     [SerializeField, ReadOnly] float currentFeed = 0f;
-    [SerializeField] float feedIncr = 0.1f;
     [SerializeField] float feedToBeFull;
 
     [Title("Hearts")][SerializeField] int currentHeartCount = 0;
@@ -48,7 +49,7 @@ public class Feed : Singleton<Feed>
     {
         currentHeartCount = 0;
         heartCountText.text = "" + currentHeartCount;
-        heartsEatenlabel.SetActive(false);
+        heartLabelFade.GetGO()?.gameObject.SetActive(false);
 
         goreImEating = null;
         currentFeed = 0f;
@@ -89,7 +90,7 @@ public class Feed : Singleton<Feed>
 
         print("feeding");
         currentFeed += 0.1f;
-        animator.SetBool("eating", true);
+        anims.animator.SetBool("eating", true);
 
         if (currentFeed > feedToBeFull) Consume();
     }
@@ -98,7 +99,7 @@ public class Feed : Singleton<Feed>
     public void FeedStop()
     {
         print("feeding stop");
-        animator.SetBool("eating", false);
+        anims.animator.SetBool("eating", false);
     }
 
     public void Consume()
@@ -115,10 +116,10 @@ public class Feed : Singleton<Feed>
 
     void AddToHeartCount()
     {
-        currentHeartCount += player.data.addToHeartCountIncrease;
+        currentHeartCount += player.data.progressIncrease;
         heartCountText.text = "" + currentHeartCount;
         heartImageJitter.JitterThenReset();
-        heartsEatenlabel.SetActive(true);
+        this.EnableFadeOut(heartLabelFade);
     }
 
 

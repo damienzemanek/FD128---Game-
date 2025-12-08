@@ -4,69 +4,54 @@ using Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
+using static Extensions.AnimEX;
+using static Extensions.PhysEX;
+using static Effectability;
+using static DelayUtility;
+using static Entity;
 
-public class Health : MonoBehaviour
+
+public class Health : MonoBehaviour, IHittable
 {
-    [TitleGroup("Parameters")][SerializeField] float maxHp;
-    [TitleGroup("Parameters")][SerializeField, ReadOnly] float currentHp;
+    [TitleGroup("Parameters")]
+    [SerializeField] int maxHp;
+    [field: SerializeField] [field: ReadOnly] public int hp { get; set; }
+    [SerializeField] Vector2 baseSpeedVariation;
+    [SerializeField] float speedUpForXSecondsOnHit = 0.8f;
+    [SerializeField] float speedIncreaseOnHit = 2f;
+    [field:SerializeField] public Hittable hittable { get; set; }
+    public float lastHitTime { get; set; }
+    public bool cannotHit { get; set; }
 
-    [TitleGroup("Parameters")][SerializeField] float speedUpForXSecondsOnHit = 0.8f;
-    [TitleGroup("Parameters")][SerializeField] float speedIncreaseOnHit = 2f;
+    [TitleGroup("Effects")] 
+    [SerializeField] EffectUser hitEffect;
+    [SerializeField] EffectUser dieEffect;
+    [SerializeField] EffectObjectRagdoll deathObjectsEffect;
+    [SerializeField] Explode explosion;
 
 
-    [TitleGroup("Effects")] [SerializeField] EffectUser hitEffect;
-    [TitleGroup("Effects")][SerializeField] EffectUser dieEffect;
+    [TitleGroup("Refs")]
+    [SerializeField] GameObject bodyRef;
+    [SerializeField] GameObject gorePileRef;
+    [SerializeField] ConstantLookAt looker;
+    [SerializeField] DeadDetector deadDetector;
+    [SerializeField] NavMeshAgent agent;
 
-    [TitleGroup("Refs")][SerializeField] GameObject bodyRef;
-    [TitleGroup("Refs")][SerializeField] GameObject gorePileRef;
-    [TitleGroup("Refs")][SerializeField] ConstantLookAt looker;
-    [TitleGroup("Refs")][SerializeField] DeadDetector deadDetector;
-    [TitleGroup("Refs")][SerializeField] NavMeshAgent agent;
-
-    [TitleGroup("Anims")] [SerializeField] AnimationController anims;
-    [TitleGroup("Anims")] [SerializeField] string deathAnimName;
+    [TitleGroup("Anims")] 
+    [SerializeField] Animatable anims;
+    [SerializeField] string hitAnimName;
+    [SerializeField] string deathAnimName;
 
     private void Awake()
     {
         agent.Ensure(this);
-        hitEffect.Ensure(this);
-        dieEffect.Ensure(this);
         gorePileRef.SetActive(false);
     }
 
     private void OnEnable()
     {
-        currentHp = maxHp;
-    }
-
-    public void TakeDmg(float amount)
-    {
-        this.Log("Ive been hit");
-        currentHp -= amount;
-
-        if (IsDead()) Die();
-        else Hit();
-    }
-
-    void Hit()
-    {
-        hitEffect.UseEffect();
-        StartCoroutine(SpeedUpForATime());
-    }
-
-    bool IsDead()
-    {
-        if (currentHp <= 0) return true;
-        return false;
-    }
-
-    void Die()
-    {
-        StopAllCoroutines();
-        deadDetector.Die();
-        anims.AnimateThen(deathAnimName, GorePileSelf);
-        dieEffect.UseEffect();
-        looker.looking = false;
+        agent.speed = baseSpeedVariation.Rand();
+        hp = maxHp;
     }
 
     void GorePileSelf()
@@ -74,7 +59,13 @@ public class Health : MonoBehaviour
         bodyRef.SetActive(false);
         gorePileRef.SetActive(true);
         gorePileRef.transform.SetParent(null);
+        if (gorePileRef.Has(out TP tp)) tp.DoTp();
         gameObject.SetActive(false);
+
+        dieEffect.UseEffect();
+        deathObjectsEffect.UseEffect();
+
+        explosion.Blast();
     }
 
 
@@ -83,5 +74,21 @@ public class Health : MonoBehaviour
         agent.speed += speedIncreaseOnHit;
         yield return new WaitForSeconds(speedUpForXSecondsOnHit);
         agent.speed -= speedIncreaseOnHit;
+    }
+
+    public void OnHit()
+    {
+        hitEffect.UseEffect();
+        anims.Animate(hitAnimName, layer: 1);
+        StartCoroutine(SpeedUpForATime());
+    }
+
+    [Button]
+    public void OnDie()
+    {
+        StopAllCoroutines();
+        deadDetector.Die();
+        anims.Animate(deathAnimName, this, GorePileSelf);
+        looker.looking = false;
     }
 }
