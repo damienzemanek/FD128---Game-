@@ -8,52 +8,64 @@ public class UIJitter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] float duration;
     [SerializeField] bool onMouseOver = true;
+    [SerializeField] bool isDifferentTranform;
+    [SerializeField, ShowIf("isDifferentTranform")] Transform differentTransformn;
 
-    public bool Size;
-    [ShowIf("Size")] [SerializeField, ReadOnly] Vector3 initialSize;
-    [ShowIf("Size")][SerializeField] Vector3 sizeJitterIncrease;
-
-    public bool Rot;
-    [ShowIf("Rot")][SerializeField, ReadOnly] Quaternion initialRot;
-    [ShowIf("Rot")][SerializeField] Quaternion rotTo;
-
-    public bool Pos;
-    [ShowIf("Pos")][SerializeField, ReadOnly] Vector3 initialPos;
-    [ShowIf("Pos")][SerializeField] Vector3 posTo;
-
-    private void Awake()
+    public Transform jitterTransform
     {
-        initialSize = transform.localScale;
-        initialRot = transform.rotation;
+        get
+        {
+            if (isDifferentTranform)
+                return differentTransformn;
+            else
+                return transform;
+        }
     }
+
+    [BoxGroup("Transforms")] public bool Size;
+    [BoxGroup("Transforms")] public bool Rot;
+    [BoxGroup("Transforms")] public bool Pos;
+
+
+    [BoxGroup("Size")][ShowIf("Size")][ShowInInspector, ReadOnly] Vector3 initialSize => jitterTransform != null? transform.localScale : Vector3.zero;
+    [BoxGroup("Size")][ShowIf("Size")][SerializeField] Vector3 sizeJitterIncrease;
+
+    [BoxGroup("Rot")][ShowIf("Rot")][ShowInInspector, ReadOnly] Quaternion initialRot => jitterTransform != null ? transform.rotation : Quaternion.identity;
+    [BoxGroup("Rot")][ShowIf("Rot")][SerializeField] Quaternion rotTo;
+
+    [BoxGroup("Pos")][ShowIf("Pos")][ShowInInspector, ReadOnly] Vector3 initialPos => jitterTransform != null ? transform.localPosition : Vector3.zero;
+    [BoxGroup("Pos")][ShowIf("Pos")][SerializeField] Vector3 posTo;
 
     public void OnPointerEnter(PointerEventData data)
     {
         if(onMouseOver)
             Jitter();
+        print("over");
     }
 
     public void OnPointerExit(PointerEventData data)
     {
         if (onMouseOver)
             ResetJitter();
+        print("off");
+
     }
 
 
     public void Jitter()
     {
         StopAllCoroutines();
-        if (Size) transform.LerpScale(sizeJitterIncrease, duration, this);
-        if (Rot) transform.LerpRot(rotTo, duration, this);
-        if (Pos) transform.Lerp(posTo, duration, this);
+        if (Size) jitterTransform.LerpScale(sizeJitterIncrease, duration, this);
+        if (Rot) jitterTransform.LerpRot(rotTo, duration, this);
+        if (Pos) jitterTransform.Lerp(posTo, duration, this);
     }
 
     public void ResetJitter()
     {
         StopAllCoroutines();
-        if (Size) transform.LerpScale(initialSize, duration, this);
-        if (Rot) transform.LerpRot(initialRot, duration, this);
-        if (Pos) transform.Lerp(initialPos, duration, this);
+        if (Size) jitterTransform.LerpScale(initialSize, duration, this);
+        if (Rot) jitterTransform.LerpRot(initialRot, duration, this);
+        if (Pos) jitterTransform.Lerp(initialPos, duration, this);
     }
 
     [Button]
@@ -68,9 +80,9 @@ public class UIJitter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             ResetJitter();
         }
 
-        if (Size) { moving = true; transform.LerpScale(sizeJitterIncrease, duration, this, Done); }
-        if (Rot) { moving = true; transform.LerpRot(rotTo, duration, this, Done); }
-        if (Pos) { moving = true; transform.Lerp(posTo, duration, this, Done); }
+        if (Size) { moving = true; jitterTransform.LerpScale(sizeJitterIncrease, duration, this, Done); }
+        if (Rot) { moving = true; jitterTransform.LerpRot(rotTo, duration, this, Done); }
+        if (Pos) { moving = true; jitterTransform.Lerp(posTo, duration, this, Done); }
 
         if (!moving)
             ResetJitter();
