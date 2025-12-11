@@ -85,7 +85,9 @@ public class GameExperience : MonoBehaviour
         saver.gameExpData.currentLevel = currentLevel;
         saver.gameExpData.currentXP = (int)levels[currentLevel].currentXP;
 
-        saver.SaveExp();
+        if (saver != null)
+            saver.SaveExp();
+        else this.Warn("No saver present");
     }
 
     public void LevelUpPlayer()
