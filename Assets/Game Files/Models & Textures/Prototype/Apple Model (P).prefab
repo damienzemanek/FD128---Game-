@@ -957,7 +957,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6636590866736685058}
   m_Layer: 0
-  m_Name: Apple Model
+  m_Name: Apple Model (P)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

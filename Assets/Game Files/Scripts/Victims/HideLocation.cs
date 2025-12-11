@@ -26,6 +26,8 @@ public class HideLocation : MonoBehaviour, IHittable
     [field: TabGroup("Readonly")][field: ReadOnly] public float lastHitTime { get; set; }
     [TabGroup("Animation")] public Animatable anims;
     [TabGroup("Animation")] public string hitAnimName = "hit";
+    [TabGroup("Animation")] public string enterAnimName = "enter";
+
     [TabGroup("Effects")] public EffectUser destroyEffect;
 
     [SerializeField] GameObject hideoutObj;
@@ -50,6 +52,7 @@ public class HideLocation : MonoBehaviour, IHittable
         person.SetActive(false);
         inUse = true;
         hiddenPerson = person;
+        anims.Animate(enterAnimName);
     }
 
     public void OnHit()
