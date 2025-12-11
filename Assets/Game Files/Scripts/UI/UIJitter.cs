@@ -27,21 +27,33 @@ public class UIJitter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [BoxGroup("Transforms")] public bool Pos;
 
 
-    [BoxGroup("Size")][ShowIf("Size")][ShowInInspector, ReadOnly] Vector3 initialSize => jitterTransform != null? transform.localScale : Vector3.zero;
+    [BoxGroup("Size")][ShowIf("Size")][ShowInInspector, ReadOnly] Vector3 initialSize;
     [BoxGroup("Size")][ShowIf("Size")][SerializeField] Vector3 sizeJitterIncrease;
 
-    [BoxGroup("Rot")][ShowIf("Rot")][ShowInInspector, ReadOnly] Quaternion initialRot => jitterTransform != null ? transform.rotation : Quaternion.identity;
+    [BoxGroup("Rot")][ShowIf("Rot")][ShowInInspector, ReadOnly] Quaternion initialRot;
     [BoxGroup("Rot")][ShowIf("Rot")][SerializeField] Quaternion rotTo;
 
-    [BoxGroup("Pos")][ShowIf("Pos")][ShowInInspector, ReadOnly] Vector3 initialPos => jitterTransform != null ? transform.localPosition : Vector3.zero;
+    [BoxGroup("Pos")][ShowIf("Pos")][ShowInInspector, ReadOnly] Vector3 initialPos;
     [BoxGroup("Pos")][ShowIf("Pos")][SerializeField] Vector3 posTo;
 
+    private void OnValidate()
+    {
+        SaveInitials();
+    }
+    void SaveInitials()
+    {
+        initialSize = jitterTransform != null ? jitterTransform.localScale : Vector3.zero;
+        initialRot = jitterTransform != null ? jitterTransform.localRotation : Quaternion.identity;
+        initialPos = jitterTransform != null ? jitterTransform.localPosition : Vector3.zero;
+    }
     public void OnPointerEnter(PointerEventData data)
     {
-        if(onMouseOver)
+        SaveInitials();
+        if (onMouseOver)
             Jitter();
         print("over");
     }
+
 
     public void OnPointerExit(PointerEventData data)
     {
@@ -49,6 +61,13 @@ public class UIJitter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             ResetJitter();
         print("off");
 
+    }
+
+    private void OnDisable()
+    {
+        if(Pos) jitterTransform.localPosition = initialPos;
+        if(Rot) jitterTransform.localRotation = initialRot;
+        if(Size) jitterTransform.localScale = initialSize;
     }
 
 
