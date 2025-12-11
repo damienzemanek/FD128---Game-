@@ -9,6 +9,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using Extensions;
 using static Extensions.AudioEX;
+using static Extensions.AnimEX;
+using static Effectability;
 
 public class GameExperience : MonoBehaviour
 {
@@ -21,6 +23,14 @@ public class GameExperience : MonoBehaviour
     [SerializeField] public TextMeshProUGUI levelNumberText;
     [SerializeField] AudioSource source;
     [SerializeField] AudioClip levelupSound;
+
+    [TabGroup("Effects")] public EffectUser[] fx_levelup;
+
+    [TabGroup("Anims")] [SerializeField] Animatable xpBarAnims;
+    [TabGroup("Anims")][SerializeField] string anim_levelingupinprog = "levelingupinprog";
+    [TabGroup("Anims")][SerializeField] string anim_levelup = "levelup";
+    [TabGroup("Anims")][SerializeField] string anim_idle = "idle";
+    [TabGroup("Anims")][SerializeField] bool isLeveledUpAnimPlaying;
 
     private void Awake()
     {
@@ -53,26 +63,53 @@ public class GameExperience : MonoBehaviour
     [Button]
     public void GainExperience(float amount)
     {
+        this.Log("Gainign xp");
         Level lvl = levels[currentLevel];
 
         float reaminingXpToLevelUp = lvl.xpToLevelUp - lvl.currentXP;
         float xpUsedForThisLevel = Mathf.Min(amount, reaminingXpToLevelUp);
         float xpGained = xpUsedForThisLevel / lvl.xpToLevelUp;
-        float leftOver = lvl.GainXP(amount);
+        float leftOver = lvl.GainXPreturnLeftover(amount);
+        bool didLevelUp = (xpUsedForThisLevel == reaminingXpToLevelUp);
 
-        xpSlider.GainValue(xpGained, () => ThisLevelGainComplete(leftOver));
+        xpBarAnims.Animate(anim_levelingupinprog);
+        xpSlider.GainValue(xpGained, () =>
+        {
+            StartCoroutine(ThisLevelGainComplete(leftOver, didLevelUp));
+        });
 
     }
 
-    void ThisLevelGainComplete(float leftOver)
+    IEnumerator ThisLevelGainComplete(float leftOver, bool didLevelUp)
     {
         DisplayCurrentExperience();
 
         if (currentLevel == levels.Count - 1)
-            if (levels[currentLevel].complete) return;
+            if (levels[currentLevel].complete)
+            {
+                LevelUpPlayer();
+                yield break;
+            }
 
-        if (leftOver > 0 && currentLevel <= levels.Count - 1)
+        if (leftOver > 0 && currentLevel <= levels.Count - 1 && didLevelUp)
+        {
+            LevelUpPlayer();
+            yield return new WaitUntil(() => isLeveledUpAnimPlaying == false);
             GainExperience(leftOver);
+        }
+        else if(leftOver == 0 && didLevelUp)
+        {
+            LevelUpPlayer();
+            yield return new WaitUntil(() => isLeveledUpAnimPlaying == false);
+        }
+        else
+        {
+            xpBarAnims.CrossFade(anim_idle);
+            isLeveledUpAnimPlaying = false;
+        }
+
+
+        this.Log("stopped gaining xp");
     }
 
     public void DisplayLevelText()
@@ -85,12 +122,18 @@ public class GameExperience : MonoBehaviour
         saver.gameExpData.currentLevel = currentLevel;
         saver.gameExpData.currentXP = (int)levels[currentLevel].currentXP;
 
-        saver.SaveExp();
+        if (saver != null)
+            saver.SaveExp();
+        else this.Warn("No saver present");
     }
 
     public void LevelUpPlayer()
     {
+        isLeveledUpAnimPlaying = true;
         source.Play(levelupSound);
+        this.DelayedCall(() => xpBarAnims.Animate(anim_levelup, this, () => isLeveledUpAnimPlaying = false), 0.1f);
+        fx_levelup.UseEffectsAll();
+        this.Log("leveled up");
     }
 }
 
@@ -110,7 +153,7 @@ public class Level
         currentXP = 0;
     }
 
-    public float GainXP(float amount)
+    public float GainXPreturnLeftover(float amount)
     {
         currentXP += amount;
         if (currentXP >= xpToLevelUp)

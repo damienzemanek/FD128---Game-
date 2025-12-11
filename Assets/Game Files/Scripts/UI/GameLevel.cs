@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
+using Extensions;
+using static Extensions.EnumerateEX;
 
 public class GameLevel : MonoBehaviour
 {
     [ReadOnly] public DataSaver saver;
     [SerializeField] int level;
     [SerializeField] int hearts;
-    [SerializeField] List<Image> heartImages;
+    [SerializeField] List<GameObject> heartImages;
     [SerializeField] Sprite fullHeart;
 
 
@@ -20,9 +22,11 @@ public class GameLevel : MonoBehaviour
 
     private void Start()
     {
+        heartImages.SetAllActive(false);
+
         hearts = saver.gameExpData.levelHearts[level];
-        for(int i = 0; i < hearts; i++)
-            heartImages[i].sprite = fullHeart;
+        for (int i = 0; i < hearts; i++)
+            heartImages[i].gameObject.SetActive(true);
 
     }
 

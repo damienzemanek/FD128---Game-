@@ -8,6 +8,23 @@ using UnityEngine;
 
 public static class Effectability
 {
+    public static void UseEffectsAll(this EffectUser[] effects)
+    {
+        foreach (EffectUser effect in effects)
+            effect.UseEffect();
+    }
+
+    public static void UseEffectsAllWithDelayInbetween(this EffectUser[] effects, MonoBehaviour host, float delay) => host.StartCoroutine(C_UseEffectsAllWithDelayInbetween(effects, delay));
+    public static IEnumerator C_UseEffectsAllWithDelayInbetween(this EffectUser[] effects, float delay)
+    {
+        foreach (EffectUser effect in effects)
+        {
+            effect.UseEffect();
+            yield return new WaitForSeconds(delay);
+        }
+    }
+
+
     [Serializable]
     public struct EffectUser
     {

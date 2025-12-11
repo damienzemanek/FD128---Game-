@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6151778113806530112}
   - component: {fileID: 679626442317913247}
   - component: {fileID: 3109812531575288534}
-  - component: {fileID: 2570576923676282969}
   m_Layer: 0
   m_Name: obj
   m_TagString: Untagged
@@ -912,28 +911,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5253149489606677296}
   m_Mesh: {fileID: 0}
---- !u!64 &2570576923676282969
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5253149489606677296}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1 &7958428471526091872
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,5 +965,18 @@ MonoBehaviour:
     x: 0
     y: 1
     z: 0
+    affectAllChildren: 0
     transform: {fileID: 3419570859391484882}
+    xRot:
+      deviate: 0
+      _value: 0
+      _valueBetween: {x: 0, y: 0}
+    yRot:
+      deviate: 0
+      _value: 0
+      _valueBetween: {x: 0, y: 0}
+    zRot:
+      deviate: 0
+      _value: 0
+      _valueBetween: {x: 0, y: 0}
     rotateOnSpawn: 1

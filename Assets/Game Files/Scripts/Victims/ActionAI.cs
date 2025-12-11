@@ -52,7 +52,8 @@ public class Idle : ActionAI
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
         if (!anims.Equals(default(Animatable)))
-            anims.Animate(animName);
+            anims.CrossFade(animName);
+        this.Log("Idling");
 
     }
 }
@@ -170,23 +171,40 @@ public class MoveToObject : ActionAI
     [TabGroup("Move to Object")][SerializeField] float closeRange = 1f;
     [TabGroup("Move to Object")][SerializeField] float rotSpeed = 10f;
     [TabGroup("Move to Object")][ShowInInspector, ReadOnly] bool toClose;
- 
+    [TabGroup("Move to Object")][SerializeField] Animatable moveAnims;
+    [TabGroup("Move to Object")][SerializeField] BunnyEat eat;
+    [TabGroup("Move to Object")][SerializeField] string anim_move = "move";
+    [TabGroup("Move to Object")][SerializeField] string anim_idle = "idle";
+
+
     public override void ExecuteImplement()
     {
         if (!loc) return;
 
-        if (ToClose()) return;
+        if (ToClose())
+        {
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+            return;
+        }
 
         agent.updateRotation = true;
-        toClose = false;
-        agent.isStopped = false;
-        agent.SetDestination(loc.transform.position);
+        if (!eat.eating)
+        {
+            toClose = false;
+            agent.isStopped = false;
+            agent.SetDestination(loc.transform.position);
+            if(!moveAnims.animator.IsPlaying(anim_move)) moveAnims.CrossFade(anim_move);
+        }
+        else
+        {
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+        }
+
     }
 
-    public void GiveData(Transform _loc)
-    {
-        loc = _loc;
-    }
+    public void GiveData(Transform _loc) => loc = _loc;
 
 
     bool ToClose()
@@ -199,6 +217,13 @@ public class MoveToObject : ActionAI
             this.Log("to close");
             agent.isStopped = true;
             agent.updateRotation = false;
+            
+            if(!eat.eating && !moveAnims.animator.IsPlaying(anim_move))
+            {
+                moveAnims.CrossFade(anim_idle);
+                this.Log("idling");
+            }
+
 
             Vector3 lookDir = loc.position - agent.transform.position;
             lookDir.y = 0;
@@ -226,7 +251,8 @@ public class Die : ActionAI
     public override void ExecuteImplement()
     {
         looker.looking = false;
-        agent.isStopped = true;
+        if(agent.isOnNavMesh)
+            agent.isStopped = true;
         agent.velocity = Vector3.zero;
         agent.enabled = false;
     }

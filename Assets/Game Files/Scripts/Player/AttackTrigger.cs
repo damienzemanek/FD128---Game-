@@ -29,6 +29,7 @@ public class AttackTrigger : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if (!other.TryGetComponent(out IHittable h)) return;
+        if (h is HideLocation hideLoc && hideLoc.destroyed) return;
         if (!IsAttacking()) return;
 
         StartAttacking(h);
@@ -38,6 +39,7 @@ public class AttackTrigger : MonoBehaviour
     public void StartAttacking(IHittable h)
     {
         h.Hit(player.data.dmg);
+        this.Log($"Hit {h}");
         if (h.hittable.isFleshy) attack.EnableBloodyHands();
         onHitCooldown = true;
     }

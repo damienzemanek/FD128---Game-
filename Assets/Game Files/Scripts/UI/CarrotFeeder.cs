@@ -7,7 +7,7 @@ public class CarrotFeeder : MonoBehaviour
 {
     [SerializeField] Transform spawnParent;
     [SerializeField] RotateObjectToMousePos mouseDir;
-    [SerializeField] GameObject button;
+    [SerializeField] GameObject[] button;
     [SerializeField] GameObject carrotPrefab;
     [SerializeField] Vector3 offset;
     [SerializeField] bool spawned = false;
@@ -16,7 +16,7 @@ public class CarrotFeeder : MonoBehaviour
 
     public void SpawnCarrot()
     {
-        button.SetActive(false);
+        button.SetAllActive(false);
 
         Instantiate(carrotPrefab,
             spawnParent.position + offset,
@@ -37,7 +37,7 @@ public class CarrotFeeder : MonoBehaviour
     {
         if (!spawned) return;
         if (!Input.GetMouseButtonUp(0)) return;
-        button.SetActive(true);
+        button.SetAllActive(true);
 
         if (joint == null) return;
 
