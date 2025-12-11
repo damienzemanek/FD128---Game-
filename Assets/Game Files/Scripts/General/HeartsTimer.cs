@@ -20,4 +20,5 @@ public class HeartsTimer : Timer
         checkpoints[1].action = () => { currentHearts = 1; };
         checkpoints[2].action = () => { currentHearts = 0; };
     }
+
 }

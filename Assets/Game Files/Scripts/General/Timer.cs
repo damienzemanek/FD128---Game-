@@ -38,6 +38,9 @@ public class Timer : MonoBehaviour
         int millis = (int)((currentTime * 1000f) % 1000f);
 
         TMP.text = $"{minutes:00}:{seconds:00}";
+
+        ChecktimeCheckpoints();
+
     }
 
     void ChecktimeCheckpoints()

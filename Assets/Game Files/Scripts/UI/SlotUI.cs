@@ -43,6 +43,7 @@ public class SlotUI : MonoBehaviour
     {
         slotManager.UnEquipAll();
         if(notNone) wearableObj.SetActive(true);
+        slotManager.EquippedAnItem(!notNone);
     }
 
 }
