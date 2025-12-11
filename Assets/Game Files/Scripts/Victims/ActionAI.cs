@@ -226,7 +226,8 @@ public class Die : ActionAI
     public override void ExecuteImplement()
     {
         looker.looking = false;
-        agent.isStopped = true;
+        if(agent.isOnNavMesh)
+            agent.isStopped = true;
         agent.velocity = Vector3.zero;
         agent.enabled = false;
     }

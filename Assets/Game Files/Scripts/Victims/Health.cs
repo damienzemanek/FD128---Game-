@@ -90,5 +90,8 @@ public class Health : MonoBehaviour, IHittable
         deadDetector.Die();
         anims.Animate(deathAnimName, this, GorePileSelf);
         looker.looking = false;
+        agent.isStopped = true;
+        agent.enabled = false;
+        this.Get<Collider>().enabled = false;
     }
 }

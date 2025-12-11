@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using static RotateExtension;
@@ -29,22 +30,26 @@ public static class RotateExtension
     public struct ConstantRotate
     {
         [SerializeField] public bool active;
-        [SerializeField] Vector3 rotation;
-        [SerializeField] Transform transform;
+        [ShowIf("active")] [SerializeField] Vector3 rotation;
+        [ShowIf("active")][SerializeField] Transform transform;
 
-        public void Rotate() => transform.Rotate(rotation); 
+        public void Rotate()
+        {
+            if (transform == null) this.Error("No transform set");
+            transform.Rotate(rotation);
+        }
     }
 
     [Serializable]
     public struct RandomRotation
     {
         [SerializeField] public bool active;
-        public bool x, y, z;
-        public bool affectAllChildren;
-        [SerializeField] Transform transform;
-        [ShowIf("x")] public Deviatable xRot;
-        [ShowIf("y")] public Deviatable yRot;
-        [ShowIf("z")] public Deviatable zRot;
+        [ShowIf("active")] public bool x, y, z;
+        [ShowIf("active")] public bool affectAllChildren;
+        [ShowIf("active")][SerializeField] Transform transform;
+        [ShowIf("active")][ShowIf("x")] public Deviatable xRot;
+        [ShowIf("active")][ShowIf("y")] public Deviatable yRot;
+        [ShowIf("active")][ShowIf("z")] public Deviatable zRot;
         
 
         public bool rotateOnSpawn;

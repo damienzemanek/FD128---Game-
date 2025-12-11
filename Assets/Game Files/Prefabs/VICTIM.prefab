@@ -2499,7 +2499,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6089122921249259258, guid: 680613283731ca448a993864a36d2d88, type: 3}
       propertyPath: m_VersionIndex
-      value: 4889
+      value: 4895
       objectReference: {fileID: 0}
     - target: {fileID: 6089122921249259258, guid: 680613283731ca448a993864a36d2d88, type: 3}
       propertyPath: m_Faces.Array.size
@@ -10485,8 +10485,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blood Pool
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2570576923676282969, guid: 680613283731ca448a993864a36d2d88, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

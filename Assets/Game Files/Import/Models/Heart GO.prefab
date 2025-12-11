@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 1373256598215830877}
   - component: {fileID: 8658403790400961545}
   m_Layer: 0
-  m_Name: Heart
+  m_Name: Heart GO
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,7 +130,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -146,7 +146,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2828179575926042096}
   serializedVersion: 4
-  m_Mass: 5
+  m_Mass: 20
   m_Drag: 1
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
