@@ -2450,8 +2450,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a47310545e518594abb02b27192ebedf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _data: {fileID: 11400000, guid: e83170f744cff244abb9e17a1a5ed5da, type: 2}
-  currentLevel: 0
+  _data: {fileID: 11400000, guid: 177d4f5d3b4a5c34ab4a346b1ea00118, type: 2}
+  currentLevel: 2
 --- !u!136 &8142740800113644304
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4461,11 +4461,11 @@ MonoBehaviour:
   currentTime: 0
   checkpoints:
   - hit: 0
-    checkpointTime: 60
+    checkpointTime: 130
   - hit: 0
-    checkpointTime: 90
+    checkpointTime: 150
   - hit: 0
-    checkpointTime: 120
+    checkpointTime: 180
   TMP: {fileID: 8610787844132163011}
   currentHearts: 0
 --- !u!1 &8523665275347999424
