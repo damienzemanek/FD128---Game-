@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 namespace DesignPatterns {
 namespace CreationalPatterns{
@@ -16,18 +17,12 @@ namespace CreationalPatterns{
             {
                 get
                 {
-                    if (instance == null)
-                    {
-                        instance = FindAnyObjectByType<T>();
-                        if(instance == null)
-                        {
-                            GameObject obj = new GameObject();
-                            obj.name = typeof(T).Name + " Auto Generated";
-                            instance = obj.AddComponent<T>();
-                        }
-                    }
+                    if(instance != null) return instance;
+                    instance = FindAnyObjectByType<T>();
+                    if(instance != null) return instance;
 
-                    return instance;
+                    Debug.LogError("No singleton found");
+                    return null;
                 }
             }
 
@@ -35,7 +30,11 @@ namespace CreationalPatterns{
 
             private void InitializeSingleton()
             {
-                if (!Application.isPlaying){
+                if (!Application.isPlaying) return;
+
+                if(instance != null && instance != this)
+                {
+                    Destroy(gameObject);
                     return;
                 }
 

@@ -63,9 +63,15 @@ public class UIJitter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     }
 
+    private void OnEnable()
+    {
+        SaveInitials();
+    }
+
     private void OnDisable()
     {
-        if(Pos) jitterTransform.localPosition = initialPos;
+        SaveInitials();
+        if (Pos) jitterTransform.localPosition = initialPos;
         if(Rot) jitterTransform.localRotation = initialRot;
         if(Size) jitterTransform.localScale = initialSize;
     }

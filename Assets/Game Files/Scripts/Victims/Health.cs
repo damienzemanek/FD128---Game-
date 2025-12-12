@@ -33,6 +33,7 @@ public class Health : MonoBehaviour, IHittable
     [TitleGroup("Refs")]
     [SerializeField] GameObject bodyRef;
     [SerializeField] GameObject gorePileRef;
+    [SerializeField] GameObject bloodPoolRef;
     [SerializeField] ConstantLookAt looker;
     [SerializeField] DeadDetector deadDetector;
     [SerializeField] NavMeshAgent agent;
@@ -59,13 +60,14 @@ public class Health : MonoBehaviour, IHittable
         bodyRef.SetActive(false);
         gorePileRef.SetActive(true);
         gorePileRef.transform.SetParent(null);
-        if (gorePileRef.Has(out TP tp)) tp.DoTp();
+        if (bloodPoolRef.Has(out TP tp)) tp.DoTp();
         gameObject.SetActive(false);
 
         dieEffect.UseEffect();
         deathObjectsEffect.UseEffect();
 
         explosion.Blast();
+        this.Get<Collider>().enabled = false;
     }
 
 
@@ -90,8 +92,6 @@ public class Health : MonoBehaviour, IHittable
         deadDetector.Die();
         anims.Animate(deathAnimName, this, GorePileSelf);
         looker.looking = false;
-        agent.isStopped = true;
-        agent.enabled = false;
-        this.Get<Collider>().enabled = false;
+        StartCoroutine(agent.C_Disable());
     }
 }

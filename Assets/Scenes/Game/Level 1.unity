@@ -914,7 +914,7 @@ LightingSettings:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   serializedVersion: 6
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_EnableBakedLightmaps: 1
   m_EnableRealtimeLightmaps: 0
   m_RealtimeEnvironmentLighting: 1
@@ -5271,7 +5271,7 @@ PrefabInstance:
       objectReference: {fileID: 187280329}
     - target: {fileID: 1043455545857154034, guid: c0c296374089e2543a763ec0ee471990, type: 3}
       propertyPath: m_VersionIndex
-      value: 4924
+      value: 5248
       objectReference: {fileID: 0}
     - target: {fileID: 1476328165844357630, guid: c0c296374089e2543a763ec0ee471990, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12322,7 +12322,7 @@ PrefabInstance:
       objectReference: {fileID: 1088689927}
     - target: {fileID: 1043455545857154034, guid: c0c296374089e2543a763ec0ee471990, type: 3}
       propertyPath: m_VersionIndex
-      value: 4924
+      value: 5248
       objectReference: {fileID: 0}
     - target: {fileID: 1476328165844357630, guid: c0c296374089e2543a763ec0ee471990, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12448,7 +12448,7 @@ PrefabInstance:
       objectReference: {fileID: 1108223987}
     - target: {fileID: 1043455545857154034, guid: c0c296374089e2543a763ec0ee471990, type: 3}
       propertyPath: m_VersionIndex
-      value: 4924
+      value: 5248
       objectReference: {fileID: 0}
     - target: {fileID: 1476328165844357630, guid: c0c296374089e2543a763ec0ee471990, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12524,6 +12524,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
       propertyPath: managedReferences[1211844496636772454].inUse._value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
+      propertyPath: managedReferences[1211844496636772454].anims.blocked
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6898151852086201160, guid: c0c296374089e2543a763ec0ee471990, type: 3}
@@ -13949,7 +13953,7 @@ PrefabInstance:
       objectReference: {fileID: 1841511931}
     - target: {fileID: 1043455545857154034, guid: c0c296374089e2543a763ec0ee471990, type: 3}
       propertyPath: m_VersionIndex
-      value: 4930
+      value: 5254
       objectReference: {fileID: 0}
     - target: {fileID: 1476328165844357630, guid: c0c296374089e2543a763ec0ee471990, type: 3}
       propertyPath: m_LocalPosition.x
@@ -22539,7 +22543,7 @@ PrefabInstance:
       objectReference: {fileID: 1678212496}
     - target: {fileID: 1043455545857154034, guid: c0c296374089e2543a763ec0ee471990, type: 3}
       propertyPath: m_VersionIndex
-      value: 4924
+      value: 5248
       objectReference: {fileID: 0}
     - target: {fileID: 1476328165844357630, guid: c0c296374089e2543a763ec0ee471990, type: 3}
       propertyPath: m_LocalPosition.x

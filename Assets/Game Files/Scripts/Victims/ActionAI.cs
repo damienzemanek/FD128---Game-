@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Extensions;
-using SingularityGroup.HotReload;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,7 +9,6 @@ using static Extensions.AnimEX;
 using static Extensions.NavEX;
 using static SignalUtility;
 using static Extensions.DelegateEX;
-using static UnityEditor.PlayerSettings;
 
 [Serializable]
 public abstract class ActionAI

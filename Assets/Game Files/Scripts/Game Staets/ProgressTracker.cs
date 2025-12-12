@@ -52,7 +52,7 @@ public class ProgressTracker : Singleton<ProgressTracker>
 
     IEnumerator DisplayHearts()
     {
-        for(int i = 0; i < saver.gameExpData.levelHearts[player.currentLevel]; i++)
+        for(int i = 0; i < timer.currentHearts; i++)
         {
             yield return new WaitForSeconds(0.4f);
             heartImages[i].sprite = fullHeart;
