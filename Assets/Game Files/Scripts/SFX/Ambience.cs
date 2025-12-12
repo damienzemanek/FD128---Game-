@@ -7,4 +7,6 @@ using static Extensions.AudioEX;
 public class Ambience : MonoBehaviour
 {
     public AFX_Single ambience;
+
+    public void Play() => ambience.Play();
 }

@@ -64,7 +64,8 @@ public class Health : MonoBehaviour, IHittable
         bodyRef.SetActive(false);
         gorePileRef.SetActive(true);
         gorePileRef.transform.SetParent(null);
-        if (bloodPoolRef.Has(out TP tp)) tp.DoTp();
+        if (bloodPoolRef.Has(out TP tp1)) tp1.DoTp();
+        if (gorePileRef.Has(out TP tp2)) tp2.DoTp();
         gameObject.SetActive(false);
 
         dieEffect.UseEffect();
