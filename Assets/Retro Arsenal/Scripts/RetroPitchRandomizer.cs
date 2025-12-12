@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Extensions;
 
 namespace RetroArsenal
 {
@@ -11,7 +12,8 @@ namespace RetroArsenal
 	
 		void Start ()
 		{
-        transform.GetComponent<AudioSource>().pitch *= 1 + Random.Range(-randomPercent / 100, randomPercent / 100);
+			if(transform.Has(out AudioSource source))
+				source.pitch *= 1 + Random.Range(-randomPercent / 100, randomPercent / 100);
 		}
 	}
 }

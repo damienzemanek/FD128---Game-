@@ -5,6 +5,7 @@ using Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using static Extensions.AnimEX;
+using static Effectability;
 
 [DefaultExecutionOrder(1)]
 public class Attack : MonoBehaviour
@@ -19,6 +20,7 @@ public class Attack : MonoBehaviour
 
     [TitleGroup("Refs")] 
     [SerializeField] AttackTrigger attackTrigger;
+    [SerializeField] EffectUser fx_claw;
     [SerializeField] MaterialSetter leftHandMats;
     [SerializeField] MaterialSetter rightHandMats;
 

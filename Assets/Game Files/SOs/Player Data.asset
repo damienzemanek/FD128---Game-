@@ -19,9 +19,9 @@ MonoBehaviour:
   groundedDrag: 10
   jump:
     addRbForward: 1
-    fwdMult: 15
+    fwdMult: 20
     direction: {x: 0, y: 1, z: 0}
-    mult: {x: 0, y: 15, z: 0}
+    mult: {x: 0, y: 20, z: 0}
     forceMode: 2
   move:
     origLienarSpeedMult: 8

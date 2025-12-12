@@ -8,6 +8,7 @@ using UnityEngine;
 using TMPro;
 using static Extensions.AnimEX;
 using static Extensions.FadeEX;
+using static Extensions.AudioEX;
 
 [DefaultExecutionOrder(1)]
 public class Feed : Singleton<Feed>
@@ -28,8 +29,10 @@ public class Feed : Singleton<Feed>
     [Title("Feeding")][SerializeField, ReadOnly] FeedTrigger goreImEating;
     [SerializeField, ReadOnly] float currentFeed = 0f;
     [SerializeField] float feedToBeFull;
+    [SerializeField] AFX_Single afx_eat;
 
     [Title("Hearts")][SerializeField] int currentHeartCount = 0;
+
 
 
 
@@ -82,6 +85,7 @@ public class Feed : Singleton<Feed>
         goreImEating = null;
         feedDisplay.SetActive(false);
         canFeed = false;
+        FeedStop();
     }
 
     public void FeedStart()
@@ -91,7 +95,7 @@ public class Feed : Singleton<Feed>
         print("feeding");
         currentFeed += 0.1f;
         anims.animator.SetBool("eating", true);
-
+        afx_eat.Play(true);
         if (currentFeed > feedToBeFull) Consume();
     }
 
@@ -100,6 +104,7 @@ public class Feed : Singleton<Feed>
     {
         print("feeding stop");
         anims.animator.SetBool("eating", false);
+        afx_eat.Stop();
     }
 
     public void Consume()

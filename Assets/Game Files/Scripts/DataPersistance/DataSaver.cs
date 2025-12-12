@@ -9,6 +9,7 @@ using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[DefaultExecutionOrder(-500)]
 public class DataSaver : DesignPatterns.CreationalPatterns.Singleton<DataSaver>   
 {
     public GameExpData gameExpData;
@@ -45,6 +46,9 @@ public class DataSaver : DesignPatterns.CreationalPatterns.Singleton<DataSaver>
 
     public void ResetProgress()
     {
+        string path = Path.Combine(Application.persistentDataPath, "savefile.json");
+        if(File.Exists(path)) File.Delete(path);
+
         gameExpData = null;
         SaveExp();
     }

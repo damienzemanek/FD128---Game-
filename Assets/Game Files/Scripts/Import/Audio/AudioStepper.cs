@@ -11,6 +11,7 @@ public class AudioStepper : MonoBehaviour
     [SerializeField] bool linear;
     [SerializeField] bool randomize;
     [SerializeField] bool delay;
+    [SerializeField] public bool blocked;
     [SerializeField, ShowIf("delay")] Vector2 delayAmount = Vector2.zero;
     bool going = false;
     #region Privates
@@ -23,9 +24,11 @@ public class AudioStepper : MonoBehaviour
     }
 
     [SerializeField] List<AudioClip> audios;
-
-    public void AudioStart()
+    public void AudioStart() => AudioStart(false);
+    public void AudioStart(bool once = false)
     {
+        if (blocked) return;
+        if (once && source.isPlaying) return;
         source.pitch = speed;
         going = true;
         StopAllCoroutines();

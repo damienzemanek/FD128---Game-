@@ -9,6 +9,7 @@ using static Extensions.PhysEX;
 using static Effectability;
 using static DelayUtility;
 using static Entity;
+using static Extensions.NavEX;
 
 
 public class Health : MonoBehaviour, IHittable
@@ -22,9 +23,11 @@ public class Health : MonoBehaviour, IHittable
     [field:SerializeField] public Hittable hittable { get; set; }
     public float lastHitTime { get; set; }
     public bool cannotHit { get; set; }
+    public bool hurt;
 
     [TitleGroup("Effects")] 
-    [SerializeField] EffectUser hitEffect;
+    [SerializeField] EffectUser[] hitEffect;
+    [SerializeField] EffectUser[] hurtEfects;
     [SerializeField] EffectUser dieEffect;
     [SerializeField] EffectObjectRagdoll deathObjectsEffect;
     [SerializeField] Explode explosion;
@@ -33,6 +36,7 @@ public class Health : MonoBehaviour, IHittable
     [TitleGroup("Refs")]
     [SerializeField] GameObject bodyRef;
     [SerializeField] GameObject gorePileRef;
+    [SerializeField] GameObject bloodPoolRef;
     [SerializeField] ConstantLookAt looker;
     [SerializeField] DeadDetector deadDetector;
     [SerializeField] NavMeshAgent agent;
@@ -41,6 +45,7 @@ public class Health : MonoBehaviour, IHittable
     [SerializeField] Animatable anims;
     [SerializeField] string hitAnimName;
     [SerializeField] string deathAnimName;
+   
 
     private void Awake()
     {
@@ -59,13 +64,15 @@ public class Health : MonoBehaviour, IHittable
         bodyRef.SetActive(false);
         gorePileRef.SetActive(true);
         gorePileRef.transform.SetParent(null);
-        if (gorePileRef.Has(out TP tp)) tp.DoTp();
+        if (bloodPoolRef.Has(out TP tp1)) tp1.DoTp();
+        if (gorePileRef.Has(out TP tp2)) tp2.DoTp();
         gameObject.SetActive(false);
 
         dieEffect.UseEffect();
         deathObjectsEffect.UseEffect();
 
         explosion.Blast();
+        this.Get<Collider>().enabled = false;
     }
 
 
@@ -78,9 +85,10 @@ public class Health : MonoBehaviour, IHittable
 
     public void OnHit()
     {
-        hitEffect.UseEffect();
+        hitEffect.UseEffectsAll();
         anims.Animate(hitAnimName, layer: 1);
         StartCoroutine(SpeedUpForATime());
+        ActivateHurtEffects();
     }
 
     [Button]
@@ -90,8 +98,12 @@ public class Health : MonoBehaviour, IHittable
         deadDetector.Die();
         anims.Animate(deathAnimName, this, GorePileSelf);
         looker.looking = false;
-        agent.isStopped = true;
-        agent.enabled = false;
-        this.Get<Collider>().enabled = false;
+        StartCoroutine(agent.C_Disable());
+    }
+
+    void ActivateHurtEffects()
+    {
+        if (hurt) return;
+        hurtEfects.UseEffectsAll();
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Extensions;
 using Sirenix.OdinInspector;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AgentAI : MonoBehaviour
@@ -58,6 +59,12 @@ public class AgentAI : MonoBehaviour
         retBeleif = null;
         retBeleif = beliefs.FirstOrDefault(b => b.GetType() == _belief.GetType());
         return (retBeleif != null);
+    }
+
+    public IActionAI GetAction<IActionAI>(BeliefAI _belief, out IActionAI _action) where IActionAI : ActionAI
+    {
+        if (HasBelief(_belief, out BeliefAI b)) return _action = (IActionAI)b.immediateAction;
+        return _action = null;
     }
 
 }

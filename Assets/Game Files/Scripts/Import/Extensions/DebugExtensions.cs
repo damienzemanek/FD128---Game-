@@ -84,6 +84,11 @@ namespace Extensions
             else
                 Debug.LogWarning($"{Colorize($"[SCRIPT: {Bold(obj.GetType().Name)}]", ScriptColor)}: {msg}");
         }
+
+        public static void EarlyReturn(this object obj)
+        {
+            obj.Warn("EARLY RETURN");
+        }
         public static void Error(this object obj, string msg = "")
         {
             if (obj == null)

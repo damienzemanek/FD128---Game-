@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using DesignPatterns.CreationalPatterns;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.UI;
 using Extensions;
 using static Extensions.FadeEX;
-using UnityEngine.UI;
+using static Extensions.AudioEX;
 
 public class ProgressTracker : Singleton<ProgressTracker>
 {
@@ -19,6 +20,7 @@ public class ProgressTracker : Singleton<ProgressTracker>
     [ShowInInspector, ReadOnly] int completeAmount { get => player ? player.data.completeProgressValue : 0; }
     [SerializeField] public Image[] heartImages;
     [SerializeField] public Sprite fullHeart;
+    [SerializeField] AFX_Single afx_lvlComplete;
 
 
     private void Start()
@@ -38,6 +40,7 @@ public class ProgressTracker : Singleton<ProgressTracker>
     [Button]
     void CompleteGame()
     {
+        afx_lvlComplete.Play();
         look.ToggleUpdateMouseLooking(false);
         move.canMove = false;
         Cursor.lockState = CursorLockMode.Confined;
@@ -52,7 +55,7 @@ public class ProgressTracker : Singleton<ProgressTracker>
 
     IEnumerator DisplayHearts()
     {
-        for(int i = 0; i < saver.gameExpData.levelHearts[player.currentLevel]; i++)
+        for(int i = 0; i < timer.currentHearts; i++)
         {
             yield return new WaitForSeconds(0.4f);
             heartImages[i].sprite = fullHeart;

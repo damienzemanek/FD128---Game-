@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Extensions;
-using SingularityGroup.HotReload;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,7 +9,6 @@ using static Extensions.AnimEX;
 using static Extensions.NavEX;
 using static SignalUtility;
 using static Extensions.DelegateEX;
-using static UnityEditor.PlayerSettings;
 
 [Serializable]
 public abstract class ActionAI
@@ -87,8 +85,11 @@ public class Patrol : ActionAI
 
         agent.speed = speed.value;
         agent.SetDestination(pos);
+        if (agent.Has(out AudioStepper _as)) _as.AudioStart();
+
         yield return new WaitUntil(agent.Reached(30));
-        
+
+        _as.AudioStop();
         currentPoint++;
         if (currentPoint >= points.Length)
             currentPoint = 0;
@@ -122,6 +123,9 @@ public class RunAway : ActionAI
     [TabGroup("Run Away")][SerializeField] Deviatable speed;
     [TabGroup("Run Away")][SerializeField] float dist;
     [TabGroup("Run Away")] public Animatable anims;
+    [TabGroup("Run Away")] public AudioSource source;
+    [TabGroup("Run Away")] public AudioClip[] yells;
+
 
 
     public override void ExecuteImplement()
@@ -130,6 +134,8 @@ public class RunAway : ActionAI
         Vector3 newLoc = agent.transform.position + (-agent.transform.forward * dist);
 
         if (agent.Has(out ConstantLookAt c)) c.looking = true;
+        if (agent.Has(out AudioStepper audStepper)) audStepper.AudioStart(true);
+        source.Play(yells.Rand(), once: true);
 
         anims.animator.transform.SetLocalEuler(y: 180);
         agent.isStopped = false;
@@ -154,7 +160,8 @@ public class RunToHideout : ActionAI
     {
         agent.isStopped = false;
         agent.speed = speed.value;
-        if (agent.Has(out ConstantLookAt c)) c.looking = false;
+        if (agent.Has(result: out ConstantLookAt c)) c.looking = false;
+        if (agent.Has(out AudioStepper audStepper)) audStepper.AudioStart(true);
         anims.animator.transform.SetLocalEuler(y: 0);
         if (hideoutLocs.Count > 0)
             agent.SetDestination(agent.transform.GetClosest(hideoutLocs).position);

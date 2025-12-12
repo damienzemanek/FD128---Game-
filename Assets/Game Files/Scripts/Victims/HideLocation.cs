@@ -8,6 +8,7 @@ using static Extensions.AnimEX;
 using static Extensions.NavEX;
 using static Effectability;
 using Sirenix.OdinInspector;
+using static Extensions.AudioEX;
 
 public class HideLocation : MonoBehaviour, IHittable
 {
@@ -28,7 +29,8 @@ public class HideLocation : MonoBehaviour, IHittable
     [TabGroup("Animation")] public string hitAnimName = "hit";
     [TabGroup("Animation")] public string enterAnimName = "enter";
 
-    [TabGroup("Effects")] public EffectUser destroyEffect;
+    [TabGroup("Effects & Audio")] public EffectUser destroyEffect;
+    [TabGroup("Effects & Audio")] public AFX_Single afx_hit;
 
     [SerializeField] GameObject hideoutObj;
     [field:SerializeField] public int hp { get; set; }
@@ -50,6 +52,7 @@ public class HideLocation : MonoBehaviour, IHittable
     void Hide(GameObject person)
     {
         person.SetActive(false);
+        if (person.Has(out AudioStepper audStepper)) audStepper.blocked = true;
         inUse = true;
         hiddenPerson = person;
         anims.Animate(enterAnimName);
@@ -59,6 +62,7 @@ public class HideLocation : MonoBehaviour, IHittable
     {
         anims.Animate(hitAnimName);
         this.Log("Hideout hit");
+        afx_hit.Play();
     }
 
     public void OnDie()
@@ -71,6 +75,14 @@ public class HideLocation : MonoBehaviour, IHittable
         if (hiddenPerson == null) return;
 
         hiddenPerson.SetActive(true);
+        if (hiddenPerson.Has(out AudioStepper audStepper)) audStepper.blocked = false;
+        if (hiddenPerson.Has(out AgentAI ai) 
+        && (ai.GetAction(new IsSafe(), out ActionAI action) is RunAway run))
+        {
+            run.source.Play(run.yells.Rand());
+            this.Log("exit scream");
+        }
+
         float myX = GetComponentInParent<Transform>().position.x;
         float myY = GetComponentInParent<Transform>().position.y;
         float personZ = hiddenPerson.transform.position.z;

@@ -83,6 +83,19 @@ namespace Extensions
             return null;
         }
 
+        public static TComponent TryGetOrAdd<TComponent>(this Object obj, out TComponent output) where TComponent : Component
+        {
+            output = null;
+            if (obj is GameObject go)
+                return output = go.TryGetComponent<TComponent>(out TComponent c) 
+                    ? c : go.AddComponent<TComponent>();
+
+            if (obj is Component comp)
+                return output = comp.TryGetComponent<TComponent>(out TComponent c2)
+                    ? c2 : comp.gameObject.AddComponent<TComponent>();
+            return null;
+        }
+
         public static bool Has<TComponent>(this Object obj, out TComponent result) where TComponent : Component
         {
             result = null;

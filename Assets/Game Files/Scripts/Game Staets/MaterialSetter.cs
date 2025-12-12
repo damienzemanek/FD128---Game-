@@ -8,7 +8,7 @@ using UnityEngine;
 public struct MaterialSetter
 {
     [SerializeField] Material[] mats;
-    [SerializeField] Renderer obj;
+    [SerializeField] public Renderer obj;
 
     public void SetRandMat()
     {

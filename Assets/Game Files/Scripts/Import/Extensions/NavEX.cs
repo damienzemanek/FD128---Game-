@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -58,6 +59,28 @@ namespace Extensions
             };
         }
 
+        public static void Halt(this NavMeshAgent agent, float duration = 0f)
+        {
+            if (!agent || !agent.isActiveAndEnabled) { agent.EarlyReturn(); return; }
+
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+
+            if (duration > 0) _ = DelayUtility.Delay(() =>
+            {
+                if (agent && agent.isActiveAndEnabled) agent.Continue();
+            },
+            duration);
+            
+        }
+
+        public static void Continue(this NavMeshAgent agent)
+        {
+            if(!agent || !agent.isActiveAndEnabled) return;
+            agent.isStopped = false;
+        }
+
+
 
         public static void Teleport(Transform tpLoc, GameObject objToTeleport, out bool teleporting)
         {
@@ -99,6 +122,20 @@ namespace Extensions
                 objToTeleport.transform.position = foundTpLocOnNavMesh ? tpLocOnNavMesh : tpLoc;
 
             teleporting = false;
+        }
+
+        public static IEnumerator C_Disable(this NavMeshAgent agent)
+        {
+            Vector3 pos = agent.transform.position;
+            agent.ResetPath();
+            agent.updatePosition = false;
+            agent.updateRotation = false;
+
+            yield return null;
+
+            agent.enabled = false;
+            agent.transform.position = pos;
+
         }
 
     }
