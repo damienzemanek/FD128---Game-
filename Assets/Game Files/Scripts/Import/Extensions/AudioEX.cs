@@ -8,6 +8,18 @@ namespace Extensions
 {
     public static class AudioEX
     {
+        [Serializable]
+        public struct AFX_Single
+        {
+            public AudioSource source;
+            public AudioClip clip;
+        }
+
+        public static void Play(this AFX_Single afx)
+        {
+            if (afx.source == null) return;
+            afx.source.Play(afx.clip);
+        }
 
         public static void Play(this AudioSource source, AudioClip clip, bool oneShot = true)
         {
