@@ -1213,8 +1213,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 00
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: da2b9906bab64ac43a98e008599cc8b5, type: 2}
-  m_sharedMaterial: {fileID: 7308911233303321029, guid: da2b9906bab64ac43a98e008599cc8b5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1308,7 +1308,7 @@ RectTransform:
   m_GameObject: {fileID: 3763347240744007268}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.9909799, y: 1.9909799, z: 1.9909799}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9032154090438583267}
@@ -1371,14 +1371,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 0.08
   onMouseOver: 0
-  Size: 0
-  initialSize: {x: 0, y: 0, z: 0}
-  sizeJitterIncrease: {x: 3, y: 3, z: 3}
-  Rot: 0
-  initialRot: {x: 0, y: 0, z: 0, w: 0}
-  rotTo: {x: 0, y: 0, z: 0.07845904, w: -0.99691737}
+  isDifferentTranform: 0
+  differentTransformn: {fileID: 0}
+  Size: 1
+  Rot: 1
   Pos: 0
-  initialPos: {x: 0, y: 0, z: 0}
+  sizeJitterIncrease: {x: 3, y: 3, z: 3}
+  rotTo: {x: 0, y: 0, z: 0.1736483, w: -0.9848077}
   posTo: {x: 0, y: 0, z: 0}
 --- !u!1 &3843627885897101697
 GameObject:
@@ -1581,8 +1580,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 00:00
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: da2b9906bab64ac43a98e008599cc8b5, type: 2}
-  m_sharedMaterial: {fileID: 7308911233303321029, guid: da2b9906bab64ac43a98e008599cc8b5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1873,7 +1872,7 @@ GameObject:
   - component: {fileID: 1285873106600536140}
   - component: {fileID: 1972376447686011560}
   - component: {fileID: 3684780441024718175}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -2063,6 +2062,9 @@ MonoBehaviour:
   bloodiedRightHand: 0
   onRightHand: 0
   attackTrigger: {fileID: 2033521858339216023}
+  fx_claw:
+    effect: {fileID: 0}
+    effectLength: 0
   leftHandMats:
     mats:
     - {fileID: 2100000, guid: 80ce79a4d9aacd44c9c2c72574eabbf8, type: 2}
@@ -2079,6 +2081,7 @@ MonoBehaviour:
       deviate: 0
       _value: 0
       _valueBetween: {x: 0, y: 0}
+    blocked: 0
   leftAttackName: attackLeft
   rightAttackName: attackRight
 --- !u!114 &1285873106600536140
@@ -2100,6 +2103,7 @@ MonoBehaviour:
       deviate: 0
       _value: 0
       _valueBetween: {x: 0, y: 0}
+    blocked: 0
   attack: {fileID: 1698476085989974861}
   feedDisplay: {fileID: 1834145913587652447}
   heartCountText: {fileID: 4118583139321408641}

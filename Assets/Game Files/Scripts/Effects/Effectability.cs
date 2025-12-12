@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using static CoroutineUtility;
+using static Extensions.AudioEX;
 
 
 public static class Effectability
@@ -30,19 +32,37 @@ public static class Effectability
     {
         [SerializeField] ParticleSystem effect;
         [SerializeField] float effectLength;
+        [SerializeField] float delay;
+        [SerializeField] bool audio;
+        [ShowIf("audio")][SerializeField] AudioSource source;
+        [ShowIf("audio")][SerializeField] AudioClip clip;
 
+        [Button]
         public void UseEffect()
         {
+            if (effect == null) return;
             ParticleSystem e = effect;
-            float length = effectLength;
+
+            bool _audio = audio && (source != null) && (clip != null);
+            AudioSource _source = source;
+            AudioClip _clip = clip;
+
 
             ParticleSystem.MainModule main = e.main;
             main.loop = false;
             main.duration = effectLength;
 
-            e.gameObject.SetActive(true);
-            e.Play();
-            if (effect.gameObject.Has(out AudioSource source)) source.Play();
+            void EffectPlay()
+            {
+                if (_audio) _source.Play(_clip);
+                e.gameObject.SetActive(true);
+                e.Play();
+            }
+
+            if (delay <= 0f)    EffectPlay();
+            else                DelayUtility.Delay(EffectPlay, delay);
+
+
         }
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RenderAlteration : MonoBehaviour
 {
-    [SerializeField] MaterialSetter mats;
+    [SerializeField] public MaterialSetter mats;
 
     private void Start()
     {

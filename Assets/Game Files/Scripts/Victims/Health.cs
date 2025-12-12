@@ -9,6 +9,7 @@ using static Extensions.PhysEX;
 using static Effectability;
 using static DelayUtility;
 using static Entity;
+using static Extensions.NavEX;
 
 
 public class Health : MonoBehaviour, IHittable
@@ -22,9 +23,11 @@ public class Health : MonoBehaviour, IHittable
     [field:SerializeField] public Hittable hittable { get; set; }
     public float lastHitTime { get; set; }
     public bool cannotHit { get; set; }
+    public bool hurt;
 
     [TitleGroup("Effects")] 
-    [SerializeField] EffectUser hitEffect;
+    [SerializeField] EffectUser[] hitEffect;
+    [SerializeField] EffectUser[] hurtEfects;
     [SerializeField] EffectUser dieEffect;
     [SerializeField] EffectObjectRagdoll deathObjectsEffect;
     [SerializeField] Explode explosion;
@@ -42,6 +45,7 @@ public class Health : MonoBehaviour, IHittable
     [SerializeField] Animatable anims;
     [SerializeField] string hitAnimName;
     [SerializeField] string deathAnimName;
+   
 
     private void Awake()
     {
@@ -80,9 +84,10 @@ public class Health : MonoBehaviour, IHittable
 
     public void OnHit()
     {
-        hitEffect.UseEffect();
+        hitEffect.UseEffectsAll();
         anims.Animate(hitAnimName, layer: 1);
         StartCoroutine(SpeedUpForATime());
+        ActivateHurtEffects();
     }
 
     [Button]
@@ -93,5 +98,11 @@ public class Health : MonoBehaviour, IHittable
         anims.Animate(deathAnimName, this, GorePileSelf);
         looker.looking = false;
         StartCoroutine(agent.C_Disable());
+    }
+
+    void ActivateHurtEffects()
+    {
+        if (hurt) return;
+        hurtEfects.UseEffectsAll();
     }
 }

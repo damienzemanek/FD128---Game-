@@ -59,6 +59,28 @@ namespace Extensions
             };
         }
 
+        public static void Halt(this NavMeshAgent agent, float duration = 0f)
+        {
+            if (!agent || !agent.isActiveAndEnabled) { agent.EarlyReturn(); return; }
+
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+
+            if (duration > 0) _ = DelayUtility.Delay(() =>
+            {
+                if (agent && agent.isActiveAndEnabled) agent.Continue();
+            },
+            duration);
+            
+        }
+
+        public static void Continue(this NavMeshAgent agent)
+        {
+            if(!agent || !agent.isActiveAndEnabled) return;
+            agent.isStopped = false;
+        }
+
+
 
         public static void Teleport(Transform tpLoc, GameObject objToTeleport, out bool teleporting)
         {

@@ -82,6 +82,7 @@ public class Feed : Singleton<Feed>
         goreImEating = null;
         feedDisplay.SetActive(false);
         canFeed = false;
+        FeedStop();
     }
 
     public void FeedStart()
