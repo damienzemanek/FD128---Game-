@@ -37499,6 +37499,10 @@ PrefabInstance:
       propertyPath: checkpoints.Array.data[2].checkpointTime
       value: 190
       objectReference: {fileID: 0}
+    - target: {fileID: 3902971626935033415, guid: 2149661dc69a8a44f9319b94b58f79b1, type: 3}
+      propertyPath: currentLevel
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5371868321964490192, guid: 2149661dc69a8a44f9319b94b58f79b1, type: 3}
       propertyPath: m_Name
       value: Player

@@ -37285,6 +37285,10 @@ PrefabInstance:
       propertyPath: _data
       value: 
       objectReference: {fileID: 11400000, guid: 0ac2f28ccf3380b45b7955ef86c1d4c6, type: 2}
+    - target: {fileID: 3902971626935033415, guid: 2149661dc69a8a44f9319b94b58f79b1, type: 3}
+      propertyPath: currentLevel
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5137843230021033123, guid: 2149661dc69a8a44f9319b94b58f79b1, type: 3}
       propertyPath: Rot
       value: 1
