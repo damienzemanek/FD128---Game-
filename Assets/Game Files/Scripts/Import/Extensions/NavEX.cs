@@ -127,7 +127,6 @@ namespace Extensions
         public static IEnumerator C_Disable(this NavMeshAgent agent)
         {
             Vector3 pos = agent.transform.position;
-            agent.Log("before pos :" + pos);
             agent.ResetPath();
             agent.updatePosition = false;
             agent.updateRotation = false;
@@ -136,7 +135,6 @@ namespace Extensions
 
             agent.enabled = false;
             agent.transform.position = pos;
-            agent.Log("after pos :" + agent.transform.position);
 
         }
 

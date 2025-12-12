@@ -15,14 +15,23 @@ namespace Extensions
             public AudioClip clip;
         }
 
-        public static void Play(this AFX_Single afx)
+        public static void Play(this AFX_Single afx, bool once = false)
         {
             if (afx.source == null) return;
+            if (once && afx.source.isPlaying) return;
             afx.source.Play(afx.clip);
         }
 
-        public static void Play(this AudioSource source, AudioClip clip, bool oneShot = true)
+        public static void Stop(this AFX_Single afx)
         {
+            if (afx.source == null) return;
+            afx.source.Stop();
+        }
+
+        public static void Play(this AudioSource source, AudioClip clip, bool oneShot = true, bool once = false)
+        {
+            if (once && source.isPlaying) return;
+
             if (oneShot)
                 source.PlayOneShot(clip);
             else
